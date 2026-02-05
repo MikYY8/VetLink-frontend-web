@@ -5,22 +5,34 @@ function Dashboard() {
   const [appointments, setAppointments] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [vets, setVets] = useState([]);
+  const [vetId, setVetId] = useState("");
+  const [date, setDate] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchDashboard = async () => {
+      const token = localStorage.getItem("token");
+      if(loading) <p>Cargando dashboard...</p>;
+      const params = new URLSearchParams();
+        if (vetId) params.append("vetId", vetId);
+        if (date) params.append("date", date);
+        if (from) params.append("from", from);
+        if (to) params.append("to", to);
+      
       try {
-        const res = await fetch("http://localhost:3000/appointment/dashboard", {
+        const res = await fetch(`http://localhost:3000/appointment/dashboard?${params.toString()}`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
+            // "Content-Type": "application/json"
           }
         });
 
-        console.log("Response:", res);
-
+          console.log("Response:", res);
         const result = await res.json();
-        console.log("Result JSON:", result);
+          console.log("Result JSON:", result);
 
         setAppointments(result.data || []);
       } catch (err) {
@@ -32,10 +44,9 @@ function Dashboard() {
     };
 
     fetchDashboard();
-  }, []);
+  }, [vetId, date, from, to]);
 
   if (error) return <p style={{ color: "red" }}>{error}</p>;
-  if (!appointments.length) return <p>Cargando dashboard...</p>;
 
   // filtros
   const total = appointments.length;
@@ -64,6 +75,25 @@ function Dashboard() {
     };
   };
 
+    const fetchVets = async () => {
+      const token = localStorage.getItem("token");
+
+      try{
+        const res = await fetch(`http://localhost:3000/users/allvets`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const result = await res.json();
+        setVets(result.data);
+      }catch(error){
+        console.error(error);
+      };
+    };
+    fetchVets();
+
   return (
     <>
       <div style={{ padding: "20px" }}>
@@ -76,7 +106,49 @@ function Dashboard() {
           <Card title="Cancelados" value={cancelled} />
         </div>
       </div>
+
+        {/*    FILTROS     */}
+      <div> 
+            {/*    POR VETERINARIO     */}
+          <select value={vetId} onChange={(e) => setVetId(e.target.value)}>
+          <option value="">Todos los veterinarios</option>
+          {vets.map(v => (
+            <option key={v._id} value={v._id}>
+              {v.firstName} {v.lastName}
+            </option>
+          ))};
+        </select>
+
+          {/*    POR FECHA     */}
+        <input type="date" value={date} onChange={(e) => {
+          setDate(e.target.value);
+          setFrom("");
+          setTo("");
+          }} 
+        />
+
+          {/*    POR RANGO DE FECHAS     */}
+        <input type="date" value={from} onChange={(e) => {
+          setFrom(e.target.value);
+          setDate("");
+          }} 
+        />
         
+        <input type="date" value={to} onChange={(e) => {
+          setTo(e.target.value);
+          setDate("");
+          }} 
+        />
+
+        <button onClick={() => {
+          setVetId("");
+          setDate("");
+          setFrom("");
+          setTo("");
+        }}>Limpiar filtros</button>
+        
+      </div>
+
           {/*    TABLA     */}
       <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
         <thead>
