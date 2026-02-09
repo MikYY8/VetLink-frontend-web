@@ -25,6 +25,14 @@ function Navbar() {
         Turnos
       </Link>
 
+      <Link to="/register-user" style={{ marginRight: "10px" }}>
+        Registrar usuario
+      </Link>
+
+      <Link to="/register-vet" style={{ marginRight: "10px" }}>
+        Registrar Veterinario
+      </Link>
+
       <span style={{ marginLeft: "20px" }}>
         {email && <><CircleUserRound size={18} className="inline-block mr-1"/> {email} ({role})</>}
       </span>
