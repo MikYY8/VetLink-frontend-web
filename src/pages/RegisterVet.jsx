@@ -6,22 +6,26 @@ function RegisterVet() {
         licenseNumber: "", specialty: "", acceptsConsultations: false, phone: "",
         photoUrl: "", workSchedule: {start: "", end: ""}, role: "VET"})
     const [error, setError] = useState({});
+    const [success, setSuccess] = useState("");
     const token = localStorage.getItem("token");
 
+    // validaciones de front
     const validate = () => {
         let newErrors = {}; // guardamos errores, luego los transferimos a setError
         if(!formData.firstName) {newErrors.firstName = "Ingrese un nombre"};
         if(!formData.lastName) {newErrors.lastName = "Ingrese un nombre"};
-        if(!formData.email) {newErrors.email = "Ingrese un email válido"};
+        if(!formData.email) {newErrors.email = "Ingrese un email"};
         if(!formData.password) {newErrors.password = "Ingrese una contraseña"};
         if(!formData.licenseNumber) {newErrors.licenseNumber = "Ingrese número de licencia"};
-        if(!formData.workSchedule) {newErrors.workSchedule = "Ingrese horario de atención"};
+        if(!formData.specialty) {newErrors.specialty = "Seleccione una especialidad"};
+        if (!formData.workSchedule.start || !formData.workSchedule.end) {newErrors.workSchedule = "Ingrese horario de atención";}
         if(formData.password.length < 6) {newErrors.password = "La contraseña debe tener al menos 6 caracteres"}
 
         setError(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
+    // actualizar datos en el input, ademas de bloquear el n° de tel. si no acepta consultas
     const handleChange = (e) => {
         const { name, type, value, checked } = e.target;
 
@@ -31,6 +35,7 @@ function RegisterVet() {
         });
     };
 
+    // parsear el horario para que se guarde correctamente
     const handleScheduleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -42,6 +47,7 @@ function RegisterVet() {
         });
     };
 
+    // manejar archivo de foto, para la foto de perfil
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setFormData({
@@ -54,8 +60,7 @@ function RegisterVet() {
         e.preventDefault();
         const data = new FormData();
 
-        if(!validate()){
-            alert("Veterinario creado con éxito");
+        if(validate()){
             console.log(formData);
         };
 
@@ -66,6 +71,7 @@ function RegisterVet() {
         data.append("licenseNumber", formData.licenseNumber);
         data.append("specialty", formData.specialty);
         data.append("acceptsConsultations", formData.acceptsConsultations);
+        data.append("phone", formData.phone);
         data.append("workSchedule", JSON.stringify(formData.workSchedule));
 
         if (formData.photo) {
@@ -83,6 +89,7 @@ function RegisterVet() {
             setFormData({firstName: "", lastName: "", email: "", password: "",
                         licenseNumber: "", specialty: "", acceptsConsultations: false, 
                         phone: "", photoUrl: "", workSchedule: {start: "", end: ""}, role: "VET"})
+            setSuccess("Veterinario creado con éxito")
         }catch(err){
             console.log(err);
         }
@@ -94,7 +101,7 @@ function RegisterVet() {
 
             <form onSubmit={handleSubmit}>
                 <label htmlFor="firstName" >
-                    Nombre
+                    Nombre *
                     <input 
                         name="firstName" 
                         placeholder="Nombre" 
@@ -105,7 +112,7 @@ function RegisterVet() {
                 {error.firstName && <p style={{color: "red"}} >{error.firstName}</p>}
 
                 <label htmlFor="lastName" >
-                    Apellido
+                    Apellido *
                     <input 
                         name="lastName" 
                         placeholder="Apellido" 
@@ -116,7 +123,7 @@ function RegisterVet() {
                 {error.lastName && <p style={{color: "red"}} >{error.lastName}</p>}
 
                 <label htmlFor="email" >
-                    Email
+                    Email *
                     <input 
                         name="email" 
                         placeholder="Email" 
@@ -127,7 +134,7 @@ function RegisterVet() {
                 {error.email && <p style={{color: "red"}} >{error.email}</p>}
 
                 <label htmlFor="password" >
-                    Contraseña
+                    Contraseña *
                     <input 
                         name="password" 
                         placeholder="Contraseña" 
@@ -138,7 +145,7 @@ function RegisterVet() {
                 {error.password && <p style={{color: "red"}} >{error.password}</p>}
 
                 <label htmlFor="licenseNumber" >
-                    Número de licencia
+                    Número de licencia *
                 <input 
                     name="licenseNumber" 
                     placeholder="Número de licencia" 
@@ -151,6 +158,7 @@ function RegisterVet() {
                 <label htmlFor="specialty" >
                     Especialidad
                     <select name="specialty" value={formData.specialty} onChange={handleChange} >
+                        <option value="">Seleccione especialidad</option>
                         <option value="GENERAL">General</option>
                         <option value="SURGERY">Cirugía</option>
                         <option value="DERMATOLOGY">Dermatología</option>
@@ -158,17 +166,17 @@ function RegisterVet() {
                         <option value="TRAUMATOLOGY">Traumatología</option>
                     </select>
                 </label>
-                {/* {error.specialty && <p style={{color: "red"}} >{error.specialty}</p>} */}
+                {error.specialty && <p style={{color: "red"}} >{error.specialty}</p>} 
 
                 <label htmlFor="acceptsConsultations">
                 Acepta consultas:
-                <input 
-                    type="checkbox" 
-                    id="consultations" 
-                    name="acceptsConsultations" 
-                    checked={formData.acceptsConsultations} 
-                    onChange={handleChange} 
-                />
+                    <input 
+                        type="checkbox" 
+                        id="consultations" 
+                        name="acceptsConsultations" 
+                        checked={formData.acceptsConsultations} 
+                        onChange={handleChange} 
+                    />
                 </label>
                 {/* {error.acceptsConsultations && <p style={{color: "red"}} >{error.acceptsConsultations}</p>} */}
 
@@ -187,12 +195,16 @@ function RegisterVet() {
 
                 <label htmlFor="photoUrl" >
                     Añadir imagen de perfil
-                    <input type="file" accept="image/*" onChange={handleFileChange} />
+                    <input 
+                        type="file" 
+                        accept="image/*" 
+                        onChange={handleFileChange} 
+                    />
                 </label>
                 {/* {error.photoUrl && <p style={{color: "red"}} >{error.photoUrl}</p>} */}
                  
                 <label htmlFor="workSchedule" >
-                    Horario de trabajo
+                    Horario de trabajo *
                     <input 
                         name="start" 
                         placeholder="formato: '09:00'" 
@@ -209,6 +221,7 @@ function RegisterVet() {
                 {error.workSchedule && <p style={{color: "red"}} >{error.workSchedule}</p>}
 
                 <button type="submit">Crear veterinario</button>
+                {success && <p style={{color: "green"}}>{success}</p>}
             </form>
         </div>
     );
