@@ -33,6 +33,10 @@ function Navbar() {
         Registrar Veterinario
       </Link>
 
+      <Link to="/register-pet" style={{ marginRight: "10px" }}>
+        Registrar Mascota
+      </Link>
+
       <span style={{ marginLeft: "20px" }}>
         {email && <><CircleUserRound size={18} className="inline-block mr-1"/> {email} ({role})</>}
       </span>

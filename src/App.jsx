@@ -5,6 +5,7 @@ import Dashboard from "../src/pages/Dashboard"
 import Appointments from "../src/pages/Appointments";
 import RegisterUser from "./pages/RegisterUser";
 import RegisterVet from "./pages/RegisterVet";
+import RegisterPet from "./pages/RegisterPet"
 
 import ProtectedRoute from "./components/ProtectedRoute"
 import PrivateLayout from "./components/PrivateLayout"
@@ -28,6 +29,7 @@ function App() {
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/register-user" element={<RegisterUser />} />
           <Route path="/register-vet" element={<RegisterVet />} />
+          <Route path="/register-pet" element={<RegisterPet/>} />
 
         </Route>
 
