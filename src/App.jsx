@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "../src/pages/Login";
 import Dashboard from "../src/pages/Dashboard"
 import Appointments from "../src/pages/Appointments";
+import RegisterUser from "./pages/RegisterUser";
+import RegisterVet from "./pages/RegisterVet";
+import RegisterPet from "./pages/RegisterPet"
+import GetUsers from "./pages/Users"
 
 import ProtectedRoute from "./components/ProtectedRoute"
 import PrivateLayout from "./components/PrivateLayout"
@@ -24,6 +28,10 @@ function App() {
 
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/appointments" element={<Appointments />} />
+          <Route path="/register-user" element={<RegisterUser />} />
+          <Route path="/register-vet" element={<RegisterVet />} />
+          <Route path="/register-pet" element={<RegisterPet/>} />
+          <Route path="/users" element={<GetUsers/>} />
 
         </Route>
 

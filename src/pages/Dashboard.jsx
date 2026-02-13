@@ -12,49 +12,52 @@ function Dashboard() {
   const [to, setTo] = useState("");
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    const fetchDashboard = async () => {
-      const token = localStorage.getItem("token");
-      if(loading) <p>Cargando dashboard...</p>;
-      const params = new URLSearchParams();
-        if (vetId) params.append("vetId", vetId);
-        if (date) params.append("date", date);
-        if (from) params.append("from", from);
-        if (to) params.append("to", to);
+  // Crear el dashboard
+  const fetchDashboard = async () => {
+    const token = localStorage.getItem("token");
+    if(loading) <p>Cargando dashboard...</p>;
+
+    const params = new URLSearchParams();
+    if (vetId) params.append("vetId", vetId);
+    if (date) params.append("date", date);
+    if (from) params.append("from", from);
+    if (to) params.append("to", to);
       
-      try {
-        const res = await fetch(`http://localhost:3000/appointment/dashboard?${params.toString()}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            // "Content-Type": "application/json"
-          }
-        });
+    try{
+      const res = await fetch(`http://localhost:3000/appointment/dashboard?${params.toString()}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // "Content-Type": "application/json"
+        }
+      });
 
-          console.log("Response:", res);
-        const result = await res.json();
-          console.log("Result JSON:", result);
+      console.log("Response:", res);
+      const result = await res.json();
+      console.log("Result JSON:", result);
 
-        setAppointments(result.data || []);
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      };
+      setAppointments(result.data || []);
+    }catch(err){
+      console.error("Fetch error:", err);
+      setError(err.message);
+    }finally{
+      setLoading(false);
     };
+  };
 
+  // Mostrar el dashboard
+  useEffect(() => {
     fetchDashboard();
   }, [vetId, date, from, to]);
 
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
-  // filtros
+  // Filtros
   const total = appointments.length;
   const completed = appointments.filter(a => a.status === "COMPLETED").length;
   const cancelled = appointments.filter(a => a.status === "CANCELLED").length;
   const scheduled = appointments.filter(a => a.status === "SCHEDULED").length;
   
-    // Cancelar turno
+  // Cancelar turno
   const handleCancel = async (appointmentId) => {
     const token = localStorage.getItem("token");
 
@@ -73,26 +76,27 @@ function Dashboard() {
     }catch(error){
       console.error(error);
     };
-  };
 
-    const fetchVets = async () => {
-      const token = localStorage.getItem("token");
+  // Traer todos los vets, para el filtro
+  const fetchVets = async () => {
+    const token = localStorage.getItem("token");
 
-      try{
-        const res = await fetch(`http://localhost:3000/users/allvets`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+    try{
+      const res = await fetch(`http://localhost:3000/users/allvets`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        const result = await res.json();
-        setVets(result.data);
-      }catch(error){
-        console.error(error);
-      };
+      const result = await res.json();
+      setVets(result.data);
+    }catch(error){
+      console.error(error);
     };
-    fetchVets();
+  };
+  fetchVets();
+};
 
   return (
     <>
@@ -139,7 +143,7 @@ function Dashboard() {
           setDate("");
           }} 
         />
-
+          {/*    LIMPIAR FILTROS    */}
         <button onClick={() => {
           setVetId("");
           setDate("");
@@ -177,11 +181,7 @@ function Dashboard() {
               <td>{appointmentTypeMap[a.type] || a.type}</td>
               <td>{statusMap[a.status] || a.status}</td>
                 <td>
-                  {a.status === "SCHEDULED" && (
-                    <button onClick={() => handleCancel(a._id)}>
-                      Cancelar
-                    </button>
-                  )}
+                  {a.status === "SCHEDULED" && (<button onClick={() => handleCancel(a._id)}>Cancelar</button>)}
                 </td>
             </tr>
           ))}
