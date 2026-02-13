@@ -25,16 +25,16 @@ function Navbar() {
         Turnos
       </Link>
 
-      <Link to={"/users"} style={{ marginRight: "10 px" }}>
+      <Link to="/users" style={{ marginRight: "10px" }}>
         Usuarios
       </Link>
 
-      <Link to="/register-vet" style={{ marginRight: "10px" }}>
-        Registrar Veterinario
+      <Link to="/vets" style={{ marginRight: "10px" }}>
+        Veterinarios
       </Link>
 
-      <Link to="/register-pet" style={{ marginRight: "10px" }}>
-        Registrar Mascota
+      <Link to="/pets" style={{ marginRight: "10px" }}>
+        Mascotas
       </Link>
 
       <span style={{ marginLeft: "20px" }}>

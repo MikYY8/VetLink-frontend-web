@@ -2,17 +2,17 @@ import { useState, useEffect } from "react";
 import {Link } from "react-router-dom";
 import axios from "axios";
 
-function GetVets(){
-    const [vets, setVets] = useState([]);
+function GetPets(){
+    const [pets, setPets] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
-    const fetchVets = async () => {
+    const fetchPets = async () => {
         const token = localStorage.getItem("token");
-        if(loading) <p>Cargando veterinarios...</p>;
+        if(loading) <p>Cargando mascotas...</p>;
 
         try{
-            const res = await fetch(`http://localhost:3000/users/allvets`, {
+            const res = await fetch(`http://localhost:3000/owner/allpets`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -22,7 +22,7 @@ function GetVets(){
         const result = await res.json();
         console.log("Result JSON:", result);
 
-        setVets(result.data || []);
+        setPets(result.data || []);
 
         }catch(error){
             console.error("Fetch error:", error);
@@ -32,9 +32,9 @@ function GetVets(){
         };
     };
 
-  // Mostrar veterinarios
+  // Mostrar mascotas
   useEffect(() => {
-    fetchVets();
+    fetchPets();
   }, []);
 
   if (error) return <p style={{ color: "red" }}>{error}</p>;
@@ -44,7 +44,7 @@ function GetVets(){
         const token = localStorage.getItem("token");
 
         try{
-            await fetch(`http://localhost:3000/users/update-vet/${vetId}`, {
+            await fetch(`http://localhost:3000/owner/pets/${petId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -60,7 +60,7 @@ function GetVets(){
         const token = localStorage.getItem("token");
         
         try{
-            await fetch(`http://localhost:3000/users/delete-vet/${vetId}`, {
+            await fetch(`http://localhost:3000/owner/pets/${petId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -74,37 +74,37 @@ function GetVets(){
 
     return(
         <div>
-            <Link to="/register-vet"><button>
-              Registrar Veterinario
+            <Link to="/register-pet"><button>
+              Registrar mascota
             </button>
             </Link>
-            <h2>Listado de veterinarios</h2>
+            <h2>Listado de mascotas</h2>
             <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
                 <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Email</th>
-                        <th>N° de licencia</th>
-                        <th>Especialidad</th>
-                        <th>Acepta consultas</th>
-                        <th>N° de teléfono</th>
-                        <th>Horario</th>
+                        <th>Edad</th>
+                        <th>Sexo</th>
+                        <th>Especie</th>
+                        <th>Raza</th>
+                        <th>Color</th>
+                        <th>Estado de castración</th>
+                        <th>Dueño</th>
                         <th>ACCIONES</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {vets.map((a) => (
+                    {pets.map((a) => (
                         <tr key={a._id}>
-                            <td>{a.firstName}</td>
-                            <td>{a.lastName}</td>
-                            <td>{a.email}</td>
-                            <td>{a.licenseNumber}</td>
-                            <td>{a.specialty}</td>
-                            <td>{a.acceptsConsultations ? "✅ Sí" : "❌ No"}</td>
-                            <td>{a.phone}</td>
-                            <td>{a.workSchedule.start} - {a.workSchedule.end}</td>
+                            <td>{a.name}</td>
+                            <td>{a.age}</td>
+                            <td>{a.sex}</td>
+                            <td>{a.species}</td>
+                            <td>{a.breed}</td>
+                            <td>{a.color}</td>
+                            <td>{a.isNeutered ? "✅ Castrado/a" : "❌ No castrado/a"}</td>
+                            <td>{a.owner.firstName} {a.owner.lastName}</td>
                             <td>{(<button onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
                             <td>{(<button onClick={() => handleDelete(a._id)}>Eliminar</button>)}</td>
                         </tr>
@@ -115,4 +115,4 @@ function GetVets(){
     );
 };
 
-export default GetVets;
+export default GetPets;

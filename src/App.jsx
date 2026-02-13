@@ -7,6 +7,8 @@ import RegisterUser from "./pages/RegisterUser";
 import RegisterVet from "./pages/RegisterVet";
 import RegisterPet from "./pages/RegisterPet"
 import GetUsers from "./pages/Users"
+import GetVets from "./pages/Vets"
+import GetPets from "./pages/Pets"
 
 import ProtectedRoute from "./components/ProtectedRoute"
 import PrivateLayout from "./components/PrivateLayout"
@@ -28,10 +30,12 @@ function App() {
 
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/appointments" element={<Appointments />} />
+          <Route path="/users" element={<GetUsers/>} /> 
+          <Route path="/vets" element={<GetVets/>} />
+          <Route path="/pets" element={<GetPets/>} />
           <Route path="/register-user" element={<RegisterUser />} />
           <Route path="/register-vet" element={<RegisterVet />} />
           <Route path="/register-pet" element={<RegisterPet/>} />
-          <Route path="/users" element={<GetUsers/>} />
 
         </Route>
 
