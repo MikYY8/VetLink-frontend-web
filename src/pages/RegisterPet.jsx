@@ -112,6 +112,10 @@ function RegisterPet() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if(validate()){
+            alert("Mascota creada con éxito")
+            console.log(formData)
+        };
 
         if (!selectedOwner) {
             setError({ owner: "Seleccione un dueño" });
@@ -127,8 +131,6 @@ function RegisterPet() {
         data.append("breed", formData.breed);
         data.append("color", formData.color);
         data.append("isNeutered", formData.isNeutered);
-
-        // 🔴 CLAVE
         data.append("owner", selectedOwner.value);
 
         if (formData.photo) {
