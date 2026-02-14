@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import {Link } from "react-router-dom";
+import {Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function GetUsers(){
     const [users, setUsers] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
-
+    const navigate = useNavigate();
+    
     const fetchUsers = async () => {
         const token = localStorage.getItem("token");
         if(loading) <p>Cargando usuarios...</p>;
@@ -40,23 +41,13 @@ function GetUsers(){
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
 
-    const handleUpdate = async () => {
-        const token = localStorage.getItem("token");
-
-        try{
-            await fetch(`http://localhost:3000/users/update-user/${ownerId}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-        }catch(error){
-            console.error(error);
-        };
+    const handleUpdate = async (ownerId) => {
+        navigate(`/update-user/${ownerId}`);
     };
 
-    const handleDelete = async () => {
+    const handleDelete = async (ownerId) => {
+        const confirmDelete = window.confirm("¿Seguro que querés eliminar este usuario?");
+        if (!confirmDelete) return;
         const token = localStorage.getItem("token");
         
         try{
@@ -67,6 +58,10 @@ function GetUsers(){
                     Authorization: `Bearer ${token}`,
                 },
             });
+             alert("Usuario eliminado");
+
+            // refrescar lista
+            setUsers(users.filter(u => u._id !== ownerId));
         }catch(error){
             console.error(error);
         }
@@ -97,8 +92,8 @@ function GetUsers(){
                             <td>{a.lastName}</td>
                             <td>{a.email}</td>
                             <td>{a.role}</td>
-                            <td>{a.role !== "ADMIN" && (<button onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
-                            <td>{a.role !== "ADMIN" && (<button onClick={() => handleDelete(a._id)}>Eliminar</button>)}</td>
+                            <td>{a.role === "OWNER" && (<button onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
+                            <td>{a.role === "OWNER" && (<button onClick={() => handleDelete(a._id)}>Eliminar</button>)}</td>
                         </tr>
                     ))}
                 </tbody>

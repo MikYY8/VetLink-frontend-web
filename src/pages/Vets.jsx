@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import {Link } from "react-router-dom";
+import {Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function GetVets(){
     const [vets, setVets] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const fetchVets = async () => {
         const token = localStorage.getItem("token");
@@ -39,38 +40,33 @@ function GetVets(){
 
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
-
-    const handleUpdate = async () => {
-        const token = localStorage.getItem("token");
-
-        try{
-            await fetch(`http://localhost:3000/users/update-vet/${vetId}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-        }catch(error){
-            console.error(error);
-        };
+    const handleUpdate = async (vetId) => {
+        navigate(`/update-vet/${vetId}`);
     };
 
-    const handleDelete = async () => {
+    const handleDelete = async (vetId) => {
+        const confirmDelete = window.confirm("¿Seguro que querés eliminar este veterinario?");
+        if (!confirmDelete) return;
         const token = localStorage.getItem("token");
-        
-        try{
+
+        try {
             await fetch(`http://localhost:3000/users/delete-vet/${vetId}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
             });
-        }catch(error){
+
+            alert("Veterinario eliminado");
+
+            // refrescar lista
+            setVets(vets.filter(u => u._id !== vetId));
+
+        } catch (error) {
             console.error(error);
         }
     };
+
 
     return(
         <div>
