@@ -1,9 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 function RegisterUser() {
   const [formData, setFormData] = useState({firstName: "", lastName: "", email: "", password: "", role: "OWNER", });
   const [error, setError] = useState({});
+  const navigate = useNavigate()
   const token = localStorage.getItem("token");
 
     const validate = () => {
@@ -18,7 +20,7 @@ function RegisterUser() {
         return Object.keys(newErrors).length === 0;
     };
 
-    // Manejar cambios en el form (?)
+  // Manejar cambios en el form (?)
   const handleChange = (e) => {
     setFormData({
       ...formData, [e.target.name]: e.target.value
@@ -45,6 +47,7 @@ function RegisterUser() {
     }catch(err){
         console.log(err)
     };
+    navigate("/users");
   };
 
   return (
@@ -108,6 +111,11 @@ function RegisterUser() {
         </select>
 
         <button type="submit">Crear usuario</button>
+
+        <Link to="/users"><button>
+          Volver
+          </button>
+        </Link>
       </form>
 
     </div>

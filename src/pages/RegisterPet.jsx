@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import Select from "react-select";
 
@@ -308,6 +308,11 @@ function RegisterPet() {
                 {error.owner && <p style={{ color: "red" }}>{error.owner}</p>}
 
                 <button type="submit">Crear mascota</button>
+
+                <Link to="/pets"><button>
+                    Volver
+                    </button>
+                </Link>
                 {success && <p style={{color: "green"}}>{success}</p>}
             </form>
         </div>
