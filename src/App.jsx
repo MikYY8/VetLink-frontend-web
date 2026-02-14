@@ -11,6 +11,7 @@ import RegisterVet from "./pages/RegisterVet";
 import RegisterPet from "./pages/RegisterPet"
 import UpdateUser from "./pages/UpdateUser"
 import UpdateVet from "./pages/UpdateVet"
+import UpdatePet from "./pages/UpdatePet"
 
 import ProtectedRoute from "./components/ProtectedRoute"
 import PrivateLayout from "./components/PrivateLayout"
@@ -38,6 +39,7 @@ function App() {
           <Route path="/register-user" element={<RegisterUser />} />
           <Route path="/update-user/:ownerId" element={<UpdateUser />} />
           <Route path="/update-vet/:vetId" element={<UpdateVet />} />
+          <Route path="/update-pet/:petId" element={<UpdatePet />} />
           <Route path="/register-vet" element={<RegisterVet />} />
           <Route path="/register-pet" element={<RegisterPet/>} />
 
