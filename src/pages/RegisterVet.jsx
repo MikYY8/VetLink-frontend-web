@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function RegisterVet() {
     const [formData, setFormData] = useState({firstName: "", lastName: "", email: "", password: "",
@@ -221,6 +222,11 @@ function RegisterVet() {
                 {error.workSchedule && <p style={{color: "red"}} >{error.workSchedule}</p>}
 
                 <button type="submit">Crear veterinario</button>
+
+                <Link to="/vets"><button>
+                Volver
+                </button>
+                </Link>
                 {success && <p style={{color: "green"}}>{success}</p>}
             </form>
         </div>

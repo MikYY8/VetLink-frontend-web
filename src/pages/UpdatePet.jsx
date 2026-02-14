@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Select from "react-select";
@@ -223,6 +223,11 @@ function UpdatePet() {
             </label>
 
         <button type="submit">Guardar cambios</button>
+
+        <Link to="/pets"><button>
+          Volver
+          </button>
+        </Link>
     </form>
   );
 }

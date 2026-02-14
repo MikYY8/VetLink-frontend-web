@@ -37,11 +37,11 @@ function App() {
           <Route path="/vets" element={<GetVets/>} />
           <Route path="/pets" element={<GetPets/>} />
           <Route path="/register-user" element={<RegisterUser />} />
+          <Route path="/register-vet" element={<RegisterVet />} />
+          <Route path="/register-pet" element={<RegisterPet/>} />
           <Route path="/update-user/:ownerId" element={<UpdateUser />} />
           <Route path="/update-vet/:vetId" element={<UpdateVet />} />
           <Route path="/update-pet/:petId" element={<UpdatePet />} />
-          <Route path="/register-vet" element={<RegisterVet />} />
-          <Route path="/register-pet" element={<RegisterPet/>} />
 
         </Route>
 

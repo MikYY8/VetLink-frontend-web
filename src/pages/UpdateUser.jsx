@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -69,6 +69,11 @@ function UpdateUser() {
       </label>
       
       <button type="submit">Guardar cambios</button>
+
+      <Link to="/users"><button>
+        Volver
+        </button>
+      </Link>
     </form>
   );
 }

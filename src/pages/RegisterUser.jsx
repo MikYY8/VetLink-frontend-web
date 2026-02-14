@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function RegisterUser() {
   const [formData, setFormData] = useState({firstName: "", lastName: "", email: "", password: "", role: "OWNER", });
@@ -111,6 +111,11 @@ function RegisterUser() {
         </select>
 
         <button type="submit">Crear usuario</button>
+
+        <Link to="/users"><button>
+          Volver
+          </button>
+        </Link>
       </form>
 
     </div>
