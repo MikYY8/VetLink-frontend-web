@@ -79,7 +79,6 @@ function GetVets(){
                 <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Apellido</th>
                         <th>Email</th>
                         <th>N° de licencia</th>
                         <th>Especialidad</th>
@@ -93,8 +92,7 @@ function GetVets(){
                 <tbody>
                     {vets.map((a) => (
                         <tr key={a._id}>
-                            <td>{a.firstName}</td>
-                            <td>{a.lastName}</td>
+                            <td style={{ cursor:"pointer", color:"blue" }} onClick={() => navigate(`/vets/${a._id}/availability`)} >{a.firstName} {a.lastName}</td>
                             <td>{a.email}</td>
                             <td>{a.licenseNumber}</td>
                             <td>{a.specialty}</td>

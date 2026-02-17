@@ -21,7 +21,7 @@ function Navbar() {
         Dashboard
       </Link>
 
-      <Link to="/appointments" style={{ marginRight: "10px" }}>
+      <Link to="/create-appointment" style={{ marginRight: "10px" }}>
         Turnos
       </Link>
 

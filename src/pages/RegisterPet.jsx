@@ -72,21 +72,11 @@ function RegisterPet() {
 
             setOwnerOptions(options);
         } catch (error) {
-            console.error("Error buscando owners", error);
+            console.error("Error buscando dueños", error);
         } finally {
             setLoadingOwners(false);
         };
     };
-
-    // manejar seleccion de owners en el form
-    // const handleOwnerSelect = (selectedOption) => {
-    //     setSelectedOwner(selectedOption);
-
-    //     setFormData({
-    //         ...formData,
-    //         owner: selectedOption.value, // guardamos el _id
-    //     });
-    // };
 
     const handleOwnerSelect = (option) => {
     setSelectedOwner(option);
@@ -165,46 +155,6 @@ function RegisterPet() {
             console.log(err.response?.data || err);
         }
     };
-
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     const data = new FormData();
-
-    //     if(validate()){
-    //         alert("Mascota creada correctamente")
-    //         console.log(formData);
-    //     };
-
-    //     data.append("name", formData.name);
-    //     data.append("age", formData.age);
-    //     data.append("sex", formData.sex);
-    //     data.append("species", formData.species);
-    //     data.append("breed", formData.breed);
-    //     data.append("color", formData.color);
-    //     data.append("isNeutered", formData.isNeutered);
-    //     data.append("owner", formData.owner);
-
-    //     if (formData.photo) {
-    //         data.append("photo", formData.photo); 
-    //     };
-
-    //     try{
-    //         await axios.post("http://localhost:3000/owner/pets/add",
-    //         data, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             },
-    //         });
-
-    //         setFormData({name: "", age: "", sex: "", species: "",
-    //             breed: "", color: "", isNeutered: false, 
-    //             photoUrl: "", owner: "" })
-    //         setSuccess("Mascota creada con éxito")
-    //     }catch(err){
-    //         console.log(err);
-    //     }
-    // };
 
     return(
         <div>
