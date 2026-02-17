@@ -157,10 +157,9 @@ function CreateAppointment() {
     }
   }, [formData.vet, formData.date]);
 
+
   const fetchAvailability = async () => {
-    const res = await axios.get(
-      "http://localhost:3000/appointment/available",
-      {
+    const res = await axios.get(`http://localhost:3000/appointment/available`, {
         params: {
           vetId: formData.vet,
           date: formData.date,
@@ -205,21 +204,27 @@ function CreateAppointment() {
     setVaccineOptions(options);
   };
 
-
   // ================= SUBMIT =================
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.post(
-      "http://localhost:3000/appointment/make-appointment",
-      formData,
+    await axios.post("http://localhost:3000/appointment/make-appointment", {
+      petId: formData.pet,
+      ownerId: formData.owner,
+      vetId: formData.vet,
+      date: formData.date,
+      time: formData.time,
+      type: formData.type,
+      vaccineName: formData.vaccineName,
+      details: formData.details,
+      },
       {
         headers: { Authorization: `Bearer ${token}` },
-      }
+      } 
     );
-
-    setSuccess("Turno creado correctamente");
+  
+  setSuccess("Turno creado correctamente");
   };
 
   // ================= RENDER =================
@@ -312,7 +317,7 @@ function CreateAppointment() {
           onChange={handleChange}
         />
 
-        <label>Precio</label>
+        <label>Precio (sujeto a cambios el día del turno)</label>
         <input value={formData.price} readOnly />
 
         <button type="submit">Agendar turno</button>

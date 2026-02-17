@@ -172,7 +172,7 @@ function Dashboard() {
         <tbody>
           {appointments.map((a) => (
             <tr key={a._id}>
-              <td>{new Date(a.date).toLocaleDateString()}</td>
+              <td>{new Date(a.date).toLocaleDateString("es-AR", { timeZone: "UTC" })}</td>
               <td>{a.time}</td>
               <td>{a.pet?.name}</td>
               <td>{speciesMap[a.pet?.species] || a.pet?.species}</td>
