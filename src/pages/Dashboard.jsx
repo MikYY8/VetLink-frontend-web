@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { speciesMap, appointmentTypeMap, statusMap } from "../utils/translation.js"
 
+
 function Dashboard() {
   const [appointments, setAppointments] = useState([]);
   const [error, setError] = useState("");
@@ -100,10 +101,10 @@ function Dashboard() {
 
   return (
     <>
-      <div style={{ padding: "20px" }}>
+      <div>
         <h2>Dashboard</h2>
           {/*    TARJETAS     */}
-        <div style={{ display: "flex", gap: "20px" }}>
+        <div className="card">
           <Card title="Total turnos" value={total} />
           <Card title="Programados" value={scheduled} />
           <Card title="Completados" value={completed} />
@@ -112,39 +113,44 @@ function Dashboard() {
       </div>
 
         {/*    FILTROS     */}
-      <div> 
+      <div className="container"> 
             {/*    POR VETERINARIO     */}
-          <select value={vetId} onChange={(e) => setVetId(e.target.value)}>
-          <option value="">Todos los veterinarios</option>
-          {vets.map(v => (
-            <option key={v._id} value={v._id}>
-              {v.firstName} {v.lastName}
-            </option>
-          ))};
-        </select>
-
+          <label className="label">Por veterinario</label>
+            <select className="vet-filter" value={vetId} onChange={(e) => setVetId(e.target.value)}>
+              <option value="">Todos los veterinarios</option>
+              {vets.map(v => (
+                <option key={v._id} value={v._id}>
+                  {v.firstName} {v.lastName}
+                </option>
+              ))};
+            </select>
+          
           {/*    POR FECHA     */}
-        <input type="date" value={date} onChange={(e) => {
-          setDate(e.target.value);
-          setFrom("");
-          setTo("");
-          }} 
-        />
+          <label className="label">Por fecha</label>
+            <input className="date-filter" type="date" value={date} onChange={(e) => {
+              setDate(e.target.value);
+              setFrom("");
+              setTo("");
+              }} 
+            />
 
           {/*    POR RANGO DE FECHAS     */}
-        <input type="date" value={from} onChange={(e) => {
-          setFrom(e.target.value);
-          setDate("");
-          }} 
-        />
-        
-        <input type="date" value={to} onChange={(e) => {
-          setTo(e.target.value);
-          setDate("");
-          }} 
-        />
+          <label className="label"> Por rango de fechas</label>
+            <input className="date-filter" type="date" value={from} onChange={(e) => {
+              setFrom(e.target.value);
+              setDate("");
+              }} 
+            />
+
+          <label className="label"> - </label>
+            <input className="date-filter" type="date" value={to} onChange={(e) => {
+              setTo(e.target.value);
+              setDate("");
+              }} 
+            />
+
           {/*    LIMPIAR FILTROS    */}
-        <button onClick={() => {
+        <button className="btn" onClick={() => {
           setVetId("");
           setDate("");
           setFrom("");
@@ -154,7 +160,7 @@ function Dashboard() {
       </div>
 
           {/*    TABLA     */}
-      <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
+      <table className="dashboard-table">
         <thead>
           <tr>
             <th>Fecha</th>
@@ -193,19 +199,13 @@ function Dashboard() {
 
 function Card({ title, value }) {
   return (
-    <div style={cardStyle}>
+    <div className="cardStyle2">
       <h3>{title}</h3>
       <p>{value}</p>
     </div>
   );
 }
 
-const cardStyle = {
-  border: "1px solid #ccc",
-  padding: "5px",
-  borderRadius: "8px",
-  minWidth: "120px",
-  textAlign: "center"
-};
+
 
 export default Dashboard;

@@ -6,9 +6,13 @@ const VetAvailability = () => {
   const { vetId } = useParams();
   const [blocks, setBlocks] = useState([]);
   const [date, setDate] = useState("");
+  const [loading, setLoading] = useState(true);
+
 
   const fetchAvailability = async () => {
     const token = localStorage.getItem("token");
+    if(loading) <p>Cargando dashboard...</p>;
+
     try {
       const res = await axios.get(`http://localhost:3000/appointment/available`, {
           params: { vetId, date },
@@ -19,7 +23,9 @@ const VetAvailability = () => {
       setBlocks(res.data.data);
     } catch (err) {
       console.error(err);
-    }
+    }finally{
+      setLoading(false);
+    };
   };
 
   useEffect(() => {
@@ -30,7 +36,11 @@ const VetAvailability = () => {
     <div>
         <h2>Disponibilidad</h2>
 
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
+        <label htmlFor="date">
+          Seleccione una fecha
+          <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
+        </label>
+
 
         <table style={{ width: "50%", borderCollapse: "collapse", marginTop: "20px" }}>
             <thead>

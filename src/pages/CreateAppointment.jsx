@@ -25,8 +25,24 @@ function CreateAppointment() {
   const [vaccineOptions, setVaccineOptions] = useState([]);
 
   const [success, setSuccess] = useState("");
+  const [error, setError] = useState({});
 
   const prices = { CONSULTATION: 5000, CONTROL: 4000, VACCINATION: 3000, SURGERY: 10000, };
+
+  // ================= VALIDATIONS =================
+
+    const validate = () => {
+        let newErrors = {}; // guardamos errores, luego los transferimos a setError
+        if(!formData.pet) {newErrors.pet = "Seleccione la mascota"};
+        if(!formData.owner) {newErrors.owner = "Seleccione el dueño de la mascota"};
+        if(!formData.vet) {newErrors.vet = "Seleccione un veterinario"};
+        if(!formData.date) {newErrors.date = "Seleccione una fecha disponible"};
+        if(!formData.time) {newErrors.time = "Seleccione un horario disponible"};
+        if(!formData.type) {newErrors.type = "Seleccione el tipo de turno"};
+
+        setError(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
   // ================= PETS =================
 
@@ -241,6 +257,7 @@ function CreateAppointment() {
           value={selectedPet}
           onChange={handlePetSelect}
         />
+        {error.pet && <p style={{color: "red"}} >{error.pet}</p>}
 
         <label>
           Dueño de la mascota*
@@ -254,15 +271,19 @@ function CreateAppointment() {
             noOptionsMessage={() => "No se encontraron dueños"}
           />
         </label>
+        {error.owner && <p style={{color: "red"}} >{error.owner}</p>}
 
-        <label>Tipo de turno*</label>
-        <select name="type" value={formData.type} onChange={handleChange}>
-          <option value="">Seleccione</option>
-          <option value="CONSULTATION">Consulta</option>
-          <option value="CONTROL">Control</option>
-          <option value="VACCINATION">Vacunación</option>
-          <option value="SURGERY">Cirugía</option>
-        </select>
+        <label>
+          Tipo de turno*
+          <select name="type" value={formData.type} onChange={handleChange}>
+            <option value="">Seleccione</option>
+            <option value="CONSULTATION">Consulta</option>
+            <option value="CONTROL">Control</option>
+            <option value="VACCINATION">Vacunación</option>
+            <option value="SURGERY">Cirugía</option>
+          </select>
+        </label>
+        {error.type && <p style={{color: "red"}} >{error.type}</p>}
 
         {formData.type === "VACCINATION" && (
           <>
@@ -298,6 +319,7 @@ function CreateAppointment() {
             />
           </>
         )}
+        {error.vet && <p style={{color: "red"}} >{error.vet}</p>}
 
         {formData.date && (
           <>
@@ -309,6 +331,7 @@ function CreateAppointment() {
             />
           </>
         )}
+        {error.time && <p style={{color: "red"}} >{error.time}</p>}
 
         <label>Detalles</label>
         <input

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { CircleUserRound } from "lucide-react"
+import '../styles/main.css'
 
 function Navbar() {
 
@@ -15,33 +16,49 @@ function Navbar() {
   };
 
   return (
-    <nav style={{ padding: "10px", borderBottom: "1px solid #ccc" }}>
+    <nav className="navbar">
       
-      <Link to="/dashboard" style={{ marginRight: "10px" }}>
-        Dashboard
+      <Link to="/dashboard">
+        <button className="btn-nvb">
+          Dashboard
+        </button>
       </Link>
 
-      <Link to="/create-appointment" style={{ marginRight: "10px" }}>
-        Turnos
+      <Link to="/create-appointment">
+        <button className="btn-nvb">
+          Turnos
+        </button>
       </Link>
 
-      <Link to="/users" style={{ marginRight: "10px" }}>
-        Usuarios
+      <Link to="/users">
+        <button className="btn-nvb">
+          Usuarios
+        </button>
       </Link>
 
-      <Link to="/vets" style={{ marginRight: "10px" }}>
-        Veterinarios
+      <Link to="/vets">
+        <button className="btn-nvb">
+          Veterinarios
+        </button>
       </Link>
 
-      <Link to="/pets" style={{ marginRight: "10px" }}>
-        Mascotas
+      <Link to="/pets">
+        <button className="btn-nvb">
+          Mascotas
+        </button>
       </Link>
 
-      <span style={{ marginLeft: "20px" }}>
-        {email && <><CircleUserRound size={18} className="inline-block mr-1"/> {email} ({role})</>}
+      <span>
+        {email && 
+          <>
+            <CircleUserRound size={26} />
+            {email} ({role})
+          </>
+        }
       </span>
 
-      <button
+      <button 
+        className="btn-nvb"
         onClick={handleLogout}
         style={{ marginLeft: "20px" }}      
       >Logout</button>
