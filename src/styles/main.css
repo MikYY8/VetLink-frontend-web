@@ -1,21 +1,36 @@
 :root {
   --primary: #F4A261;
-  --secondary: #8add97;
+  --secondary:  #6BAA75;
   --accent: #E76F51;
-  --background: #FAF9F6;
+  --background: #f8c295;
+  --white: #FAF9F6;
   --text: #333333;
   --primary-font: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+body{
+  background-image: url(../assets/background.png);
+  border: 2px solid var(--primary);
+}
+
+.main-container{
+  background-color: var(--white);
+}
+
 .btn{
   margin-right: 10px;
-  background-color: var(--accent);
+  background-color: var(--primary);
   border: 3px solid var(--accent);
   border-radius: 5px;
   cursor: pointer;
   padding: 7px;
   font-size: 12pt;
   font-family: var(--primary-font);
+  transition: 200ms ease-in;
+}
+
+.btn:hover{
+  background-color: var(--accent);
 }
 
 /* ==================   NAVBAR   ================== */
@@ -24,9 +39,9 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  background-color: var(--primary);
-  padding: 10px;
-  border: 1px solid var(--primary);
+  background-color: var(--white);
+  padding: 12px;
+  border-bottom: 2px solid var(--primary);
 }
 
 .btn-nvb{
@@ -40,44 +55,108 @@
   font-family: var(--primary-font);
 }
 
+/* ==================   LOGIN   ================== */
+
+.login-container{
+  text-align: center;
+  margin-top: 20px;
+  padding-bottom: 10px;
+}
+
+.login-container-child{
+  display: inline-block;
+  border-radius: 20px;
+  padding: 110px;
+  background-color: var(--primary);
+}
+
+.login-text{
+  font-family: var(--primary-font);
+  font-size: 30px;
+  justify-content: center;
+  color: var(--text);
+}
+
+.input-login{
+  color: var(--text);
+  margin: 5px;
+  padding: 15px;
+  width: 300px;
+  background-color: var(--primary);
+  border: 2px solid var(--white);
+  border-radius: 10px;
+}
+
+.white-bar{
+  border-top: 1px dotted var(--text);
+  color: var(--primary);
+}
+
+.btn-submit{
+  background-color: var(--primary);
+  border: 3px solid var(--accent);
+  color: var(--text);
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 12px;
+  font-size: 15pt;
+  font-family: var(--primary-font);
+  transition: 200ms ease-in;
+}
+
+.btn-submit:hover{
+  background-color: var(--accent);
+}
 
 /* ==================   DASHBOARD   ================== */
 
-h2{
-  margin: 15px 0px 15px 20px;
-  font-family: var(--primary-font);
-  font-size: 30px;
-}
-
-.card{
+.dashboard-text{
   display: flex;
-  gap: 20px;
-  padding: 10px 10px
-}
-
-.cardStyle2{
-  background-color: var(--accent);
-  border: 2px solid #651a1a;
-  padding: 5px;
-  border-radius: 8px;
-  min-width: 120px;
-  text-align: center
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 0px 10px 20px;
+  font-family: var(--primary-font);
+  color: var(--accent);
+  font-size: 30px;
+  margin: 0px;
 }
 
 .container{  
+  text-align: center;
   margin-right: 10px;
-  background-color: var(--secondary);
-  border: 3px solid var(--secondary);
+  background-color: var(--primary);
+  border: 3px solid var(--white);
   border-radius: 5px;
   cursor: pointer;
   padding: 7px;
 }
 
-.label{
-  margin: 10px;
+label{
+  margin: 3px;
   padding: 5px;
-  font-size: 12pt;
+  font-size: 14pt;
   font-family: var(--primary-font);
+}
+
+input{
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.pet-input-2{
+  width: 20%;
+}
+
+.pet-input-3, .pet-input-4, .pet-input-8{
+  width: 50%;
+  padding: 10px;
+}
+
+.pet-input-7{
+  width: 10%;
 }
 
 .vet-filter{
@@ -86,20 +165,118 @@ h2{
   border: 3px solid var(--accent);
   border-radius: 5px;
   cursor: pointer;
-  padding: 7px;
+  padding: 5px;
 }
 
 .date-filter{
-    margin-right: 10px;
+  margin-right: 10px;
   background-color: var(--accent);
   border: 3px solid var(--accent);
   border-radius: 5px;
   cursor: pointer;
-  padding: 7px;
+  padding: 5px;
 }
 
 .dashboard-table{
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
-  margin-top: 20px
+}
+
+th{
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  padding: 0.5em;
+  background-color: var(--accent);
+  font-family: var(--primary-font);
+}
+
+.table-head{
+  background-color: var(--secondary);
+  color: #fff;
+}
+
+.table-body{
+  font-family:arial;
+  font-weight: normal;
+  background-color: var(--secondary);
+  color:var(--text);
+}
+
+td{
+  border: 1px solid #000;
+  padding: .5em;
+  width:100px;
+  text-align:center;
+}
+
+table tbody tr:nth-child(odd) {
+	background-color: var(--primary);
+}
+table tbody tr:nth-child(even) {
+	background-color: #f9c79f;
+}
+
+/* ==================   APPOINTMENTS   ================== */
+
+.appoint-container{
+  text-align: center;
+  margin-top: 20px;
+  padding-bottom: 10px;
+}
+
+.appoint-container-child{
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  padding: 100px;
+  background-color: var(--primary);
+}
+
+.appoint-form{
+  align-items: center;
+  justify-content: center;
+}
+
+label{
+  flex-direction: column;
+}
+
+/* ==================   APPOINTMENTS   ================== */
+
+.pets-form-dad{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+
+.pets-form-child{
+  display: flex;
+  flex-direction: column;
+  padding: 0px 50px;
+  width: 50%;
+}
+
+.center-stupid-div-again{
+  text-align: center;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+
+.pet-btn{
+  margin: 0px 15px 10px;
+  background-color: var(--primary);
+  border: 3px solid var(--accent);
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 7px;
+  font-size: 12pt;
+  font-family: var(--primary-font);
+  transition: 200ms ease-in;
+}
+
+.pet-btn:hover{
+  background-color: var(--accent);
 }

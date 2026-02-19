@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Users } from 'lucide-react';
 
 function GetUsers(){
     const [users, setUsers] = useState([]);
@@ -68,12 +68,13 @@ function GetUsers(){
     };
 
     return(
-        <div>
-            <Link to="/register-user"><button>
-              Registrar usuario
-            </button>
+        <div className="main-container">
+            <Link to="/register-user">
+                <button className="btn">
+                    Registrar usuario
+                </button>
             </Link>
-            <h2>Listado de usuarios</h2>
+            <h2 className="dashboard-text"><Users size={30} /> Listado de usuarios</h2>
             <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
                 <thead>
                     <tr>
@@ -81,7 +82,7 @@ function GetUsers(){
                         <th>Apellido</th>
                         <th>Email</th>
                         <th>Rol</th>
-                        <th>ACCIONES</th>
+                        <th colSpan={2}>ACCIONES</th>
                     </tr>
                 </thead>
 
@@ -92,8 +93,8 @@ function GetUsers(){
                             <td>{a.lastName}</td>
                             <td>{a.email}</td>
                             <td>{a.role}</td>
-                            <td>{a.role === "OWNER" && (<button onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
-                            <td>{a.role === "OWNER" && (<button onClick={() => handleDelete(a._id)}>Eliminar</button>)}</td>
+                            <td>{a.role === "OWNER" && (<button className="btn" onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
+                            <td>{a.role === "OWNER" && (<button className="btn"  onClick={() => handleDelete(a._id)}>Eliminar</button>)}</td>
                         </tr>
                     ))}
                 </tbody>

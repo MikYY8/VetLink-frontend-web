@@ -30,22 +30,21 @@ function Login() {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div className="login-container">
+      <div className="login-container-child">
+        <h2 className="login-text">Login</h2>
+        <hr className="white-bar" />
 
-      <form onSubmit={handleSubmit}>
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <form onSubmit={handleSubmit}>
+          <input className="input-login" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <br/>
+          <input className="input-login" type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <br/>
+          <button className="btn-submit" type="submit">Ingresar</button>
+        </form>
 
-        <br/>
-
-        <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
-
-        <br/>
-
-        <button type="submit">Ingresar</button>
-      </form>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
+      </div>
     </div>
   );
 }

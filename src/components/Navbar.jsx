@@ -20,12 +20,6 @@ function Navbar() {
       
       <Link to="/dashboard">
         <button className="btn-nvb">
-          Dashboard
-        </button>
-      </Link>
-
-      <Link to="/create-appointment">
-        <button className="btn-nvb">
           Turnos
         </button>
       </Link>
@@ -48,20 +42,16 @@ function Navbar() {
         </button>
       </Link>
 
-      <span>
-        {email && 
-          <>
-            <CircleUserRound size={26} />
-            {email} ({role})
-          </>
-        }
+      <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+        <CircleUserRound />
+        {email} ({role})
       </span>
 
       <button 
         className="btn-nvb"
         onClick={handleLogout}
         style={{ marginLeft: "20px" }}      
-      >Logout</button>
+      >Salir</button>
 
     </nav>
   );

@@ -246,111 +246,117 @@ function CreateAppointment() {
   // ================= RENDER =================
 
   return (
-    <div>
-      <h2>Agendar turno</h2>
+    <div className="appoint-container">
+      <div className="appoint-container-child">
+        <h2>Agendar turno</h2>
 
-      <form onSubmit={handleSubmit}>
+        <form className="apoint-form" onSubmit={handleSubmit}>
 
-        <label>Mascota*</label>
-        <Select
-          options={petOptions}
-          value={selectedPet}
-          onChange={handlePetSelect}
-        />
-        {error.pet && <p style={{color: "red"}} >{error.pet}</p>}
-
-        <label>
-          Dueño de la mascota*
+          <label>Mascota*</label>
           <Select
-            placeholder="Buscar dueño por nombre o apellido..."
-            isLoading={loadingOwners}
-            options={ownerOptions}
-            value={selectedOwner}
-            onChange={handleOwnerSelect}
-            onInputChange={(value) => setSearchOwner(value)}
-            noOptionsMessage={() => "No se encontraron dueños"}
+            options={petOptions}
+            value={selectedPet}
+            onChange={handlePetSelect}
           />
-        </label>
-        {error.owner && <p style={{color: "red"}} >{error.owner}</p>}
+          {error.pet && <p style={{color: "red"}} >{error.pet}</p>}
 
-        <label>
-          Tipo de turno*
-          <select name="type" value={formData.type} onChange={handleChange}>
-            <option value="">Seleccione</option>
-            <option value="CONSULTATION">Consulta</option>
-            <option value="CONTROL">Control</option>
-            <option value="VACCINATION">Vacunación</option>
-            <option value="SURGERY">Cirugía</option>
-          </select>
-        </label>
-        {error.type && <p style={{color: "red"}} >{error.type}</p>}
-
-        {formData.type === "VACCINATION" && (
-          <>
-            <label>Vacuna*</label>
+          <label>
+            Dueño de la mascota*
             <Select
-              options={vaccineOptions}
-              onChange={(opt) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  vaccineName: opt.value,
-                }))
-              }
+              placeholder="Buscar dueño por nombre o apellido..."
+              isLoading={loadingOwners}
+              options={ownerOptions}
+              value={selectedOwner}
+              onChange={handleOwnerSelect}
+              onInputChange={(value) => setSearchOwner(value)}
+              noOptionsMessage={() => "No se encontraron dueños"}
             />
-          </>
-        )}
+          </label>
+          {error.owner && <p style={{color: "red"}} >{error.owner}</p>}
 
-        <label>Veterinario*</label>
-        <Select
-          options={vetOptions}
-          value={selectedVet}
-          onChange={handleVetSelect}
-        />
+          <label>
+            Tipo de turno*
+            <select name="type" value={formData.type} onChange={handleChange}>
+              <option value="">Seleccione</option>
+              <option value="CONSULTATION">Consulta</option>
+              <option value="CONTROL">Control</option>
+              <option value="VACCINATION">Vacunación</option>
+              <option value="SURGERY">Cirugía</option>
+            </select>
+          </label>
+          {error.type && <p style={{color: "red"}} >{error.type}</p>}
 
-        {formData.vet && (
-          <>
-            <label>Fecha*</label>
+          {formData.type === "VACCINATION" && (
+            <>
+              <label>Vacuna*</label>
+              <Select
+                options={vaccineOptions}
+                onChange={(opt) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    vaccineName: opt.value,
+                  }))
+                }
+              />
+            </>
+          )}
+
+          <label>Veterinario*</label>
+          <Select
+            options={vetOptions}
+            value={selectedVet}
+            onChange={handleVetSelect}
+          />
+
+          {formData.vet && (
+            <>
+              <label>Fecha*</label>
+              <input
+                type="date"
+                value={formData.date}
+                onChange={(e) =>
+                  setFormData({ ...formData, date: e.target.value })
+                }
+              />
+            </>
+          )}
+          {error.vet && <p style={{color: "red"}} >{error.vet}</p>}
+
+          {formData.date && (
+            <>
+              <label>Horario*</label>
+              <Select
+                options={availabilityOptions}
+                value={selectedAvailability}
+                onChange={handleAvailabilitySelect}
+              />
+            </>
+          )}
+          {error.time && <p style={{color: "red"}} >{error.time}</p>}
+
+          <label>
+            Detalles
             <input
-              type="date"
-              value={formData.date}
-              onChange={(e) =>
-                setFormData({ ...formData, date: e.target.value })
-              }
+              name="details"
+              value={formData.details}
+              onChange={handleChange}
             />
-          </>
-        )}
-        {error.vet && <p style={{color: "red"}} >{error.vet}</p>}
+          </label>
 
-        {formData.date && (
-          <>
-            <label>Horario*</label>
-            <Select
-              options={availabilityOptions}
-              value={selectedAvailability}
-              onChange={handleAvailabilitySelect}
-            />
-          </>
-        )}
-        {error.time && <p style={{color: "red"}} >{error.time}</p>}
+          <label>
+            Precio (sujeto a cambios el día del turno)
+            <input value={formData.price} readOnly />
+          </label>
 
-        <label>Detalles</label>
-        <input
-          name="details"
-          value={formData.details}
-          onChange={handleChange}
-        />
+          <button type="submit">Agendar turno</button>
 
-        <label>Precio (sujeto a cambios el día del turno)</label>
-        <input value={formData.price} readOnly />
+          <Link to="/dashboard">
+            <button type="button">Volver</button>
+          </Link>
 
-        <button type="submit">Agendar turno</button>
-
-        <Link to="/dashboard">
-          <button type="button">Volver</button>
-        </Link>
-
-        {success && <p style={{ color: "green" }}>{success}</p>}
-      </form>
+          {success && <p style={{ color: "green" }}>{success}</p>}
+        </form>
+      </div>
     </div>
   );
 }
