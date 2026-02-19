@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Select from "react-select";
+import { Dog } from 'lucide-react';
 
 function RegisterPet() {
     const [formData, setFormData] = useState({name: "", age: "", sex: "", species: "",
@@ -72,21 +73,11 @@ function RegisterPet() {
 
             setOwnerOptions(options);
         } catch (error) {
-            console.error("Error buscando owners", error);
+            console.error("Error buscando dueños", error);
         } finally {
             setLoadingOwners(false);
         };
     };
-
-    // manejar seleccion de owners en el form
-    // const handleOwnerSelect = (selectedOption) => {
-    //     setSelectedOwner(selectedOption);
-
-    //     setFormData({
-    //         ...formData,
-    //         owner: selectedOption.value, // guardamos el _id
-    //     });
-    // };
 
     const handleOwnerSelect = (option) => {
     setSelectedOwner(option);
@@ -166,155 +157,126 @@ function RegisterPet() {
         }
     };
 
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     const data = new FormData();
-
-    //     if(validate()){
-    //         alert("Mascota creada correctamente")
-    //         console.log(formData);
-    //     };
-
-    //     data.append("name", formData.name);
-    //     data.append("age", formData.age);
-    //     data.append("sex", formData.sex);
-    //     data.append("species", formData.species);
-    //     data.append("breed", formData.breed);
-    //     data.append("color", formData.color);
-    //     data.append("isNeutered", formData.isNeutered);
-    //     data.append("owner", formData.owner);
-
-    //     if (formData.photo) {
-    //         data.append("photo", formData.photo); 
-    //     };
-
-    //     try{
-    //         await axios.post("http://localhost:3000/owner/pets/add",
-    //         data, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             },
-    //         });
-
-    //         setFormData({name: "", age: "", sex: "", species: "",
-    //             breed: "", color: "", isNeutered: false, 
-    //             photoUrl: "", owner: "" })
-    //         setSuccess("Mascota creada con éxito")
-    //     }catch(err){
-    //         console.log(err);
-    //     }
-    // };
-
     return(
-        <div>
-            <h2>Registrar mascota</h2>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="name">
-                    Nombre*
-                    <input 
-                        name="name"
-                        placeholder="Nombre"
-                        value={formData.name}
-                        onChange={handleChange}
-                    />
-                </label>
-                {error.name && <p style={{color: "red"}} >{error.name}</p>}
+        <div className="main-container">
+            <h2 className="dashboard-text"><Dog size={30} /> Registrar mascota</h2>
+            <div className="pets-form-dad">
+                <form className="pets-form-child" onSubmit={handleSubmit}>
+                    <label htmlFor="name">
+                        Nombre*
+                        <input 
+                            className="pet-input-1"
+                            name="name"
+                            placeholder="Nombre"
+                            value={formData.name}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    {error.name && <p style={{color: "red"}} >{error.name}</p>}
 
-                <label htmlFor="age">
-                    Edad*
-                    <input
-                        name="age"
-                        placeholder="Edad"
-                        value={formData.age}
-                        onChange={handleChange}
-                    />
-                </label>
-                {error.age && <p style={{color: "red"}} >{error.age}</p>}
+                    <label htmlFor="age">
+                        Edad*
+                        <input
+                            className="pet-input-2"
+                            name="age"
+                            placeholder="Edad"
+                            value={formData.age}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    {error.age && <p style={{color: "red"}} >{error.age}</p>}
 
-                <label htmlFor="sex">
-                    Sexo*
-                    <select name="sex" value={formData.sex} onChange={handleChange}>
-                        <option value="">Seleccione</option>
-                        <option value="M">M</option>
-                        <option value="F">F</option>
-                    </select>
-                </label>
-                {error.sex && <p style={{color: "red"}} >{error.sex}</p>}
+                    <label htmlFor="sex">
+                        Sexo*
+                        <select className="pet-input-3" name="sex" value={formData.sex} onChange={handleChange}>
+                            <option value="">Seleccione</option>
+                            <option value="M">M</option>
+                            <option value="F">F</option>
+                        </select>
+                    </label>
+                    {error.sex && <p style={{color: "red"}} >{error.sex}</p>}
 
-                <label htmlFor="species">
-                    Especie*
-                    <select name="species" value={formData.species} onChange={handleChange}>
-                        <option value="">Seleccione</option>
-                        <option value="DOG">Perro</option>
-                        <option value="CAT">Gato</option>
-                    </select>
-                </label>
-                {error.species && <p style={{color: "red"}} >{error.species}</p>}
+                    <label htmlFor="species">
+                        Especie*
+                        <select className="pet-input-4" name="species" value={formData.species} onChange={handleChange}>
+                            <option value="">Seleccione</option>
+                            <option value="DOG">Perro</option>
+                            <option value="CAT">Gato</option>
+                        </select>
+                    </label>
+                    {error.species && <p style={{color: "red"}} >{error.species}</p>}
 
-                <label htmlFor="breed">
-                    Raza*
-                    <input 
-                       name="breed"
-                        placeholder="Raza"
-                        value={formData.breed}
-                        onChange={handleChange}
-                    />
-                </label>
-                {error.breed && <p style={{color: "red"}} >{error.breed}</p>}
+                    <label htmlFor="breed">
+                        Raza*
+                        <input 
+                            className="pet-input-5"
+                            name="breed"
+                            placeholder="Raza"
+                            value={formData.breed}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    {error.breed && <p style={{color: "red"}} >{error.breed}</p>}
 
-                <label htmlFor="color">
-                    Color*
-                    <input 
-                       name="color"
-                        placeholder="Color"
-                        value={formData.color}
-                        onChange={handleChange}
-                    />
-                </label>
-                {error.color && <p style={{color: "red"}} >{error.color}</p>}
+                    <label htmlFor="color">
+                        Color*
+                        <input 
+                            className="pet-input-6"
+                            name="color"
+                            placeholder="Color"
+                            value={formData.color}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    {error.color && <p style={{color: "red"}} >{error.color}</p>}
 
-                <label htmlFor="isNeutered">
-                    Estado de castración
-                    <input
-                        type="checkbox" 
-                        name="isNeutered" 
-                        checked={formData.isNeutered} 
-                        onChange={handleChange} 
-                    />
-                </label>
+                    <label htmlFor="isNeutered">
+                        Estado de castración
+                        <input
+                            className="pet-input-7"
+                            type="checkbox" 
+                            name="isNeutered" 
+                            checked={formData.isNeutered} 
+                            onChange={handleChange} 
+                        />
+                    </label>
 
-                <label htmlFor="photoUrl" >
-                    Añadir foto
-                    <input 
-                        type="file" 
-                        accept="image/*" 
-                        onChange={handleFileChange} 
-                    />
-                </label>
+                    <label htmlFor="photoUrl" >
+                        Añadir foto
+                        <input 
+                            className="pet-input-8"
+                            type="file" 
+                            accept="image/*" 
+                            onChange={handleFileChange} 
+                        />
+                    </label>
 
-                <label>
-                    Dueño de la mascota*
-                    <Select
-                        placeholder="Buscar dueño por nombre o apellido..."
-                        isLoading={loadingOwners}
-                        options={ownerOptions}
-                        value={selectedOwner}
-                        onChange={handleOwnerSelect}
-                        onInputChange={(value) => setSearchOwner(value)}
-                        noOptionsMessage={() => "No se encontraron dueños"}
-                    />
-                </label>
-                {error.owner && <p style={{ color: "red" }}>{error.owner}</p>}
-
-                <button type="submit">Crear mascota</button>
-
-                <Link to="/pets"><button>
-                    Volver
-                    </button>
-                </Link>
-                {success && <p style={{color: "green"}}>{success}</p>}
-            </form>
+                    <label>
+                        Dueño de la mascota*
+                        <Select
+                            className="pet-input-9"
+                            placeholder="Buscar dueño por nombre o apellido..."
+                            isLoading={loadingOwners}
+                            options={ownerOptions}
+                            value={selectedOwner}
+                            onChange={handleOwnerSelect}
+                            onInputChange={(value) => setSearchOwner(value)}
+                            noOptionsMessage={() => "No se encontraron dueños"}
+                        />
+                    </label>
+                    {error.owner && <p style={{ color: "red" }}>{error.owner}</p>}
+                    
+                    <div className="center-stupid-div-again">
+                    <button className="pet-btn" type="submit">Crear mascota</button>
+                    <Link to="/pets">
+                        <button className="pet-btn">
+                            Volver
+                        </button>
+                    </Link>
+                    </div>
+                    {success && <p style={{color: "green"}}>{success}</p>}
+                </form>
+            </div>
         </div>
     );
 };

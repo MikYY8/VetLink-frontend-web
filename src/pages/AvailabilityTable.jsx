@@ -1,0 +1,71 @@
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const VetAvailability = () => {
+  const { vetId } = useParams();
+  const [blocks, setBlocks] = useState([]);
+  const [date, setDate] = useState("");
+  const [loading, setLoading] = useState(true);
+
+
+  const fetchAvailability = async () => {
+    const token = localStorage.getItem("token");
+    if(loading) <p>Cargando dashboard...</p>;
+
+    try {
+      const res = await axios.get(`http://localhost:3000/appointment/available`, {
+          params: { vetId, date },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+        }) ;
+      setBlocks(res.data.data);
+    } catch (err) {
+      console.error(err);
+    }finally{
+      setLoading(false);
+    };
+  };
+
+  useEffect(() => {
+    if (date) fetchAvailability();
+  }, [date]);
+
+  return (
+    <div>
+        <h2>Disponibilidad</h2>
+
+        <label htmlFor="date">
+          Seleccione una fecha
+          <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
+        </label>
+
+
+        <table style={{ width: "50%", borderCollapse: "collapse", marginTop: "20px" }}>
+            <thead>
+                <tr>
+                    <th>Hora</th>
+                    <th>Veterinario</th>
+                    <th>Especialidad</th>
+                    <th>Disponible</th>
+                    <th>Razón</th>
+                </tr>
+            </thead>
+            <tbody>
+                {blocks.map(block => (
+                    <tr key={block._id}>
+                    <td>{block.time}</td>
+                    <td>{block.vet.firstName} {block.vet.lastName}</td>
+                    <td>{block.vet.specialty}</td>
+                    <td>{block.available ? "Si" : "No"}</td>
+                    <td>{block.reason}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    </div>
+  );
+};
+
+export default VetAvailability;

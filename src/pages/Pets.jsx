@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { PawPrint } from 'lucide-react';
 
 function GetPets(){
     const [pets, setPets] = useState([]);
@@ -68,12 +68,13 @@ function GetPets(){
     };
 
     return(
-        <div>
-            <Link to="/register-pet"><button>
-              Registrar mascota
-            </button>
+        <div className="main-container">
+            <Link to="/register-pet">
+                <button className="btn">
+                    Registrar mascota
+                </button>
             </Link>
-            <h2>Listado de mascotas</h2>
+            <h2 className="dashboard-text"><PawPrint size={30} /> Listado de mascotas</h2>
             <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
                 <thead>
                     <tr>
@@ -85,7 +86,7 @@ function GetPets(){
                         <th>Color</th>
                         <th>Estado de castración</th>
                         <th>Dueño</th>
-                        <th>ACCIONES</th>
+                        <th colSpan={2}>ACCIONES</th>
                     </tr>
                 </thead>
 
@@ -100,8 +101,8 @@ function GetPets(){
                             <td>{a.color}</td>
                             <td>{a.isNeutered ? "✅ Castrado/a" : "❌ No castrado/a"}</td>
                             <td>{a.owner.firstName} {a.owner.lastName}</td>
-                            <td>{(<button onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
-                            <td>{(<button onClick={() => handleDelete(a._id)}>Eliminar</button>)}</td>
+                            <td>{(<button className="btn" onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
+                            <td>{(<button className="btn" onClick={() => handleDelete(a._id)}>Eliminar</button>)}</td>
                         </tr>
                     ))}
                 </tbody>

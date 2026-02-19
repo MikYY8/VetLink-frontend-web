@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { speciesMap, appointmentTypeMap, statusMap } from "../utils/translation.js"
+import { Link, useNavigate } from "react-router-dom";
+import { ClipboardClock } from 'lucide-react';
 
 function Dashboard() {
+  const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -100,112 +103,116 @@ function Dashboard() {
 
   return (
     <>
-      <div style={{ padding: "20px" }}>
-        <h2>Dashboard</h2>
-          {/*    TARJETAS     */}
-        <div style={{ display: "flex", gap: "20px" }}>
-          <Card title="Total turnos" value={total} />
+      <div className="main-container">
+        <div className="txt-card-container">
+          <h2 className="dashboard-text"><ClipboardClock size={30} /> Turnos</h2>
+          
+          {/* <Card title="Total turnos" value={total} />
           <Card title="Programados" value={scheduled} />
-          <Card title="Completados" value={completed} />
-          <Card title="Cancelados" value={cancelled} />
+          {/*    TARJETAS     */} 
+          {/* <Card title="Completados" value={completed} />
+          <Card title="Cancelados" value={cancelled} /> */} 
         </div>
-      </div>
 
-        {/*    FILTROS     */}
-      <div> 
-            {/*    POR VETERINARIO     */}
-          <select value={vetId} onChange={(e) => setVetId(e.target.value)}>
-          <option value="">Todos los veterinarios</option>
-          {vets.map(v => (
-            <option key={v._id} value={v._id}>
-              {v.firstName} {v.lastName}
-            </option>
-          ))};
-        </select>
+          {/*    FILTROS     */}
+        <div className="container"> 
+          <Link to="/create-appointment">
+            <button className="btn-nvb">
+              Agendar turno
+            </button>
+          </Link>
+              {/*    POR VETERINARIO     */}
+            <label className="label">Por veterinario</label>
+              <select className="vet-filter" value={vetId} onChange={(e) => setVetId(e.target.value)}>
+                <option value="">Todos los veterinarios</option>
+                {vets.map(v => (
+                  <option key={v._id} value={v._id}>
+                    {v.firstName} {v.lastName}
+                  </option>
+                ))};
+              </select>
+            
+            {/*    POR FECHA     */}
+            <label className="label">Por fecha</label>            
+              <input className="date-filter" type="date" value={date} onChange={(e) => {
+                setDate(e.target.value);
+                setFrom("");
+                setTo("");
+                }} 
+              />
+              
 
-          {/*    POR FECHA     */}
-        <input type="date" value={date} onChange={(e) => {
-          setDate(e.target.value);
-          setFrom("");
-          setTo("");
-          }} 
-        />
+            {/*    POR RANGO DE FECHAS     */}
+            <label className="label"> Por rango de fechas</label>
+              <input className="date-filter" type="date" value={from} onChange={(e) => {
+                setFrom(e.target.value);
+                setDate("");
+                }} 
+              />
 
-          {/*    POR RANGO DE FECHAS     */}
-        <input type="date" value={from} onChange={(e) => {
-          setFrom(e.target.value);
-          setDate("");
-          }} 
-        />
-        
-        <input type="date" value={to} onChange={(e) => {
-          setTo(e.target.value);
-          setDate("");
-          }} 
-        />
-          {/*    LIMPIAR FILTROS    */}
-        <button onClick={() => {
-          setVetId("");
-          setDate("");
-          setFrom("");
-          setTo("");
-        }}>Limpiar filtros</button>
-        
-      </div>
+            <label className="label"> - </label>
+              <input className="date-filter" type="date" value={to} onChange={(e) => {
+                setTo(e.target.value);
+                setDate("");
+                }} 
+              />
 
-          {/*    TABLA     */}
-      <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Mascota</th>
-            <th>Especie</th>
-            <th>Dueño</th>
-            <th>Veterinario</th>
-            <th>Tipo</th>
-            <th>Estado</th>
-            <th>ACCIONES</th>
-          </tr>
-        </thead>
+            {/*    LIMPIAR FILTROS    */}
+          <button className="btn" onClick={() => {
+            setVetId("");
+            setDate("");
+            setFrom("");
+            setTo("");
+          }}>Limpiar</button>
+          
+        </div>
 
-        <tbody>
-          {appointments.map((a) => (
-            <tr key={a._id}>
-              <td>{new Date(a.date).toLocaleDateString()}</td>
-              <td>{a.time}</td>
-              <td>{a.pet?.name}</td>
-              <td>{speciesMap[a.pet?.species] || a.pet?.species}</td>
-              <td>{a.owner?.firstName} {a.owner?.lastName}</td>
-              <td>{a.vet?.firstName} {a.vet?.lastName}</td>
-              <td>{appointmentTypeMap[a.type] || a.type}</td>
-              <td>{statusMap[a.status] || a.status}</td>
-                <td>
-                  {a.status === "SCHEDULED" && (<button onClick={() => handleCancel(a._id)}>Cancelar</button>)}
-                </td>
+            {/*    TABLA     */}
+        <table className="dashboard-table">
+          <thead className="table-header">
+            <tr>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Mascota</th>
+              <th>Especie</th>
+              <th>Dueño</th>
+              <th>Veterinario</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+              <th>ACCIONES</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody className="table-body">
+            {appointments.map((a) => (
+              <tr key={a._id}>
+                <td>{new Date(a.date).toLocaleDateString("es-AR", { timeZone: "UTC" })}</td>
+                <td>{a.time}</td>
+                <td>{a.pet?.name}</td>
+                <td>{speciesMap[a.pet?.species] || a.pet?.species}</td>
+                <td>{a.owner?.firstName} {a.owner?.lastName}</td>
+                <td>{a.vet?.firstName} {a.vet?.lastName}</td>
+                <td>{appointmentTypeMap[a.type] || a.type}</td>
+                <td>{statusMap[a.status] || a.status}</td>
+                  <td>
+                    {a.status === "SCHEDULED" && (<button className="btn" onClick={() => handleCancel(a._id)}>Cancelar</button>)}
+                  </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }
 
 function Card({ title, value }) {
   return (
-    <div style={cardStyle}>
+    <div className="card-style">
       <h3>{title}</h3>
       <p>{value}</p>
     </div>
   );
 }
-
-const cardStyle = {
-  border: "1px solid #ccc",
-  padding: "5px",
-  borderRadius: "8px",
-  minWidth: "120px",
-  textAlign: "center"
-};
 
 export default Dashboard;
