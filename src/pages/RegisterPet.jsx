@@ -165,7 +165,7 @@ function RegisterPet() {
                     <label htmlFor="name">
                         Nombre*
                         <input 
-                            className="pet-input-1"
+                            id="pet-input-1"
                             name="name"
                             placeholder="Nombre"
                             value={formData.name}
@@ -177,7 +177,7 @@ function RegisterPet() {
                     <label htmlFor="age">
                         Edad*
                         <input
-                            className="pet-input-2"
+                            id="pet-input-2"
                             name="age"
                             placeholder="Edad"
                             value={formData.age}
@@ -188,7 +188,7 @@ function RegisterPet() {
 
                     <label htmlFor="sex">
                         Sexo*
-                        <select className="pet-input-3" name="sex" value={formData.sex} onChange={handleChange}>
+                        <select id="pet-input-3" name="sex" value={formData.sex} onChange={handleChange}>
                             <option value="">Seleccione</option>
                             <option value="M">M</option>
                             <option value="F">F</option>
@@ -198,7 +198,7 @@ function RegisterPet() {
 
                     <label htmlFor="species">
                         Especie*
-                        <select className="pet-input-4" name="species" value={formData.species} onChange={handleChange}>
+                        <select id="pet-input-4" name="species" value={formData.species} onChange={handleChange}>
                             <option value="">Seleccione</option>
                             <option value="DOG">Perro</option>
                             <option value="CAT">Gato</option>
@@ -209,7 +209,7 @@ function RegisterPet() {
                     <label htmlFor="breed">
                         Raza*
                         <input 
-                            className="pet-input-5"
+                            id="pet-input-5"
                             name="breed"
                             placeholder="Raza"
                             value={formData.breed}
@@ -221,7 +221,7 @@ function RegisterPet() {
                     <label htmlFor="color">
                         Color*
                         <input 
-                            className="pet-input-6"
+                            id="pet-input-6"
                             name="color"
                             placeholder="Color"
                             value={formData.color}
@@ -233,7 +233,7 @@ function RegisterPet() {
                     <label htmlFor="isNeutered">
                         Estado de castración
                         <input
-                            className="pet-input-7"
+                            id="pet-input-7"
                             type="checkbox" 
                             name="isNeutered" 
                             checked={formData.isNeutered} 
@@ -244,7 +244,7 @@ function RegisterPet() {
                     <label htmlFor="photoUrl" >
                         Añadir foto
                         <input 
-                            className="pet-input-8"
+                            id="pet-input-8"
                             type="file" 
                             accept="image/*" 
                             onChange={handleFileChange} 
@@ -254,7 +254,7 @@ function RegisterPet() {
                     <label>
                         Dueño de la mascota*
                         <Select
-                            className="pet-input-9"
+                            id="pet-input-9"
                             placeholder="Buscar dueño por nombre o apellido..."
                             isLoading={loadingOwners}
                             options={ownerOptions}

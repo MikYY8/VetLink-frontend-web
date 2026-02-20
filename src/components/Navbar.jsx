@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { CircleUserRound } from "lucide-react"
 import '../styles/main.css'
+import logo from "../assets/logo-vetlink.png";
+
 
 function Navbar() {
 
@@ -17,42 +19,51 @@ function Navbar() {
 
   return (
     <nav className="navbar">
+      <img className="logo-vetlink" src={logo} alt="logo" />
       
-      <Link to="/dashboard">
-        <button className="btn-nvb">
-          Turnos
-        </button>
-      </Link>
+      <div className="navbar-right">
+        <Link to="/dashboard">
+          <button className="btn-nvb">
+            Turnos
+          </button>
+        </Link>
 
-      <Link to="/users">
-        <button className="btn-nvb">
-          Usuarios
-        </button>
-      </Link>
+        <Link to="/create-appointment">
+          <button className="btn-nvb">
+            Agendar turno
+          </button>
+        </Link>
 
-      <Link to="/vets">
-        <button className="btn-nvb">
-          Veterinarios
-        </button>
-      </Link>
+        <Link to="/users">
+          <button className="btn-nvb">
+            Usuarios
+          </button>
+        </Link>
 
-      <Link to="/pets">
-        <button className="btn-nvb">
-          Mascotas
-        </button>
-      </Link>
+        <Link to="/vets">
+          <button className="btn-nvb">
+            Veterinarios
+          </button>
+        </Link>
 
-      <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-        <CircleUserRound />
-        {email} ({role})
-      </span>
+        <Link to="/pets">
+          <button className="btn-nvb">
+            Mascotas
+          </button>
+        </Link>
 
-      <button 
-        className="btn-nvb"
-        onClick={handleLogout}
-        style={{ marginLeft: "20px" }}      
-      >Salir</button>
+        <span className="user-info">
+          <CircleUserRound />
+          {email} ({role})
+        </span>
 
+        <button 
+          className="btn-nvb"
+          onClick={handleLogout}
+          style={{ marginLeft: "20px" }}      
+        >Salir</button>
+
+      </div>
     </nav>
   );
 };

@@ -116,11 +116,6 @@ function Dashboard() {
 
           {/*    FILTROS     */}
         <div className="container"> 
-          <Link to="/create-appointment">
-            <button className="btn-nvb">
-              Agendar turno
-            </button>
-          </Link>
               {/*    POR VETERINARIO     */}
             <label className="label">Por veterinario</label>
               <select className="vet-filter" value={vetId} onChange={(e) => setVetId(e.target.value)}>

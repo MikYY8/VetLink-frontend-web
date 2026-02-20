@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+import { PawPrint } from 'lucide-react';
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -32,7 +32,7 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-container-child">
-        <h2 className="login-text">Login</h2>
+        <h2 className="login-text"><PawPrint size={30} /> Login</h2>
         <hr className="white-bar" />
 
         <form onSubmit={handleSubmit}>
