@@ -51,73 +51,81 @@ function RegisterUser() {
   };
 
   return (
-    <div>
-      <h2>Registrar usuario</h2>
-
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="firstName" >
-          Nombre
-          <input
-            name="firstName"
-            placeholder="Nombre"
-            value={formData.firstName}
-            onChange={handleChange}
-          />
-        </label>
-        {error.firstName && <p style={{color: "red"}} >{error.firstName}</p>}
-
-        <label htmlFor="lastName" >
-          Apellido
-          <input
-            name="lastName"
-            placeholder="Apellido"
-            value={formData.lastName}
-            onChange={handleChange}
-          />
-        </label>
-        
-        {error.lastName && <p style={{color: "red"}} >{error.lastName}</p>}
-
-        <label htmlFor="email" >
-          Email
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </label>
-
-        {error.email && <p style={{color: "red"}} >{error.email}</p>}
-
-        <label htmlFor="password" >
-          Contraseña 
-          <input
-              name="password"
-              type="password"
-              placeholder="Contraseña"
-              value={formData.password}
+    <div className="main-container">
+      <h2 className="cool-h2-text">Registrar usuario</h2>
+        <div className="users-form-dad">
+        <form className="users-form-child" onSubmit={handleSubmit}>
+          <label htmlFor="firstName" >
+            Nombre
+            <input
+              id="user-input-1"
+              name="firstName"
+              placeholder="Nombre"
+              value={formData.firstName}
               onChange={handleChange}
             />
-        </label>
-        
-        {error.password && <p style={{color: "red"}} >{error.password}</p>}
+          </label>
+          {error.firstName && <p style={{color: "red"}} >{error.firstName}</p>}
 
-        <select name="role" value={formData.role} onChange={handleChange}>
-          <option value="OWNER">Dueño</option>
-          <option value="SECRETARY">Secretaría</option>
-          <option value="ADMIN">Administrador</option>
-        </select>
+          <label htmlFor="lastName" >
+            Apellido
+            <input
+              id="user-input-2"
+              name="lastName"
+              placeholder="Apellido"
+              value={formData.lastName}
+              onChange={handleChange}
+            />
+          </label>
+          
+          {error.lastName && <p style={{color: "red"}} >{error.lastName}</p>}
 
-        <button type="submit">Crear usuario</button>
+          <label htmlFor="email" >
+            Email
+            <input
+              id="user-input-3"
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </label>
 
-        <Link to="/users"><button>
-          Volver
-          </button>
-        </Link>
-      </form>
+          {error.email && <p style={{color: "red"}} >{error.email}</p>}
 
+          <label htmlFor="password" >
+            Contraseña 
+            <input
+                id="user-input-4"
+                name="password"
+                type="password"
+                placeholder="Contraseña"
+                value={formData.password}
+                onChange={handleChange}
+              />
+          </label>
+          
+          {error.password && <p style={{color: "red"}} >{error.password}</p>}
+
+          <label>Rol
+            <select id="user-input-5" name="role" value={formData.role} onChange={handleChange}>
+              <option value="OWNER">Dueño</option>
+              <option value="SECRETARY">Secretaría</option>
+              <option value="ADMIN">Administrador</option>
+            </select>
+          </label>
+
+          <div className="center-stupid-div-again">
+            <button className="user-btn" type="submit">Crear usuario</button>
+            <Link to="/users"> 
+              <button className="user-btn">
+                Volver
+              </button>
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

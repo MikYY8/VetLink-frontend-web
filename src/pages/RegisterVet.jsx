@@ -97,138 +97,151 @@ function RegisterVet() {
     };
 
     return(
-        <div>
-            <h2>Registrar veterinario</h2>
+        <div className="main-container">
+            <h2 className="cool-h2-text">Registrar veterinario</h2>
+            <div className="vets-form-dad">
+                <form className="vets-form-child" onSubmit={handleSubmit}>
+                    <label htmlFor="firstName" >
+                        Nombre *
+                        <input 
+                            id="vet-input-1"
+                            name="firstName" 
+                            placeholder="Nombre" 
+                            value={formData.firstName} 
+                            onChange={handleChange} 
+                        />  
+                    </label>
+                    {error.firstName && <p style={{color: "red"}} >{error.firstName}</p>}
 
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="firstName" >
-                    Nombre *
-                    <input 
-                        name="firstName" 
-                        placeholder="Nombre" 
-                        value={formData.firstName} 
-                        onChange={handleChange} 
-                    />  
-                </label>
-                {error.firstName && <p style={{color: "red"}} >{error.firstName}</p>}
+                    <label htmlFor="lastName" >
+                        Apellido *
+                        <input 
+                            id="vet-input-1"
+                            name="lastName" 
+                            placeholder="Apellido" 
+                            value={formData.lastName} 
+                            onChange={handleChange} 
+                        />
+                    </label>
+                    {error.lastName && <p style={{color: "red"}} >{error.lastName}</p>}
 
-                <label htmlFor="lastName" >
-                    Apellido *
-                    <input 
-                        name="lastName" 
-                        placeholder="Apellido" 
-                        value={formData.lastName} 
-                        onChange={handleChange} 
-                    />
-                </label>
-                {error.lastName && <p style={{color: "red"}} >{error.lastName}</p>}
+                    <label htmlFor="email" >
+                        Email *
+                        <input 
+                            id="vet-input-1"
+                            name="email" 
+                            placeholder="Email" 
+                            value={formData.email} 
+                            onChange={handleChange} 
+                        />
+                    </label>
+                    {error.email && <p style={{color: "red"}} >{error.email}</p>}
 
-                <label htmlFor="email" >
-                    Email *
-                    <input 
-                        name="email" 
-                        placeholder="Email" 
-                        value={formData.email} 
-                        onChange={handleChange} 
-                    />
-                </label>
-                {error.email && <p style={{color: "red"}} >{error.email}</p>}
+                    <label htmlFor="password" >
+                        Contraseña *
+                        <input 
+                            id="vet-input-1"
+                            name="password" 
+                            placeholder="Contraseña" 
+                            value={formData.password} 
+                            onChange={handleChange} 
+                        />
+                    </label>
+                    {error.password && <p style={{color: "red"}} >{error.password}</p>}
 
-                <label htmlFor="password" >
-                    Contraseña *
-                    <input 
-                        name="password" 
-                        placeholder="Contraseña" 
-                        value={formData.password} 
-                        onChange={handleChange} 
-                    />
-                </label>
-                {error.password && <p style={{color: "red"}} >{error.password}</p>}
+                    <label htmlFor="licenseNumber" >
+                        Número de licencia *
+                        <input 
+                            id="vet-input-1"
+                            name="licenseNumber" 
+                            placeholder="Número de licencia" 
+                            value={formData.licenseNumber} 
+                            onChange={handleChange} 
+                        />
+                    </label>
+                    {error.licenseNumber && <p style={{color: "red"}} >{error.licenseNumber}</p>}
 
-                <label htmlFor="licenseNumber" >
-                    Número de licencia *
-                <input 
-                    name="licenseNumber" 
-                    placeholder="Número de licencia" 
-                    value={formData.licenseNumber} 
-                    onChange={handleChange} 
-                />
-                </label>
-                {error.licenseNumber && <p style={{color: "red"}} >{error.licenseNumber}</p>}
+                    <label htmlFor="specialty" >
+                        Especialidad
+                        <select id="vet-input-3" name="specialty" value={formData.specialty} onChange={handleChange} >
+                            <option value="">Seleccione especialidad</option>
+                            <option value="GENERAL">General</option>
+                            <option value="SURGERY">Cirugía</option>
+                            <option value="DERMATOLOGY">Dermatología</option>
+                            <option value="CARDIOLOGY">Cardiología</option>
+                            <option value="TRAUMATOLOGY">Traumatología</option>
+                        </select>
+                    </label>
+                    {error.specialty && <p style={{color: "red"}} >{error.specialty}</p>} 
 
-                <label htmlFor="specialty" >
-                    Especialidad
-                    <select name="specialty" value={formData.specialty} onChange={handleChange} >
-                        <option value="">Seleccione especialidad</option>
-                        <option value="GENERAL">General</option>
-                        <option value="SURGERY">Cirugía</option>
-                        <option value="DERMATOLOGY">Dermatología</option>
-                        <option value="CARDIOLOGY">Cardiología</option>
-                        <option value="TRAUMATOLOGY">Traumatología</option>
-                    </select>
-                </label>
-                {error.specialty && <p style={{color: "red"}} >{error.specialty}</p>} 
+                    <label htmlFor="acceptsConsultations">
+                    Acepta consultas:
+                        <input 
+                            type="checkbox" 
+                            id="consultations" 
+                            name="acceptsConsultations" 
+                            checked={formData.acceptsConsultations} 
+                            onChange={handleChange} 
+                        />
+                    </label>
+                    {/* {error.acceptsConsultations && <p style={{color: "red"}} >{error.acceptsConsultations}</p>} */}
 
-                <label htmlFor="acceptsConsultations">
-                Acepta consultas:
-                    <input 
-                        type="checkbox" 
-                        id="consultations" 
-                        name="acceptsConsultations" 
-                        checked={formData.acceptsConsultations} 
-                        onChange={handleChange} 
-                    />
-                </label>
-                {/* {error.acceptsConsultations && <p style={{color: "red"}} >{error.acceptsConsultations}</p>} */}
+                    <label htmlFor="phone" >
+                        Número de celular
+                        <input
+                            id="phone" 
+                            name="phone" 
+                            placeholder="Número de celular" 
+                            value={formData.phone} 
+                            onChange={handleChange} 
+                            disabled={!formData.acceptsConsultations} 
+                        />
+                    </label>
+                    {/* {error.phone && <p style={{color: "red"}} >{error.phone}</p>} */}
 
-                <label htmlFor="phone" >
-                    Número de celular
-                    <input
-                        id="phone" 
-                        name="phone" 
-                        placeholder="Número de celular" 
-                        value={formData.phone} 
-                        onChange={handleChange} 
-                        disabled={!formData.acceptsConsultations} 
-                    />
-                </label>
-                {/* {error.phone && <p style={{color: "red"}} >{error.phone}</p>} */}
+                    <label htmlFor="photoUrl" >
+                        Añadir imagen de perfil
+                        <input 
+                            id="vet-input-8"
+                            type="file" 
+                            accept="image/*" 
+                            onChange={handleFileChange} 
+                        />
+                    </label>
+                    {/* {error.photoUrl && <p style={{color: "red"}} >{error.photoUrl}</p>} */}
+                    
+                    <label htmlFor="workSchedule" >
+                        Horario de trabajo *
+                        <br />
+                        <input 
+                            id="vet-work-schedule-1"
+                            name="start" 
+                            placeholder="formato: '09:00'" 
+                            value={formData.workSchedule.start} 
+                            onChange={handleScheduleChange} 
+                        />
+                        -
+                        <input 
+                            id="vet-work-schedule-2"
+                            name="end" 
+                            placeholder="formato: '17:00'" 
+                            value={formData.workSchedule.end} 
+                            onChange={handleScheduleChange} 
+                        />
+                    </label>
+                    {error.workSchedule && <p style={{color: "red"}} >{error.workSchedule}</p>}
 
-                <label htmlFor="photoUrl" >
-                    Añadir imagen de perfil
-                    <input 
-                        type="file" 
-                        accept="image/*" 
-                        onChange={handleFileChange} 
-                    />
-                </label>
-                {/* {error.photoUrl && <p style={{color: "red"}} >{error.photoUrl}</p>} */}
-                 
-                <label htmlFor="workSchedule" >
-                    Horario de trabajo *
-                    <input 
-                        name="start" 
-                        placeholder="formato: '09:00'" 
-                        value={formData.workSchedule.start} 
-                        onChange={handleScheduleChange} 
-                    />
-                    <input 
-                        name="end" 
-                        placeholder="formato: '17:00'" 
-                        value={formData.workSchedule.end} 
-                        onChange={handleScheduleChange} 
-                    />
-                </label>
-                {error.workSchedule && <p style={{color: "red"}} >{error.workSchedule}</p>}
-
-                <button type="submit">Crear veterinario</button>
-
-                <Link to="/vets"><button>
-                Volver
-                </button>
-                </Link>
-                {success && <p style={{color: "green"}}>{success}</p>}
-            </form>
+                    <div className="center-stupid-div-again">
+                        <button className="vet-btn" type="submit">Crear veterinario</button>
+                        <Link to="/vets">
+                            <button className="vet-btn">
+                                Volver
+                            </button>
+                        </Link>
+                    </div>
+                    {success && <p style={{color: "green"}}>{success}</p>}
+                </form>
+            </div>
         </div>
     );
 };

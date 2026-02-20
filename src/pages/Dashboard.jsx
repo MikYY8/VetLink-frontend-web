@@ -20,11 +20,18 @@ function Dashboard() {
     const token = localStorage.getItem("token");
     if(loading) <p>Cargando dashboard...</p>;
 
+    const toUTCDate = (localDate) => {
+      const d = new Date(localDate);
+      return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
+        .toISOString()
+        .split("T")[0];
+    };
+
     const params = new URLSearchParams();
     if (vetId) params.append("vetId", vetId);
-    if (date) params.append("date", date);
-    if (from) params.append("from", from);
-    if (to) params.append("to", to);
+    if (date) params.append("date", toUTCDate(date));
+    if (from) params.append("from", toUTCDate(from));
+    if (to) params.append("to", toUTCDate(to));
       
     try{
       const res = await fetch(`http://localhost:3000/appointment/dashboard?${params.toString()}`, {
@@ -55,10 +62,10 @@ function Dashboard() {
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   // Filtros
-  const total = appointments.length;
-  const completed = appointments.filter(a => a.status === "COMPLETED").length;
-  const cancelled = appointments.filter(a => a.status === "CANCELLED").length;
-  const scheduled = appointments.filter(a => a.status === "SCHEDULED").length;
+  // const total = appointments.length;
+  // const completed = appointments.filter(a => a.status === "COMPLETED").length;
+  // const cancelled = appointments.filter(a => a.status === "CANCELLED").length;
+  // const scheduled = appointments.filter(a => a.status === "SCHEDULED").length;
   
   // Cancelar turno
   const handleCancel = async (appointmentId) => {
@@ -79,6 +86,7 @@ function Dashboard() {
     }catch(error){
       console.error(error);
     };
+  };
 
   // Traer todos los vets, para el filtro
   const fetchVets = async () => {
@@ -93,19 +101,23 @@ function Dashboard() {
       });
 
       const result = await res.json();
+      console.log(result)
       setVets(result.data);
     }catch(error){
       console.error(error);
     };
   };
-  fetchVets();
-};
+
+  useEffect(() => {
+    fetchVets();
+  }, []);
+
 
   return (
     <>
       <div className="main-container">
         <div className="txt-card-container">
-          <h2 className="dashboard-text"><ClipboardClock size={30} /> Turnos</h2>
+          <h2 className="cool-h2-text"><ClipboardClock size={30} /> Turnos</h2>
           
           {/* <Card title="Total turnos" value={total} />
           <Card title="Programados" value={scheduled} />
@@ -116,46 +128,44 @@ function Dashboard() {
 
           {/*    FILTROS     */}
         <div className="container"> 
-          <Link to="/create-appointment">
-            <button className="btn-nvb">
-              Agendar turno
-            </button>
-          </Link>
               {/*    POR VETERINARIO     */}
-            <label className="label">Por veterinario</label>
+            <label className="dashboard-label">Por veterinario</label>
               <select className="vet-filter" value={vetId} onChange={(e) => setVetId(e.target.value)}>
                 <option value="">Todos los veterinarios</option>
                 {vets.map(v => (
                   <option key={v._id} value={v._id}>
                     {v.firstName} {v.lastName}
                   </option>
-                ))};
+                ))}
               </select>
             
             {/*    POR FECHA     */}
-            <label className="label">Por fecha</label>            
+            <label className="dashboard-label">Por fecha           
               <input className="date-filter" type="date" value={date} onChange={(e) => {
                 setDate(e.target.value);
                 setFrom("");
                 setTo("");
                 }} 
               />
+            </label> 
               
 
             {/*    POR RANGO DE FECHAS     */}
-            <label className="label"> Por rango de fechas</label>
+            <label className="dashboard-label"> Por rango de fechas
               <input className="date-filter" type="date" value={from} onChange={(e) => {
                 setFrom(e.target.value);
                 setDate("");
                 }} 
               />
-
-            <label className="label"> - </label>
+            </label>
+            - 
+            <label className="dashboard-label"> 
               <input className="date-filter" type="date" value={to} onChange={(e) => {
                 setTo(e.target.value);
                 setDate("");
                 }} 
               />
+            </label>
 
             {/*    LIMPIAR FILTROS    */}
           <button className="btn" onClick={() => {

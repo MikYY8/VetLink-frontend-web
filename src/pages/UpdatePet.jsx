@@ -1,5 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Dog } from "lucide-react";
 import axios from "axios";
 import Select from "react-select";
 
@@ -135,100 +136,116 @@ function UpdatePet() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-        <h2>Editar mascota</h2>
-            <label htmlFor="name">
-                Nombre
-                <input name="name" value={formData.name} onChange={handleChange} />
-            </label>
+    <div className="main-container">
+        <h2 className="cool-h2-text"><Dog size={30} /> Editar mascota</h2>
+        <div className="pets-form-dad">
+            <form className="pets-form-child" onSubmit={handleSubmit}>
+                <label htmlFor="name">
+                    Nombre
+                    <input name="name" 
+                        id="pet-input-1"
+                        value={formData.name} 
+                        onChange={handleChange} 
+                    />
+                </label>
 
-            <label htmlFor="age">
-                Edad
+                <label htmlFor="age">
+                    Edad
                     <input
+                        id="pet-input-2"
                         name="age"
                         placeholder="Edad"
                         value={formData.age}
                         onChange={handleChange}
                     />
-            </label>
+                </label>
 
-            <label htmlFor="sex">
-                Sexo
-                <select name="sex" value={formData.sex} onChange={handleChange}>
-                    <option value="">Seleccione</option>
-                    <option value="M">M</option>
-                    <option value="F">F</option>
-                </select>
-            </label>
+                <label htmlFor="sex">
+                    Sexo
+                    <select id="pet-input-3" name="sex" value={formData.sex} onChange={handleChange}>
+                        <option value="">Seleccione</option>
+                        <option value="M">M</option>
+                        <option value="F">F</option>
+                    </select>
+                </label>
 
-            <label htmlFor="species">
-                Especie
-                <select name="species" value={formData.species} onChange={handleChange}>
-                    <option value="">Seleccione</option>
-                    <option value="DOG">Perro</option>
-                    <option value="CAT">Gato</option>
-                </select>
-            </label>
+                <label htmlFor="species">
+                    Especie
+                    <select id="pet-input-4" name="species" value={formData.species} onChange={handleChange}>
+                        <option value="">Seleccione</option>
+                        <option value="DOG">Perro</option>
+                        <option value="CAT">Gato</option>
+                    </select>
+                </label>
 
-            <label htmlFor="breed">
-                Raza
-                <input 
-                    name="breed"
-                    placeholder="Raza"
-                    value={formData.breed}
-                    onChange={handleChange}
-                />
-            </label>
+                <label htmlFor="breed">
+                    Raza
+                    <input 
+                        id="pet-input-5"
+                        name="breed"
+                        placeholder="Raza"
+                        value={formData.breed}
+                        onChange={handleChange}
+                    />
+                </label>
 
-            <label htmlFor="color">
-                Color
-                <input 
-                    name="color"
-                    placeholder="Color"
-                    value={formData.color}
-                    onChange={handleChange}
-                />
-            </label>
+                <label htmlFor="color">
+                    Color
+                    <input 
+                        id="pet-input-6"
+                        name="color"
+                        placeholder="Color"
+                        value={formData.color}
+                        onChange={handleChange}
+                    />
+                </label>
 
-            <label htmlFor="isNeutered">
-                Estado de castración
-                <input
-                    type="checkbox" 
-                    name="isNeutered" 
-                    checked={formData.isNeutered} 
-                    onChange={handleChange} 
-                />
-            </label>
+                <label htmlFor="isNeutered">
+                    Estado de castración
+                    <input
+                        id="pet-input-7"
+                        type="checkbox" 
+                        name="isNeutered" 
+                        checked={formData.isNeutered} 
+                        onChange={handleChange} 
+                    />
+                </label>
 
-            <label htmlFor="photoUrl" >
-                Añadir foto
-                <input 
-                    type="file" 
-                    accept="image/*" 
-                    onChange={handleFileChange} 
-                />
-            </label>
+                <label htmlFor="photoUrl" >
+                    Añadir foto
+                    <input 
+                        id="pet-input-8"
+                        type="file" 
+                        accept="image/*" 
+                        onChange={handleFileChange} 
+                    />
+                </label>
 
-            <label>
-                Dueño de la mascota
-                <Select
-                    placeholder="Buscar dueño por nombre o apellido..."
-                    isLoading={loadingOwners}
-                    options={ownerOptions}
-                    value={selectedOwner}
-                    onChange={handleOwnerSelect}
-                    onInputChange={(value) => setSearchOwner(value)}
-                    noOptionsMessage={() => "No se encontraron dueños"}
-                />
-            </label>
+                <label>
+                    Dueño de la mascota
+                    <Select
+                        id="pet-input-9"
+                        placeholder="Buscar dueño por nombre o apellido..."
+                        isLoading={loadingOwners}
+                        options={ownerOptions}
+                        value={selectedOwner}
+                        onChange={handleOwnerSelect}
+                        onInputChange={(value) => setSearchOwner(value)}
+                        noOptionsMessage={() => "No se encontraron dueños"}
+                    />
+                </label>
 
-        <button type="submit">Guardar cambios</button>
-
-        <Link to="/pets"><button>
-          Volver
-          </button>
-        </Link>
-    </form>
+                <div className="center-stupid-div-again">
+                    <button className="pet-btn" type="submit">Guardar cambios</button>
+                    <Link to="/pets">
+                        <button className="pet-btn" >
+                            Volver
+                        </button>
+                    </Link>
+                </div>
+            </form> 
+        </div>
+    </div>
   );
 }
 

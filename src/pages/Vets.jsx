@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import {Link, useNavigate } from "react-router-dom";
 import { Stethoscope } from 'lucide-react';
+import { specialtyMap } from "../utils/translation"
 
 function GetVets(){
     const [vets, setVets] = useState([]);
@@ -75,7 +76,7 @@ function GetVets(){
                     Registrar Veterinario
                 </button>
             </Link>
-            <h2 className="dashboard-text"><Stethoscope size={30} /> Listado de veterinarios</h2>
+            <h2 className="cool-h2-text"><Stethoscope size={30} /> Listado de veterinarios</h2>
             <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
                 <thead>
                     <tr>
@@ -96,7 +97,7 @@ function GetVets(){
                             <td style={{ cursor:"pointer", color:"var(--text)", textDecoration:"underline" }} onClick={() => navigate(`/vets/${a._id}/availability`)} >{a.firstName} {a.lastName}</td>
                             <td>{a.email}</td>
                             <td>{a.licenseNumber}</td>
-                            <td>{a.specialty}</td>
+                            <td>{specialtyMap[a.specialty] || a.specialty}</td>
                             <td>{a.acceptsConsultations ? "✅ Sí" : "❌ No"}</td>
                             <td>{a.phone}</td>
                             <td>{a.workSchedule.start} - {a.workSchedule.end}</td>

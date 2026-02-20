@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import {Link, useNavigate } from "react-router-dom";
 import { PawPrint } from 'lucide-react';
+import { speciesMap } from "../utils/translation"
 
 function GetPets(){
     const [pets, setPets] = useState([]);
@@ -74,7 +75,7 @@ function GetPets(){
                     Registrar mascota
                 </button>
             </Link>
-            <h2 className="dashboard-text"><PawPrint size={30} /> Listado de mascotas</h2>
+            <h2 className="cool-h2-text"><PawPrint size={30} /> Listado de mascotas</h2>
             <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
                 <thead>
                     <tr>
@@ -96,7 +97,7 @@ function GetPets(){
                             <td>{a.name}</td>
                             <td>{a.age}</td>
                             <td>{a.sex}</td>
-                            <td>{a.species}</td>
+                            <td>{speciesMap[a.species] || a.species}</td>
                             <td>{a.breed}</td>
                             <td>{a.color}</td>
                             <td>{a.isNeutered ? "✅ Castrado/a" : "❌ No castrado/a"}</td>

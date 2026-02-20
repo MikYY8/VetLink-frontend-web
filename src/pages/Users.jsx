@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import {Link, useNavigate } from "react-router-dom";
 import { Users } from 'lucide-react';
+import { rolesMap } from "../utils/translation";
 
 function GetUsers(){
     const [users, setUsers] = useState([]);
@@ -74,7 +75,7 @@ function GetUsers(){
                     Registrar usuario
                 </button>
             </Link>
-            <h2 className="dashboard-text"><Users size={30} /> Listado de usuarios</h2>
+            <h2 className="cool-h2-text"><Users size={30} /> Listado de usuarios</h2>
             <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
                 <thead>
                     <tr>
@@ -92,7 +93,7 @@ function GetUsers(){
                             <td>{a.firstName}</td>
                             <td>{a.lastName}</td>
                             <td>{a.email}</td>
-                            <td>{a.role}</td>
+                            <td>{rolesMap[a.role] || a.role}</td>
                             <td>{a.role === "OWNER" && (<button className="btn" onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
                             <td>{a.role === "OWNER" && (<button className="btn"  onClick={() => handleDelete(a._id)}>Eliminar</button>)}</td>
                         </tr>
