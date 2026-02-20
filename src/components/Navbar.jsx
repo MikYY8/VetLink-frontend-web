@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { CircleUserRound } from "lucide-react"
+import { rolesMap } from "../utils/translation";
 import '../styles/main.css'
 import logo from "../assets/logo-vetlink.png";
 
@@ -54,7 +55,8 @@ function Navbar() {
 
         <span className="user-info">
           <CircleUserRound />
-          {email} ({role})
+          {email} ({rolesMap[role]})
+          {/* {email} ({role}) */}
         </span>
 
         <button 

@@ -96,100 +96,134 @@ function UpdateVet() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Editar veterinario</h2>
-      <label htmlFor="firstName">
-        Nombre
-        <input name="firstName" value={formData.firstName} onChange={handleChange} />
-      </label>
-
-      <label htmlFor="lastName">
-        Apellido
-        <input name="lastName" value={formData.lastName} onChange={handleChange} />
-      </label>
-      
-      <label htmlFor="email">
-        Email
-        <input name="email" value={formData.email} onChange={handleChange} />
-      </label>
-
-      <label htmlFor="password">
-        Contraseña
-        <input name="password" value={formData.password} onChange={handleChange} />
-      </label>
-
-      <label htmlFor="licenseNumber">
-        Número de licencia
-        <input name="licenseNumber" value={formData.licenseNumber} onChange={handleChange} />
-      </label>
-
-    <label htmlFor="specialty" >
-        Especialidad
-            <select name="specialty" value={formData.specialty} onChange={handleChange} >
-                <option value="">Seleccione especialidad</option>
-                <option value="GENERAL">General</option>
-                <option value="SURGERY">Cirugía</option>
-                <option value="DERMATOLOGY">Dermatología</option>
-                <option value="CARDIOLOGY">Cardiología</option>
-                <option value="TRAUMATOLOGY">Traumatología</option>
-            </select>
-        </label>
-
-        <label htmlFor="acceptsConsultations">
-            Acepta consultas:
+    <div className="main-container">
+        <h2 className="cool-h2-text">Editar veterinario</h2>
+        <div className="vets-form-dad">
+            <form className="vets-form-child" onSubmit={handleSubmit}>
+            
+            <label htmlFor="firstName">
+                Nombre
                 <input 
-                    type="checkbox" 
-                    id="consultations" 
-                    name="acceptsConsultations" 
-                    checked={formData.acceptsConsultations} 
+                    id="vet-input-1"
+                    name="firstName" 
+                    value={formData.firstName} 
                     onChange={handleChange} 
-                />
-        </label>
-
-        <label htmlFor="phone" >
-            Número de celular
-                <input
-                    id="phone" 
-                    name="phone" 
-                    placeholder="Número de celular" 
-                    value={formData.phone} 
-                    onChange={handleChange} 
-                    disabled={!formData.acceptsConsultations} 
-                />
-        </label>
-
-        <label htmlFor="photoUrl" >
-            Cambiar imagen de perfil
-                <input 
-                    type="file" 
-                    accept="image/*" 
-                    onChange={handleFileChange} 
-                />
-        </label>
-
-        <label htmlFor="workSchedule" >
-            Horario de trabajo *
-                <input 
-                    name="start" 
-                    placeholder="formato: '09:00'" 
-                    value={formData.workSchedule?.start || ""}
-                    onChange={handleScheduleChange} 
-                />
-                <input 
-                    name="end" 
-                    placeholder="formato: '17:00'" 
-                    value={formData.workSchedule?.end || ""}
-                    onChange={handleScheduleChange} 
                 />
             </label>
-      
-        <button type="submit">Guardar cambios</button>
 
-        <Link to="/vets"><button>
-            Volver
-            </button>
-        </Link>
-    </form>
+            <label htmlFor="lastName">
+                Apellido
+                <input 
+                    id="vet-input-1"
+                    name="lastName" 
+                    value={formData.lastName} 
+                    onChange={handleChange} 
+                />
+            </label>
+            
+            <label htmlFor="email">
+                Email
+                <input 
+                    id="vet-input-1"
+                    name="email" 
+                    value={formData.email} 
+                    onChange={handleChange} 
+                />
+            </label>
+
+            <label htmlFor="password">
+                Contraseña
+                <input 
+                    id="vet-input-1"
+                    name="password" 
+                    value={formData.password} 
+                    onChange={handleChange} 
+                />
+            </label>
+
+            <label htmlFor="licenseNumber">
+                Número de licencia
+                <input 
+                    id="vet-input-1"
+                    name="licenseNumber" 
+                    value={formData.licenseNumber} 
+                    onChange={handleChange} 
+                />
+            </label>
+
+            <label htmlFor="specialty" >
+                Especialidad
+                    <select id="vet-input-3" name="specialty" value={formData.specialty} onChange={handleChange} >
+                        <option value="">Seleccione especialidad</option>
+                        <option value="GENERAL">General</option>
+                        <option value="SURGERY">Cirugía</option>
+                        <option value="DERMATOLOGY">Dermatología</option>
+                        <option value="CARDIOLOGY">Cardiología</option>
+                        <option value="TRAUMATOLOGY">Traumatología</option>
+                    </select>
+                </label>
+
+                <label htmlFor="acceptsConsultations">
+                    Acepta consultas:
+                        <input 
+                            type="checkbox" 
+                            id="consultations" 
+                            name="acceptsConsultations" 
+                            checked={formData.acceptsConsultations} 
+                            onChange={handleChange} 
+                        />
+                </label>
+
+                <label htmlFor="phone" >
+                    Número de celular
+                        <input
+                            id="phone" 
+                            name="phone" 
+                            placeholder="Número de celular" 
+                            value={formData.phone} 
+                            onChange={handleChange} 
+                            disabled={!formData.acceptsConsultations} 
+                        />
+                </label>
+
+                <label htmlFor="photoUrl" >
+                    Cambiar imagen de perfil
+                        <input 
+                            id="vet-input-8"
+                            type="file" 
+                            accept="image/*" 
+                            onChange={handleFileChange} 
+                        />
+                </label>
+
+                <label htmlFor="workSchedule" >
+                    Horario de trabajo *
+                        <input 
+                            id="vet-work-schedule-1"
+                            name="start" 
+                            placeholder="formato: '09:00'" 
+                            value={formData.workSchedule?.start || ""}
+                            onChange={handleScheduleChange} 
+                        />-
+                        <input 
+                            id="vet-work-schedule-2"
+                            name="end" 
+                            placeholder="formato: '17:00'" 
+                            value={formData.workSchedule?.end || ""}
+                            onChange={handleScheduleChange} 
+                        />
+                    </label>
+                <div className="center-stupid-div-again">
+                    <button className="vet-btn" type="submit">Guardar cambios</button>
+                    <Link to="/vets">
+                        <button className="vet-btn">
+                            Volver
+                        </button>
+                    </Link> 
+                </div>
+            </form>
+        </div>
+    </div>
   );
 }
 

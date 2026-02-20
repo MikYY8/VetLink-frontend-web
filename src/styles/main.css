@@ -135,7 +135,7 @@ body{
 
 /* ==================   DASHBOARD   ================== */
 
-.dashboard-text{
+.cool-h2-text{
   display: flex;
   align-items: center;
   gap: 6px;
@@ -163,6 +163,7 @@ label{
   padding: 5px;
   font-size: 14pt;
   font-family: var(--primary-font);
+  flex-direction: column;
 }
 
 .vet-filter{
@@ -176,6 +177,7 @@ label{
 
 .date-filter{
   margin-right: 10px;
+  margin-left: 10px;
   background-color: var(--accent);
   border: 3px solid var(--accent);
   border-radius: 5px;
@@ -225,7 +227,7 @@ table tbody tr:nth-child(even) {
 
 /* ==================   APPOINTMENTS   ================== */
 
-.appoint-container{
+/* .appoint-container{
   text-align: center;
   margin-top: 20px;
   padding-bottom: 10px;
@@ -242,22 +244,45 @@ table tbody tr:nth-child(even) {
 .appoint-form{
   align-items: center;
   justify-content: center;
+} */
+
+
+
+#appointment-input-1, #appointment-input-2, #appointment-input-4 {
+  margin-top: 10px;
 }
 
-label{
-  flex-direction: column;
+#appointment-input-6{
+  margin-left: 10px;
+  padding: 8px;
+  font-size: 16px;
+}
+
+#appointment-input-8{
+  margin-left: 10px;
+  padding: 5px;
+  width: 500px;
+  height: 15px;
+  font-size: 18px;
+}
+
+#appointment-input-9{
+  margin-left: 10px;
+  padding: 5px;
+  width: 70px;
+  font-size: 16px;
 }
 
 /* ==================   PETS, VETS & USERS REGISTER   ================== */
 
-.pets-form-dad, .vets-form-dad, .users-form-dad{
+.pets-form-dad, .vets-form-dad, .users-form-dad, .appointment-form-dad{
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 5px;
 }
 
-.pets-form-child, .vets-form-child, .users-form-child{
+.pets-form-child, .vets-form-child, .users-form-child, .appointment-form-child{
   display: flex;
   flex-direction: column;
   padding: 0px 50px;
@@ -295,15 +320,18 @@ label{
 
 #pet-input-2{
   width: 20%;
-}
-
-#pet-input-3, #pet-input-4, #pet-input-8, #vet-input-8, #user-input-5{
-  width: 50%;
-  padding: 10px;
   margin-left: 10px;
 }
 
-#pet-input-7{
+#pet-input-3, #pet-input-4, #pet-input-8, #vet-input-8, #user-input-5, #appointment-input-3{
+  width: 50%;
+  padding: 8px;
+  margin-left: 10px;
+  font-size: 16px;
+  font-family: var(--primary-font);
+}
+
+#pet-input-7, #consultations{
   width: 10%;
 }
 

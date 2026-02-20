@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Select from "react-select";
 import { Link } from "react-router-dom";
+import { ClipboardClock } from 'lucide-react';
 
 function CreateAppointment() {
 
@@ -246,23 +247,27 @@ function CreateAppointment() {
   // ================= RENDER =================
 
   return (
-    <div className="appoint-container">
-      <div className="appoint-container-child">
-        <h2>Agendar turno</h2>
+    <div className="main-container">
+      <h2 className="cool-h2-text"><ClipboardClock size={30} /> Agendar turno</h2>
+      <div className="appointment-form-dad">
+        <form className="appointment-form-child" onSubmit={handleSubmit}>
 
-        <form className="apoint-form" onSubmit={handleSubmit}>
-
-          <label>Mascota*</label>
-          <Select
-            options={petOptions}
-            value={selectedPet}
-            onChange={handlePetSelect}
-          />
+          <label>
+            Mascota*
+            <Select
+            id="appointment-input-1"
+              placeholder={"Buscar mascota por nombre"}
+              options={petOptions}
+              value={selectedPet}
+              onChange={handlePetSelect}
+            />
+          </label>
           {error.pet && <p style={{color: "red"}} >{error.pet}</p>}
 
           <label>
             Dueño de la mascota*
             <Select
+              id="appointment-input-2"
               placeholder="Buscar dueño por nombre o apellido..."
               isLoading={loadingOwners}
               options={ownerOptions}
@@ -276,7 +281,7 @@ function CreateAppointment() {
 
           <label>
             Tipo de turno*
-            <select name="type" value={formData.type} onChange={handleChange}>
+            <select id="appointment-input-3" name="type" value={formData.type} onChange={handleChange}>
               <option value="">Seleccione</option>
               <option value="CONSULTATION">Consulta</option>
               <option value="CONTROL">Control</option>
@@ -288,8 +293,10 @@ function CreateAppointment() {
 
           {formData.type === "VACCINATION" && (
             <>
-              <label>Vacuna*</label>
+              <label>Vacuna*
               <Select
+                id="appointment-input-4"
+                placeholder={"Seleccione una vacuna"}
                 options={vaccineOptions}
                 onChange={(opt) =>
                   setFormData((prev) => ({
@@ -298,38 +305,46 @@ function CreateAppointment() {
                   }))
                 }
               />
+              </label>
             </>
           )}
 
-          <label>Veterinario*</label>
-          <Select
-            options={vetOptions}
-            value={selectedVet}
-            onChange={handleVetSelect}
-          />
+          <label>Veterinario*
+            <Select
+              id="appointment-input-5"
+              placeholder={"Buscar veterinario por nombre o apellido"}
+              options={vetOptions}
+              value={selectedVet}
+              onChange={handleVetSelect}
+            />
+          </label>
 
           {formData.vet && (
             <>
-              <label>Fecha*</label>
-              <input
-                type="date"
-                value={formData.date}
-                onChange={(e) =>
-                  setFormData({ ...formData, date: e.target.value })
-                }
-              />
+              <label>Fecha*
+                <input
+                  id="appointment-input-6"
+                  type="date"
+                  value={formData.date}
+                  onChange={(e) =>
+                    setFormData({ ...formData, date: e.target.value })
+                  }
+                />
+              </label>
             </>
           )}
           {error.vet && <p style={{color: "red"}} >{error.vet}</p>}
 
           {formData.date && (
             <>
-              <label>Horario*</label>
-              <Select
-                options={availabilityOptions}
-                value={selectedAvailability}
-                onChange={handleAvailabilitySelect}
-              />
+              <label>Horario*
+                <Select
+                  id="appointment-input-7"
+                  options={availabilityOptions}
+                  value={selectedAvailability}
+                  onChange={handleAvailabilitySelect}
+                />
+              </label>
             </>
           )}
           {error.time && <p style={{color: "red"}} >{error.time}</p>}
@@ -337,6 +352,7 @@ function CreateAppointment() {
           <label>
             Detalles
             <input
+              id="appointment-input-8"
               name="details"
               value={formData.details}
               onChange={handleChange}
@@ -345,14 +361,22 @@ function CreateAppointment() {
 
           <label>
             Precio (sujeto a cambios el día del turno)
-            <input value={formData.price} readOnly />
+            $ARS
+            <input 
+              id="appointment-input-9" 
+              value={formData.price} 
+              readOnly 
+            />
           </label>
 
-          <button type="submit">Agendar turno</button>
-
-          <Link to="/dashboard">
-            <button type="button">Volver</button>
-          </Link>
+          <div className="center-stupid-div-again">
+            <button className="pet-btn" type="submit">Agendar turno</button>
+            <Link to="/dashboard">
+              <button className="pet-btn">
+                Volver
+              </button>
+            </Link>
+          </div>
 
           {success && <p style={{ color: "green" }}>{success}</p>}
         </form>

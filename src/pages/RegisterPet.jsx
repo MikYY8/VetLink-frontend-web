@@ -159,7 +159,7 @@ function RegisterPet() {
 
     return(
         <div className="main-container">
-            <h2 className="dashboard-text"><Dog size={30} /> Registrar mascota</h2>
+            <h2 className="cool-h2-text"><Dog size={30} /> Registrar mascota</h2>
             <div className="pets-form-dad">
                 <form className="pets-form-child" onSubmit={handleSubmit}>
                     <label htmlFor="name">
@@ -267,12 +267,12 @@ function RegisterPet() {
                     {error.owner && <p style={{ color: "red" }}>{error.owner}</p>}
                     
                     <div className="center-stupid-div-again">
-                    <button className="pet-btn" type="submit">Crear mascota</button>
-                    <Link to="/pets">
-                        <button className="pet-btn">
-                            Volver
-                        </button>
-                    </Link>
+                        <button className="pet-btn" type="submit">Crear mascota</button>
+                        <Link to="/pets">
+                            <button className="pet-btn">
+                                Volver
+                            </button>
+                        </Link>
                     </div>
                     {success && <p style={{color: "green"}}>{success}</p>}
                 </form>

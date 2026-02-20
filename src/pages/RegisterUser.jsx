@@ -52,7 +52,7 @@ function RegisterUser() {
 
   return (
     <div className="main-container">
-      <h2 className="dashboard-text">Registrar usuario</h2>
+      <h2 className="cool-h2-text">Registrar usuario</h2>
         <div className="users-form-dad">
         <form className="users-form-child" onSubmit={handleSubmit}>
           <label htmlFor="firstName" >
@@ -97,7 +97,7 @@ function RegisterUser() {
           <label htmlFor="password" >
             Contraseña 
             <input
-              id="user-input-4"
+                id="user-input-4"
                 name="password"
                 type="password"
                 placeholder="Contraseña"

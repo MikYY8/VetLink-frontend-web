@@ -46,35 +46,60 @@ function UpdateUser() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Editar usuario</h2>
-      <label htmlFor="firstName">
-        Nombre
-        <input name="firstName" value={formData.firstName} onChange={handleChange} />
-      </label>
+    <div className="main-container">
+      <h2 className="cool-h2-text">Editar usuario</h2>
+      <div className="users-form-dad">
+        <form className="users-form-child" onSubmit={handleSubmit}>
+          <label htmlFor="firstName">
+            Nombre
+            <input 
+              id="user-input-1"
+              name="firstName" 
+              value={formData.firstName} 
+              onChange={handleChange} 
+            />
+          </label>
 
-      <label htmlFor="lastName">
-        Apellido
-        <input name="lastName" value={formData.lastName} onChange={handleChange} />
-      </label>
-      
-      <label htmlFor="email">
-        Email
-        <input name="email" value={formData.email} onChange={handleChange} />
-      </label>
+          <label htmlFor="lastName">
+            Apellido
+            <input 
+              id="user-input-2"
+              name="lastName" 
+              value={formData.lastName} 
+              onChange={handleChange} 
+            />
+          </label>
+          
+          <label htmlFor="email">
+            Email
+            <input 
+              id="user-input-3"
+              name="email" 
+              value={formData.email} 
+              onChange={handleChange} 
+            />
+          </label>
 
-      <label htmlFor="password">
-        Contraseña
-        <input name="password" value={formData.password} onChange={handleChange} />
-      </label>
-      
-      <button type="submit">Guardar cambios</button>
-
-      <Link to="/users"><button>
-        Volver
-        </button>
-      </Link>
-    </form>
+          <label htmlFor="password">
+            Contraseña
+            <input 
+              id="user-input-4"
+              name="password" 
+              value={formData.password} 
+              onChange={handleChange} 
+            />
+          </label>
+          <div className="center-stupid-div-again">
+            <button className="user-btn" type="submit">Guardar cambios</button>
+            <Link to="/users">
+              <button className="user-btn" >
+                Volver
+              </button>
+            </Link>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 

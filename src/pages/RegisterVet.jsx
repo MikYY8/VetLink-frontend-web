@@ -98,7 +98,7 @@ function RegisterVet() {
 
     return(
         <div className="main-container">
-            <h2 className="dashboard-text">Registrar veterinario</h2>
+            <h2 className="cool-h2-text">Registrar veterinario</h2>
             <div className="vets-form-dad">
                 <form className="vets-form-child" onSubmit={handleSubmit}>
                     <label htmlFor="firstName" >
@@ -151,13 +151,13 @@ function RegisterVet() {
 
                     <label htmlFor="licenseNumber" >
                         Número de licencia *
-                    <input 
-                        id="vet-input-1"
-                        name="licenseNumber" 
-                        placeholder="Número de licencia" 
-                        value={formData.licenseNumber} 
-                        onChange={handleChange} 
-                    />
+                        <input 
+                            id="vet-input-1"
+                            name="licenseNumber" 
+                            placeholder="Número de licencia" 
+                            value={formData.licenseNumber} 
+                            onChange={handleChange} 
+                        />
                     </label>
                     {error.licenseNumber && <p style={{color: "red"}} >{error.licenseNumber}</p>}
 
