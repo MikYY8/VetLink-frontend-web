@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 function UpdateUser() {
   const { ownerId } = useParams();
@@ -41,7 +42,7 @@ function UpdateUser() {
     }
     );
 
-    alert("Usuario actualizado");
+    toast.success("Usuario actualizado con éxito")
     navigate("/users");
   };
 

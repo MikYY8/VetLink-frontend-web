@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 function RegisterUser() {
   const [formData, setFormData] = useState({firstName: "", lastName: "", email: "", password: "", role: "OWNER", });
@@ -31,8 +32,8 @@ function RegisterUser() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(validate()){
-        alert("Usuario creado con éxito")
-        console.log(formData)
+        toast.success("Usuario creado con éxito")
+        // console.log(formData)
     };
 
     try{
@@ -47,7 +48,8 @@ function RegisterUser() {
     }catch(err){
         console.log(err)
     };
-    navigate("/users");
+    navigate("/users")
+
   };
 
   return (

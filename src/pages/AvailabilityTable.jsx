@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { CalendarDays } from 'lucide-react';
 
 const VetAvailability = () => {
   const { vetId } = useParams();
@@ -8,10 +9,9 @@ const VetAvailability = () => {
   const [date, setDate] = useState("");
   const [loading, setLoading] = useState(true);
 
-
   const fetchAvailability = async () => {
     const token = localStorage.getItem("token");
-    if(loading) <p>Cargando dashboard...</p>;
+    if(loading) return <p>Cargando dashboard...</p>;
 
     try {
       const res = await axios.get(`http://localhost:3000/appointment/available`, {
@@ -33,14 +33,13 @@ const VetAvailability = () => {
   }, [date]);
 
   return (
-    <div>
-        <h2>Disponibilidad</h2>
+    <div className="main-container">
+        <h2 className="cool-h2-text"><CalendarDays size={30} />Disponibilidad</h2>
 
         <label htmlFor="date">
           Seleccione una fecha
-          <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
+          <input type="date" id="appointment-input-6" value={date} onChange={(e) => setDate(e.target.value)}/>
         </label>
-
 
         <table style={{ width: "50%", borderCollapse: "collapse", marginTop: "20px" }}>
             <thead>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 function RegisterVet() {
     const [formData, setFormData] = useState({firstName: "", lastName: "", email: "", password: "",
@@ -8,6 +9,7 @@ function RegisterVet() {
         photoUrl: "", workSchedule: {start: "", end: ""}, role: "VET"})
     const [error, setError] = useState({});
     const [success, setSuccess] = useState("");
+    const navigate = useNavigate()
     const token = localStorage.getItem("token");
 
     // validaciones de front
@@ -62,7 +64,8 @@ function RegisterVet() {
         const data = new FormData();
 
         if(validate()){
-            console.log(formData);
+            toast.success("Veterinario creado con éxito")
+            // console.log(formData);
         };
 
         data.append("firstName", formData.firstName);
@@ -94,6 +97,7 @@ function RegisterVet() {
         }catch(err){
             console.log(err);
         }
+        navigate("/vets")
     };
 
     return(

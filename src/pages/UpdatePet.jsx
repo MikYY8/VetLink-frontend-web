@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Dog } from "lucide-react";
 import axios from "axios";
 import Select from "react-select";
+import { toast } from 'react-toastify';
 
 function UpdatePet() {
     const { petId } = useParams();
@@ -131,7 +132,7 @@ function UpdatePet() {
     }
     );
 
-    alert("Mascota actualizada");
+    toast.success("Mascota actualizada con éxito")
     navigate("/pets");
   };
 

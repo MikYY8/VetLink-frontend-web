@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { speciesMap, appointmentTypeMap, statusMap } from "../utils/translation.js"
 import { Link, useNavigate } from "react-router-dom";
 import { ClipboardClock } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function Dashboard() {
   // Crear el dashboard
   const fetchDashboard = async () => {
     const token = localStorage.getItem("token");
-    if(loading) <p>Cargando dashboard...</p>;
+    setLoading(true);
 
     const toUTCDate = (localDate) => {
       const d = new Date(localDate);
@@ -35,19 +36,16 @@ function Dashboard() {
       
     try{
       const res = await fetch(`http://localhost:3000/appointment/dashboard?${params.toString()}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          // "Content-Type": "application/json"
-        }
+        headers: { Authorization: `Bearer ${token}` }
       });
 
-      console.log("Response:", res);
+      // console.log("Response:", res);
       const result = await res.json();
-      console.log("Result JSON:", result);
+      // console.log("Result JSON:", result);
 
       setAppointments(result.data || []);
     }catch(err){
-      console.error("Fetch error:", err);
+      // console.error("Fetch error:", err);
       setError(err.message);
     }finally{
       setLoading(false);
@@ -82,6 +80,7 @@ function Dashboard() {
       });
 
       // refrescar dashboard
+       toast.success("Turno cancelado")
       fetchDashboard();
     }catch(error){
       console.error(error);
@@ -116,6 +115,7 @@ function Dashboard() {
   return (
     <>
       <div className="main-container">
+        {loading && <p>Cargando turnos...</p>}
         <div className="txt-card-container">
           <h2 className="cool-h2-text"><ClipboardClock size={30} /> Turnos</h2>
           

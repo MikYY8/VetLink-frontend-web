@@ -15,12 +15,14 @@ function Navbar() {
     localStorage.removeItem("token");   // el token, el rol, y el mail
     localStorage.removeItem("role");
     localStorage.removeItem("email");
-    navigate("/login")      // y te manda al login
+    navigate("/")      // y te manda al login
   };
 
   return (
     <nav className="navbar">
-      <img className="logo-vetlink" src={logo} alt="logo" />
+      <Link to="/dashboard">
+        <img className="logo-vetlink" src={logo} alt="logo" />
+      </Link>
       
       <div className="navbar-right">
         <Link to="/dashboard">

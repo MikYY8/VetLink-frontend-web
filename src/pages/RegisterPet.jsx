@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Select from "react-select";
 import { Dog } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 function RegisterPet() {
     const [formData, setFormData] = useState({name: "", age: "", sex: "", species: "",
@@ -10,6 +11,7 @@ function RegisterPet() {
         owner: "" })
     const [error, setError] = useState({});
     const [success, setSuccess] = useState("");
+    const navigate = useNavigate()
     const token = localStorage.getItem("token");
 
     // Buscar owners
@@ -17,7 +19,6 @@ function RegisterPet() {
     const [loadingOwners, setLoadingOwners] = useState(false);
     const [selectedOwner, setSelectedOwner] = useState(null);
     const [searchOwner, setSearchOwner] = useState("");
-
 
     const validate = () => {
         let newErrors = {}; // guardamos errores, luego los transferimos a setError
@@ -104,8 +105,8 @@ function RegisterPet() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if(validate()){
-            alert("Mascota creada con éxito")
-            console.log(formData)
+            toast.success("Mascota creada con éxito")
+            // console.log(formData)
         };
 
         if (!selectedOwner) {
@@ -155,6 +156,7 @@ function RegisterPet() {
         } catch (err) {
             console.log(err.response?.data || err);
         }
+        navigate("/pets")
     };
 
     return(

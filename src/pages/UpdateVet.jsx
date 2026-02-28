@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 function UpdateVet() {
   const { vetId } = useParams();
@@ -88,10 +89,9 @@ function UpdateVet() {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
         },
-    }
-    );
+    });
 
-    alert("Veterinario actualizado");
+    toast.success("Veterinario actualizado con éxito")
     navigate("/vets");
   };
 
