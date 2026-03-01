@@ -148,6 +148,23 @@ body{
   margin: 0px;
 }
 
+.btn-dashboard{
+  margin-right: 10%;
+  margin-bottom: 10%;
+  background-color: var(--primary);
+  border: 3px solid var(--accent);
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 7px;
+  font-size: 12pt;
+  font-family: var(--primary-font);
+  transition: 200ms ease-in;
+}
+
+.btn-dashboard:hover{
+  background-color: var(--accent);
+}
+
 .container{  
   text-align: center;
   margin-right: 10px;

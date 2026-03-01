@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Select from "react-select";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ClipboardClock } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 function CreateAppointment() {
-
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [formData, setFormData] = useState({ pet: "", owner: "", vet: "",
     date: "", time: "", type: "", vaccineName: "", details: "", price: "" });
@@ -241,7 +242,9 @@ function CreateAppointment() {
       } 
     );
   
+  toast.success("Turno reservado con éxito")
   setSuccess("Turno creado correctamente");
+  navigate("/dashboard")
   };
 
   // ================= RENDER =================
