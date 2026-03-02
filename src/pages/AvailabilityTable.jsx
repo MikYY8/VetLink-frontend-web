@@ -11,10 +11,10 @@ const VetAvailability = () => {
 
   const fetchAvailability = async () => {
     const token = localStorage.getItem("token");
-    if(loading) return <p>Cargando dashboard...</p>;
+    setLoading(true);
 
     try {
-      const res = await axios.get(`http://localhost:3000/appointment/available`, {
+      const res = await axios.get(`http://localhost:3000/appointment/available-blocks`, {
           params: { vetId, date },
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -31,6 +31,23 @@ const VetAvailability = () => {
   useEffect(() => {
     if (date) fetchAvailability();
   }, [date]);
+
+  const handleBlock = async (availabilityBlockId) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await axios.get(`http://localhost:3000/appointment/block/${availabilityBlockId}`, {
+        method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
+      setBlocks(res.data.data);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <div className="main-container">
@@ -49,6 +66,7 @@ const VetAvailability = () => {
                     <th>Especialidad</th>
                     <th>Disponible</th>
                     <th>Razón</th>
+                    <th colSpan={2}>ACCIONES</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,10 +77,12 @@ const VetAvailability = () => {
                     <td>{block.vet.specialty}</td>
                     <td>{block.available ? "Si" : "No"}</td>
                     <td>{block.reason}</td>
+                    <td>{(<button className="btn"  onClick={() => handleBlock(a._id)}>Bloquear</button>)}</td>
                     </tr>
                 ))}
             </tbody>
         </table>
+        {loading && <p>Cargando horarios disponibles...</p>}
     </div>
   );
 };

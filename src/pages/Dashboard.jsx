@@ -3,7 +3,7 @@ import { speciesMap, appointmentTypeMap, statusMap } from "../utils/translation.
 import { Link, useNavigate } from "react-router-dom";
 import { ClipboardClock } from 'lucide-react';
 import { toast } from 'react-toastify';
-import PopUp from "../components/PopUp.jsx";
+import PopUpDetails from "../components/PopUpDetails.jsx";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -206,7 +206,7 @@ function Dashboard() {
                 <td>{appointmentTypeMap[a.type] || a.type}</td>
                 <td>{statusMap[a.status] || a.status}</td>
                   <td>
-                    {(<PopUp appointmentId={a._id} />)}
+                    {(<PopUpDetails appointmentId={a._id} />)}
                     {a.status === "SCHEDULED" && (<button className="btn" onClick={() => handleCancel(a._id)}>Cancelar</button>)}
                   </td>
               </tr> 

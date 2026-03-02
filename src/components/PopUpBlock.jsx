@@ -1,26 +1,28 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
-export default function PopUp({ appointmentId }) {
+export default function PopUpBlock({ availabilityBlockId }) {
 
-  const [details, setDetails] = useState(null);
+  const [block, setBlock] = useState(null);
   const [error, setError] = useState(null);
+  
+  const [formData, setFormData] = useState({
+    available,
+    reason,
+  });
 
-  const getDetails = async () => {
-    console.log("appointmentId:", appointmentId);
+  const handleBlock = async () => {
+    console.log("availabilityBlockId:", availabilityBlockId);
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(
-        `http://localhost:3000/appointment/dashboard/details/${appointmentId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+      const res = await fetch(`http://localhost:3000/appointment/dashboard/details/${availabilityBlockId}`,
+        {headers: { Authorization: `Bearer ${token}` }}
       );
 
       const result = await res.json();
-      setDetails(result.data);
+      setBlock(result.data);
 
     } catch (err) {
       console.error("Fetch error:", err);
@@ -29,14 +31,14 @@ export default function PopUp({ appointmentId }) {
   };
 
   return (
-    <Popup trigger={<button className="btn-dashboard">Detalles</button>} modal nested onOpen={getDetails}>
+    <Popup trigger={<button className="btn-dashboard">Bloquear</button>} modal nested onOpen={handleBlock}>
       {close => (
         <div className="modal">
           <div className="content">
 
             {error && <p style={{color:"red"}}>{error}</p>}
 
-            {!details ? (
+            {!block ? (
               <p>Cargando...</p>
             ) : (
               <>
