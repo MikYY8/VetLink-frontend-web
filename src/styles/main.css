@@ -148,6 +148,23 @@ body{
   margin: 0px;
 }
 
+.btn-dashboard{
+  margin-right: 10%;
+  margin-bottom: 10%;
+  background-color: var(--primary);
+  border: 3px solid var(--accent);
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 7px;
+  font-size: 12pt;
+  font-family: var(--primary-font);
+  transition: 200ms ease-in;
+}
+
+.btn-dashboard:hover{
+  background-color: var(--accent);
+}
+
 .container{  
   text-align: center;
   margin-right: 10px;
@@ -275,6 +292,23 @@ table tbody tr:nth-child(even) {
 
 /* ==================   PETS, VETS & USERS REGISTER   ================== */
 
+.btn2{
+  margin-left: 10px;
+  margin-top: 10px;
+  background-color: var(--primary);
+  border: 3px solid var(--accent);
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 7px;
+  font-size: 12pt;
+  font-family: var(--primary-font);
+  transition: 200ms ease-in;
+}
+
+.btn2:hover{
+  background-color: var(--accent);
+}
+
 .pets-form-dad, .vets-form-dad, .users-form-dad, .appointment-form-dad{
   display: flex;
   align-items: center;
@@ -357,4 +391,14 @@ table tbody tr:nth-child(even) {
   margin: 0px 5px 0px 10px;
   padding: 10px;
   border-radius: 5px;
+}
+
+.search-bar-input{
+  padding: 10px;
+  width: 500px;
+  margin-left: 250px;
+  margin-right: 5px;
+  border-radius: 10px;
+  border: 2px solid var(--accent);
+  font-size: 15px;
 }

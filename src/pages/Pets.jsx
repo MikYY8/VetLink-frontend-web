@@ -2,17 +2,26 @@ import { useState, useEffect } from "react";
 import {Link, useNavigate } from "react-router-dom";
 import { PawPrint } from 'lucide-react';
 import { speciesMap } from "../utils/translation"
+import { toast } from 'react-toastify';
 
 function GetPets(){
     const [pets, setPets] = useState([]);
+    const [searchPet, setSearchPet] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    const filteredPets = pets.filter((pet) => {
+        if (searchPet === "") return true;
+
+        return (
+            pet.name.toLowerCase().includes(searchPet.toLowerCase())
+        );
+    });
 
     const fetchPets = async () => {
         const token = localStorage.getItem("token");
-        if(loading) <p>Cargando mascotas...</p>;
+        setLoading(true);
 
         try{
             const res = await fetch(`http://localhost:3000/owner/allpets`, {
@@ -21,26 +30,26 @@ function GetPets(){
                 },
             })
 
-        console.log("Response:", res);
+        // console.log("Response:", res);
         const result = await res.json();
-        console.log("Result JSON:", result);
+        // console.log("Result JSON:", result);
 
         setPets(result.data || []);
 
         }catch(error){
-            console.error("Fetch error:", error);
+            // console.error("Fetch error:", error);
             setError(error.message);
         }finally{
             setLoading(false);
         };
     };
 
-  // Mostrar mascotas
-  useEffect(() => {
-    fetchPets();
-  }, []);
+    // Mostrar mascotas
+    useEffect(() => {
+        fetchPets();
+    }, []);
 
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+    if (error) return <p style={{ color: "red" }}>{error}</p>;
 
 
     const handleUpdate = async (petId) => {
@@ -51,30 +60,42 @@ function GetPets(){
         const token = localStorage.getItem("token");
         
         try{
-            await fetch(`http://localhost:3000/owner/pets/${petId}`, {
+            const res = await fetch(`http://localhost:3000/owner/pets/${petId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
             });
-            
-            alert("Mascota eliminada");
+            if (!res.ok) throw new Error("Error al eliminar mascota")
 
-            // refrescar lista
+            toast.success("Mascota eliminada")
             setPets(pets.filter(u => u._id !== petId));
+            fetchPets();
+            
         }catch(error){
-            console.error(error);
+            // console.error(error);
+            setError(error.message);
         }
     };
 
     return(
         <div className="main-container">
+            {loading && <p>Cargando mascotas...</p>}
             <Link to="/register-pet">
-                <button className="btn">
-                    Registrar mascota
+                <button className="btn2">
+                    Registrar Mascota
                 </button>
             </Link>
+            <input
+                type="search"
+                className="search-bar-input"
+                id="buscador"
+                name="buscador"
+                placeholder="Buscar por nombre"
+                value={searchPet}
+                onChange={(e) => setSearchPet(e.target.value)}
+            />
             <h2 className="cool-h2-text"><PawPrint size={30} /> Listado de mascotas</h2>
             <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
                 <thead>
@@ -92,7 +113,7 @@ function GetPets(){
                 </thead>
 
                 <tbody>
-                    {pets.map((a) => (
+                    {filteredPets.map((a) => (
                         <tr key={a._id}>
                             <td>{a.name}</td>
                             <td>{a.age}</td>

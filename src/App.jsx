@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import GoToDashboard from "../src/pages/MainPage"
+// import GoToLogin from "../src/pages/MainPage"
 import Login from "../src/pages/Login";
 import Dashboard from "../src/pages/Dashboard"
 import CreateAppointment from "../src/pages/CreateAppointment"
@@ -28,7 +28,7 @@ function App() {
       <Routes>
 
         { /* Ruta pública */ }
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
 
         { /* Rutas privadas */ }
 
@@ -37,7 +37,7 @@ function App() {
               <PrivateLayout/>
           </ProtectedRoute> } >
 
-          <Route path="/" element={<GoToDashboard />} />
+          {/* <Route path="/" element={<GoToLogin />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-appointment" element={<CreateAppointment />} />
 

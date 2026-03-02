@@ -2,16 +2,27 @@ import { useState, useEffect } from "react";
 import {Link, useNavigate } from "react-router-dom";
 import { Stethoscope } from 'lucide-react';
 import { specialtyMap } from "../utils/translation"
+import { toast } from 'react-toastify';
 
 function GetVets(){
     const [vets, setVets] = useState([]);
+    const [searchVet, setSearchVet] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    const filteredVets = vets.filter((vet) => {
+        if (searchVet === "") return true;
+
+        return (
+            vet.firstName.toLowerCase().includes(searchVet.toLowerCase()) ||
+            vet.lastName.toLowerCase().includes(searchVet.toLowerCase())
+        );
+    });
+
     const fetchVets = async () => {
         const token = localStorage.getItem("token");
-        if(loading) <p>Cargando veterinarios...</p>;
+        setLoading(true);
 
         try{
             const res = await fetch(`http://localhost:3000/users/allvets`, {
@@ -20,62 +31,72 @@ function GetVets(){
                 },
             })
 
-        console.log("Response:", res);
+        // console.log("Response:", res);
         const result = await res.json();
-        console.log("Result JSON:", result);
+        // console.log("Result JSON:", result);
 
         setVets(result.data || []);
 
         }catch(error){
-            console.error("Fetch error:", error);
+            // console.error("Fetch error:", error);
             setError(error.message);
         }finally{
             setLoading(false);
         };
     };
 
-  // Mostrar veterinarios
-  useEffect(() => {
-    fetchVets();
-  }, []);
+    // Mostrar veterinarios
+    useEffect(() => {
+        fetchVets();
+    }, []);
 
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+    if (error) return <p style={{ color: "red" }}>{error}</p>;
 
     const handleUpdate = async (vetId) => {
         navigate(`/update-vet/${vetId}`);
     };
 
     const handleDelete = async (vetId) => {
-        const confirmDelete = window.confirm("¿Seguro que querés eliminar este veterinario?");
-        if (!confirmDelete) return;
+        // const confirmDelete = window.confirm("¿Seguro que querés eliminar este veterinario?");
+        // if (!confirmDelete) return;
         const token = localStorage.getItem("token");
 
         try {
-            await fetch(`http://localhost:3000/users/delete-vet/${vetId}`, {
+            const res = await fetch(`http://localhost:3000/users/delete-vet/${vetId}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`,
             },
             });
+            if (!res.ok)  throw new Error("Error al eliminar veterinario");
 
-            alert("Veterinario eliminado");
-
-            // refrescar lista
+            toast.success("Veterinario eliminado")
             setVets(vets.filter(u => u._id !== vetId));
+            fetchVets();
 
         } catch (error) {
-            console.error(error);
+            // console.error(error);
+            setError(error.message);
         }
     };
 
-
     return(
         <div className="main-container">
+            {loading && <p>Cargando veterinarios...</p>}
             <Link to="/register-vet">
-                <button className="btn">
+                <button className="btn2">
                     Registrar Veterinario
                 </button>
             </Link>
+            <input
+                type="search"
+                className="search-bar-input"
+                id="buscador"
+                name="buscador"
+                placeholder="Buscar por nombre o apellido"
+                value={searchVet}
+                onChange={(e) => setSearchVet(e.target.value)}
+            />
             <h2 className="cool-h2-text"><Stethoscope size={30} /> Listado de veterinarios</h2>
             <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
                 <thead>
@@ -92,7 +113,7 @@ function GetVets(){
                 </thead>
 
                 <tbody>
-                    {vets.map((a) => (
+                    {filteredVets.map((a) => (
                         <tr key={a._id}>
                             <td style={{ cursor:"pointer", color:"var(--text)", textDecoration:"underline" }} onClick={() => navigate(`/vets/${a._id}/availability`)} >{a.firstName} {a.lastName}</td>
                             <td>{a.email}</td>
