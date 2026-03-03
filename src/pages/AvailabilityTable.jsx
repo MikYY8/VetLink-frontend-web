@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { CalendarDays } from 'lucide-react';
+import PopUpBlock from "../components/PopUpBlock";
 
 const VetAvailability = () => {
   const { vetId } = useParams();
@@ -32,23 +33,6 @@ const VetAvailability = () => {
     if (date) fetchAvailability();
   }, [date]);
 
-  const handleBlock = async (availabilityBlockId) => {
-    const token = localStorage.getItem("token");
-
-    try {
-      const res = await axios.get(`http://localhost:3000/appointment/block/${availabilityBlockId}`, {
-        method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        
-      setBlocks(res.data.data);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   return (
     <div className="main-container">
         <h2 className="cool-h2-text"><CalendarDays size={30} />Disponibilidad</h2>
@@ -77,7 +61,7 @@ const VetAvailability = () => {
                     <td>{block.vet.specialty}</td>
                     <td>{block.available ? "Si" : "No"}</td>
                     <td>{block.reason}</td>
-                    <td>{(<button className="btn"  onClick={() => handleBlock(a._id)}>Bloquear</button>)}</td>
+                    <td><PopUpBlock availabilityBlockId={block._id} /></td>
                     </tr>
                 ))}
             </tbody>
