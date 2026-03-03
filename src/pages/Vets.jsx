@@ -52,6 +52,10 @@ function GetVets(){
 
     if (error) return <p style={{ color: "red" }}>{error}</p>;
 
+    const handleAvailability = async (vetId) => {
+        navigate(`/vets/${vetId}/availability`);
+    }
+
     const handleUpdate = async (vetId) => {
         navigate(`/update-vet/${vetId}`);
     };
@@ -108,20 +112,21 @@ function GetVets(){
                         <th>Acepta consultas</th>
                         <th>N° de teléfono</th>
                         <th>Horario</th>
-                        <th colSpan={2}>ACCIONES</th>
+                        <th colSpan={3}>ACCIONES</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     {filteredVets.map((a) => (
                         <tr key={a._id}>
-                            <td style={{ cursor:"pointer", color:"var(--text)", textDecoration:"underline" }} onClick={() => navigate(`/vets/${a._id}/availability`)} >{a.firstName} {a.lastName}</td>
+                            <td>{a.firstName} {a.lastName}</td>
                             <td>{a.email}</td>
                             <td>{a.licenseNumber}</td>
                             <td>{specialtyMap[a.specialty] || a.specialty}</td>
                             <td>{a.acceptsConsultations ? "✅ Sí" : "❌ No"}</td>
                             <td>{a.phone}</td>
                             <td>{a.workSchedule.start} - {a.workSchedule.end}</td>
+                            <td>{(<button className="btn" onClick={() => handleAvailability(a._id)}>Horarios</button>)}</td>
                             <td>{(<button className="btn" onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
                             <td>{(<button className="btn" onClick={() => handleDelete(a._id)}>Eliminar</button>)}</td>
                         </tr>

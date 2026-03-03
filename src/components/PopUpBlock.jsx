@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
+import axios from "axios";
+import { toast } from 'react-toastify';
 import "reactjs-popup/dist/index.css";
 
 export default function PopUpBlock({ availabilityBlockId }) {
 
   const [block, setBlock] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
-    available,
-    reason,
+    available: true,
+    reason: "",
   });
 
   const handleBlock = async () => {
@@ -17,12 +21,16 @@ export default function PopUpBlock({ availabilityBlockId }) {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://localhost:3000/appointment/dashboard/details/${availabilityBlockId}`,
-        {headers: { Authorization: `Bearer ${token}` }}
-      );
+      const res = await fetch(`http://localhost:3000/appointment/block/${availabilityBlockId}`,
+        {headers: { Authorization: `Bearer ${token}` }});
 
       const result = await res.json();
       setBlock(result.data);
+
+      setFormData({
+        available: result.data.available,
+        reason: result.data.reason || "",
+      });
 
     } catch (err) {
       console.error("Fetch error:", err);
@@ -30,27 +38,74 @@ export default function PopUpBlock({ availabilityBlockId }) {
     }
   };
 
+  const handleChange = (e) => {
+    const { name, type, value, checked } = e.target;
+
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+
+    await axios.patch(`http://localhost:3000/appointment/block/${availabilityBlockId}`, formData,
+    { headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    toast.success("Horario actualizado con éxito")
+    navigate("/vets");
+  };
+
   return (
     <Popup trigger={<button className="btn-dashboard">Bloquear</button>} modal nested onOpen={handleBlock}>
-      {close => (
+      {close => (  
         <div className="modal">
           <div className="content">
 
             {error && <p style={{color:"red"}}>{error}</p>}
 
             {!block ? (
-              <p>Cargando...</p>
+              <p>Error al buscar el turno...</p>
             ) : (
               <>
-                <h3>Detalles del turno</h3>
-                <p><b>Descripción:</b> {details.details}</p>
-                <p><b>Precio:</b> ${details.price}</p>
+                <h3>Cambiar estado del bloque horario</h3>
+                <div className="users-form-dad">
+                  <form className="users-form-child" onSubmit={handleSubmit}>
+                    <label htmlFor="available">
+                        Disponible 
+                        <input
+                            id="pet-input-7"
+                            type="checkbox" 
+                            name="available" 
+                            checked={formData.available} 
+                            onChange={handleChange} 
+                        />
+                    </label>
+                    <label htmlFor="reason">
+                      Razón: 
+                      <input 
+                        id="user-input-1"
+                        name="reason" 
+                        value={formData.reason} 
+                        onChange={handleChange} 
+                      />
+                    </label>
+
+                    <div className="center-stupid-div-again">
+                        <button className="pet-btn" type="submit">Guardar cambios</button>
+                    </div>
+                  </form>
+                </div>
+                <button className="btn" onClick={close}>Cerrar</button>
               </>
             )}
-
           </div>
-
-          <button className="btn" onClick={close}>Cerrar</button>
         </div>
       )}
     </Popup>
