@@ -3,6 +3,7 @@ import {Link, useNavigate } from "react-router-dom";
 import { PawPrint } from 'lucide-react';
 import { speciesMap } from "../utils/translation"
 import { toast } from 'react-toastify';
+import { calcularEdad } from "../utils/dateUtils";
 
 function GetPets(){
     const [pets, setPets] = useState([]);
@@ -51,7 +52,6 @@ function GetPets(){
 
     if (error) return <p style={{ color: "red" }}>{error}</p>;
 
-
     const handleUpdate = async (petId) => {
         navigate(`/update-pet/${petId}`);
     };
@@ -76,7 +76,28 @@ function GetPets(){
         }catch(error){
             // console.error(error);
             setError(error.message);
-        }
+        };
+    };
+
+    function formatearEdad(pet) {
+    if (!pet.birthDate) return "—";
+
+    const { years, months } = calcularEdad(pet.birthDate);
+
+    let texto = "";
+
+    if (years > 0) {
+        texto = `${years} año(s)`;
+        if (months > 0) texto += ` y ${months} mes(es)`;
+    } else {
+        texto = `${months} mes(es)`;
+    };
+
+    if (pet.isEstimated) {
+        texto += " (estimado)";
+    };
+
+    return texto;
     };
 
     return(
@@ -116,7 +137,7 @@ function GetPets(){
                     {filteredPets.map((a) => (
                         <tr key={a._id}>
                             <td>{a.name}</td>
-                            <td>{a.age}</td>
+                            <td>{formatearEdad(a)}</td>
                             <td>{a.sex}</td>
                             <td>{speciesMap[a.species] || a.species}</td>
                             <td>{a.breed}</td>
