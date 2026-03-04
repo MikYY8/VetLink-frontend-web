@@ -11,6 +11,9 @@ function CreateAppointment() {
   const [formData, setFormData] = useState({ pet: "", owner: "", vet: "",
     date: "", time: "", type: "", vaccineName: "", details: "", price: "" });
 
+  const [availableDates, setAvailableDates] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+
   const [selectedPet, setSelectedPet] = useState(null);
   const [selectedOwner, setSelectedOwner] = useState(null);
   const [selectedVet, setSelectedVet] = useState(null);
@@ -170,10 +173,13 @@ function CreateAppointment() {
   // ================= DATE + AVAILABILITY =================
 
   useEffect(() => {
-    if (formData.vet && formData.date) {
-      fetchAvailability();
+    if (formData.vet) {
+      fetchAvailableDates();
+      setAvailabilityOptions([]);
+      setSelectedDate(null);
+      setFormData(prev => ({ ...prev, date: "", time: "" }));
     }
-  }, [formData.vet, formData.date]);
+  }, [formData.vet]);
 
 
   const fetchAvailability = async () => {
@@ -197,6 +203,40 @@ function CreateAppointment() {
   const handleAvailabilitySelect = (option) => {
     setSelectedAvailability(option);
     setFormData((prev) => ({ ...prev, time: option.value }));
+  };
+
+  const fetchAvailableDates = async () => {
+    const res = await axios.get(
+      `http://localhost:3000/appointment/availability/dates/${formData.vet}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    const options = res.data.data.map(date => ({
+      value: date,
+      label: date
+    }));
+
+    setAvailableDates(options);
+  };
+
+  useEffect(() => {
+    if (selectedDate && formData.vet) {
+      fetchTimesByDate(selectedDate.value);
+    }
+  }, [selectedDate]);
+
+  const fetchTimesByDate = async (date) => {
+    const res = await axios.get(
+      `http://localhost:3000/appointment/availability/times/${formData.vet}/${date}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    const options = res.data.map(block => ({
+      value: block.time,
+      label: block.time
+    }));
+
+    setAvailabilityOptions(options);
   };
 
   // ================= VACCINES =================
@@ -323,19 +363,22 @@ function CreateAppointment() {
           </label>
 
           {formData.vet && (
-            <>
-              <label>Fecha*
-                <input
-                  id="appointment-input-6"
-                  type="date"
-                  value={formData.date}
-                  onChange={(e) =>
-                    setFormData({ ...formData, date: e.target.value })
-                  }
-                />
-              </label>
-            </>
+            <label>Fecha*
+              <Select
+                id="appointment-input-7"
+                placeholder="Seleccione una fecha disponible"
+                options={availableDates}
+                value={selectedDate}
+                onChange={(option) => {
+                  setSelectedDate(option);
+                  setFormData(prev => ({ ...prev, date: option.value, time: "" }));
+                  setSelectedAvailability(null);
+                  setAvailabilityOptions([]);
+                }}
+              />
+            </label>
           )}
+
           {error.vet && <p style={{color: "red"}} >{error.vet}</p>}
 
           {formData.date && (
@@ -346,6 +389,7 @@ function CreateAppointment() {
                   options={availabilityOptions}
                   value={selectedAvailability}
                   onChange={handleAvailabilitySelect}
+                  placeholder="Seleccione un horario"
                 />
               </label>
             </>
