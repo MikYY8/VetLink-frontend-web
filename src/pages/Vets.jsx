@@ -116,7 +116,7 @@ function GetVets(){
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody className="table-body">
                     {filteredVets.map((a) => (
                         <tr key={a._id}>
                             <td>{a.firstName} {a.lastName}</td>

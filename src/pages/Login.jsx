@@ -32,11 +32,11 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-container-child">
-        <h2 className="login-text"><PawPrint size={30} /> Login</h2>
+        <h2 className="login-text"><PawPrint size={30} />Iniciar sesión</h2>
         <hr className="white-bar" />
 
         <form onSubmit={handleSubmit}>
-          <input className="input-login" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input className="input-login" type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} />
           <br/>
           <input className="input-login" type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
           <br/>

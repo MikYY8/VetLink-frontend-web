@@ -80,24 +80,20 @@ function GetPets(){
     };
 
     function formatearEdad(pet) {
-    if (!pet.birthDate) return "—";
+        if (!pet.birthDate) return "—";
+        const { years, months } = calcularEdad(pet.birthDate);
+        let texto = "";
 
-    const { years, months } = calcularEdad(pet.birthDate);
+        if (years > 0) {
+            texto = `${years} año(s)`;
+            if (months > 0) texto += ` y ${months} mes(es)`;
+        } else {
+            texto = `${months} mes(es)`;
+        };
 
-    let texto = "";
+        if (pet.isEstimated) texto += " (estimado)";
 
-    if (years > 0) {
-        texto = `${years} año(s)`;
-        if (months > 0) texto += ` y ${months} mes(es)`;
-    } else {
-        texto = `${months} mes(es)`;
-    };
-
-    if (pet.isEstimated) {
-        texto += " (estimado)";
-    };
-
-    return texto;
+        return texto;
     };
 
     return(
@@ -133,7 +129,7 @@ function GetPets(){
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody className="table-body">
                     {filteredPets.map((a) => (
                         <tr key={a._id}>
                             <td>{a.name}</td>

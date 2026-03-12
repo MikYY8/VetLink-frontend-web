@@ -107,7 +107,7 @@ function GetUsers(){
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody className="table-body">
                     {filteredUsers.map((a) => (
                         <tr key={a._id}>
                             <td>{a.firstName}</td>
