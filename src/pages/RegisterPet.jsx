@@ -6,9 +6,14 @@ import { Dog } from 'lucide-react';
 import { toast } from 'react-toastify';
 
 function RegisterPet() {
-    const [formData, setFormData] = useState({name: "", age: "", sex: "", species: "",
+    const [formData, setFormData] = useState({name: "", birthDate: "", isEstimated: false, sex: "", species: "",
         breed: "", color: "", isNeutered: false, photoUrl: "", 
         owner: "" })
+
+    const [ageInputType, setAgeInputType] = useState("DATE"); // DATE | AGE
+    const [ageValue, setAgeValue] = useState("");
+    const [ageUnit, setAgeUnit] = useState("MONTHS");
+
     const [error, setError] = useState({});
     const [success, setSuccess] = useState("");
     const navigate = useNavigate()
@@ -23,7 +28,12 @@ function RegisterPet() {
     const validate = () => {
         let newErrors = {}; // guardamos errores, luego los transferimos a setError
         if(!formData.name) {newErrors.name = "Ingrese el nombre de la mascota"};
-        if(!formData.age) {newErrors.age = "Ingrese la edad aproximada de la mascota"};
+        if (ageInputType === "DATE" && !formData.birthDate) {
+        newErrors.birthDate = "Ingrese la fecha de nacimiento";
+        };
+        if (ageInputType === "AGE" && !ageValue) {
+        newErrors.age = "Ingrese la edad aproximada";
+        };
         if(!formData.sex) {newErrors.sex = "Seleccione el sexo de la mascota"};
         if(!formData.species) {newErrors.species = "Seleccione la especie de la mascota"};
         if(!formData.breed) {newErrors.breed = "Ingrese la raza de la mascota"};
@@ -114,10 +124,30 @@ function RegisterPet() {
             return;
         }
 
+        let finalBirthDate;
+        let isEstimated = false;
+
+        if (ageInputType === "DATE") {
+            finalBirthDate = formData.birthDate;
+        } else {
+            const today = new Date();
+            const birth = new Date(today);
+
+            if (ageUnit === "MONTHS") {
+                birth.setMonth(today.getMonth() - ageValue);
+            } else {
+                birth.setFullYear(today.getFullYear() - ageValue);
+            };
+
+            finalBirthDate = birth.toISOString();
+            isEstimated = true;
+        };
+
         const data = new FormData();
 
         data.append("name", formData.name);
-        data.append("age", formData.age);
+        data.append("birthDate", finalBirthDate);
+        data.append("isEstimated", isEstimated);
         data.append("sex", formData.sex);
         data.append("species", formData.species);
         data.append("breed", formData.breed);
@@ -142,7 +172,8 @@ function RegisterPet() {
             setSuccess("Mascota creada con éxito");
             setFormData({
             name: "",
-            age: "",
+            birthDate: "",
+            isEstimated: false,
             sex: "",
             species: "",
             breed: "",
@@ -151,6 +182,9 @@ function RegisterPet() {
             photoUrl: "",
             owner: ""
             });
+            setAgeValue("");
+            setAgeUnit("MONTHS");
+            setAgeInputType("DATE");
 
             setSelectedOwner(null);
         } catch (err) {
@@ -176,17 +210,59 @@ function RegisterPet() {
                     </label>
                     {error.name && <p style={{color: "red"}} >{error.name}</p>}
 
-                    <label htmlFor="age">
-                        Edad*
+                    <label>Edad de la mascota*</label>
+
+                    <div style={{ marginBottom: "10px" }}>
+                        <label>
+                            <input
+                            type="radio"
+                            value="DATE"
+                            checked={ageInputType === "DATE"}
+                            onChange={() => setAgeInputType("DATE")}
+                            />
+                            Sé la fecha de nacimiento
+                        </label>
+
+                        <label style={{ marginLeft: "10px" }}>
+                            <input
+                            type="radio"
+                            value="AGE"
+                            checked={ageInputType === "AGE"}
+                            onChange={() => setAgeInputType("AGE")}
+                            />
+                            No sé la fecha, solo la edad aproximada
+                        </label>
+                    </div>
+
+                    {ageInputType === "DATE" && (
+                    <input
+                        type="date"
+                        value={formData.birthDate}
+                        onChange={(e) =>
+                        setFormData({ ...formData, birthDate: e.target.value })
+                        }
+                    />
+                    )}
+
+                    {ageInputType === "AGE" && (
+                    <div>
                         <input
-                            id="pet-input-2"
-                            name="age"
-                            placeholder="Edad"
-                            value={formData.age}
-                            onChange={handleChange}
+                        type="number"
+                        placeholder="Edad"
+                        value={ageValue}
+                        onChange={(e) => setAgeValue(e.target.value)}
                         />
-                    </label>
-                    {error.age && <p style={{color: "red"}} >{error.age}</p>}
+
+                        <select
+                        value={ageUnit}
+                        onChange={(e) => setAgeUnit(e.target.value)}
+                        >
+                        <option value="MONTHS">Meses</option>
+                        <option value="YEARS">Años</option>
+                        </select>
+                    </div>
+                    )}
+
 
                     <label htmlFor="sex">
                         Sexo*

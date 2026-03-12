@@ -3,24 +3,24 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { CalendarDays } from 'lucide-react';
 import PopUpBlock from "../components/PopUpBlock";
+import Select from "react-select";
 
 const VetAvailability = () => {
   const { vetId } = useParams();
   const [blocks, setBlocks] = useState([]);
-  const [date, setDate] = useState("");
   const [loading, setLoading] = useState(true);
+  const [availableDates, setAvailableDates] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
 
-  const fetchAvailability = async () => {
+  const fetchAvailability = async (selectedDate) => {
     const token = localStorage.getItem("token");
     setLoading(true);
 
     try {
       const res = await axios.get(`http://localhost:3000/appointment/available-blocks`, {
-          params: { vetId, date },
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-        }) ;
+          params: { vetId, date: selectedDate },
+          headers: {Authorization: `Bearer ${token}`},
+        });
       setBlocks(res.data.data);
     } catch (err) {
       console.error(err);
@@ -30,16 +30,49 @@ const VetAvailability = () => {
   };
 
   useEffect(() => {
-    if (date) fetchAvailability();
-  }, [date]);
+    fetchAvailableDates();
+  }, []);
+
+  useEffect(() => {
+    if (selectedDate) {
+      fetchAvailability(selectedDate.value);
+    }
+  }, [selectedDate]);
+
+  const fetchAvailableDates = async () => {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.get(
+      `http://localhost:3000/appointment/availability/dates/${vetId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    const options = res.data.data.map(date => ({
+      value: date,
+      label: date
+    }));
+
+    setAvailableDates(options);
+  };
 
   return (
     <div className="main-container">
         <h2 className="cool-h2-text"><CalendarDays size={30} />Disponibilidad</h2>
 
-        <label htmlFor="date">
-          Seleccione una fecha
-          <input type="date" id="appointment-input-6" value={date} onChange={(e) => setDate(e.target.value)}/>
+        <label>
+          Seleccione una fecha disponible
+          <Select
+            id="availability-input-1"
+            placeholder="Seleccione una fecha"
+            options={availableDates}
+            value={selectedDate}
+            onChange={(option) => {
+              setSelectedDate(option);
+              setBlocks([]);
+            }}
+          />
         </label>
 
         <table style={{ width: "50%", borderCollapse: "collapse", marginTop: "20px" }}>
