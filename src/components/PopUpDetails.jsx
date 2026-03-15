@@ -40,9 +40,9 @@ export default function PopUpDetails({ appointmentId }) {
               <p>Cargando...</p>
             ) : (
               <>
-                <h3>Detalles del turno</h3>
-                <p><b>Descripción:</b> {details.details}</p>
-                <p><b>Precio:</b> ${details.price}</p>
+                <h3 id="app-details-txt">Detalles del turno</h3>
+                <p id="app-details-desc"><b>Descripción:</b> {details.details || "Sin detalles"}</p>
+                {/* <p><b>Precio:</b> ${details.price}</p> */}
               </>
             )}
 

@@ -346,15 +346,25 @@ table tbody tr:nth-child(even) {
   background-color: var(--accent);
 }
 
-#pet-input-1, #pet-input-2, #pet-input-5, #pet-input-6, #user-input-1, #user-input-2, #user-input-3, #user-input-4{
+#pet-input-1, #pet-input-5, #pet-input-6, #user-input-1, #user-input-2, #user-input-3, #user-input-4{
   padding: 10px;
   border-radius: 5px;
   width: 100%;
+  font-size: 16px;
 }
 
-#pet-input-2{
-  width: 20%;
-  margin-left: 10px;
+#pet-input-2a{
+  padding: 10px;
+  font-size: 16px;
+}
+
+#pet-input-2b, #pet-input-2c{
+  padding: 6px;
+  font-size: 16px;
+}
+
+#pet-input-2c{
+  margin-left: 14px;
 }
 
 #pet-input-3, #pet-input-4, #pet-input-8, #vet-input-8, #user-input-5, #appointment-input-3{
@@ -367,30 +377,48 @@ table tbody tr:nth-child(even) {
 
 #pet-input-7, #consultations{
   width: 10%;
+  height: 18px
+}
+
+#pet-input-7:hover, #consultations:hover{
+  cursor:pointer;
+}
+
+#pet-input-7{
+  padding: 20px;
+  height: 18px;
+}
+
+#pet-input-7:hover{
+  cursor:pointer;
 }
 
 #vet-input-1, #phone{
   padding: 10px;
   border-radius: 5px;
   width: 100%;
+  font-size: 16px;
 }
 
 #vet-input-3{
   margin-left: 10px;
   width: 50%;
   padding: 10px;
+  font-size: 16px;
 }
 
 #vet-work-schedule-1{
  margin: 0px 5px 0px 0px;
   padding: 10px;
   border-radius: 5px;
+  font-size: 16px;
 }
 
 #vet-work-schedule-2{
   margin: 0px 5px 0px 10px;
   padding: 10px;
   border-radius: 5px;
+  font-size: 16px;
 }
 
 .search-bar-input{
@@ -409,3 +437,16 @@ table tbody tr:nth-child(even) {
   font-size: 16px;
   width: 400px;
 }
+
+/* ==================   POP-UP DUDOSO   ================== */
+
+#app-details-txt{
+  font: 26px var(--primary-font);
+  color: var(--text);
+  text-align: center;
+}
+
+#app-details-desc{
+  font: 18px Arial;
+}
+

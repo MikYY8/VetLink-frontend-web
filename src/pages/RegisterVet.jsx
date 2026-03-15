@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 function RegisterVet() {
-    const [formData, setFormData] = useState({firstName: "", lastName: "", email: "", password: "",
+    const [formData, setFormData] = useState({firstName: "", lastName: "", dni: "", email: "", password: "",
         licenseNumber: "", specialty: "", acceptsConsultations: false, phone: "",
         photoUrl: "", workSchedule: {start: "", end: ""}, role: "VET"})
     const [error, setError] = useState({});
@@ -16,7 +16,8 @@ function RegisterVet() {
     const validate = () => {
         let newErrors = {}; // guardamos errores, luego los transferimos a setError
         if(!formData.firstName) {newErrors.firstName = "Ingrese un nombre"};
-        if(!formData.lastName) {newErrors.lastName = "Ingrese un nombre"};
+        if(!formData.lastName) {newErrors.lastName = "Ingrese un apellido"};
+        if(!formData.dni) {newErrors.dni = "Ingrese un DNI válido"};
         if(!formData.email) {newErrors.email = "Ingrese un email"};
         if(!formData.password) {newErrors.password = "Ingrese una contraseña"};
         if(!formData.licenseNumber) {newErrors.licenseNumber = "Ingrese número de licencia"};
@@ -70,6 +71,7 @@ function RegisterVet() {
 
         data.append("firstName", formData.firstName);
         data.append("lastName", formData.lastName);
+        data.append("dni", formData.dni);
         data.append("email", formData.email);
         data.append("password", formData.password);
         data.append("licenseNumber", formData.licenseNumber);
@@ -90,7 +92,7 @@ function RegisterVet() {
                 },
             });
 
-            setFormData({firstName: "", lastName: "", email: "", password: "",
+            setFormData({firstName: "", lastName: "", dni: "", email: "", password: "",
                         licenseNumber: "", specialty: "", acceptsConsultations: false, 
                         phone: "", photoUrl: "", workSchedule: {start: "", end: ""}, role: "VET"})
             setSuccess("Veterinario creado con éxito")
@@ -128,6 +130,18 @@ function RegisterVet() {
                         />
                     </label>
                     {error.lastName && <p style={{color: "red"}} >{error.lastName}</p>}
+
+                    <label htmlFor="dni" >
+                        DNI *
+                        <input 
+                            id="vet-input-1"
+                            name="dni" 
+                            placeholder="DNI" 
+                            value={formData.dni} 
+                            onChange={handleChange} 
+                        />
+                    </label>
+                    {error.dni && <p style={{color: "red"}} >{error.dni}</p>}
 
                     <label htmlFor="email" >
                         Email *

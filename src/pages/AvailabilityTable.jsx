@@ -99,7 +99,7 @@ const VetAvailability = () => {
                 ))}
             </tbody>
         </table>
-        {loading && <p>Cargando horarios disponibles...</p>}
+        {loading && <p style={{ paddingBottom:"20px", marginBottom: "0px"}}>Seleccione un fecha...</p>}
     </div>
   );
 };

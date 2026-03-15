@@ -11,6 +11,7 @@ function UpdateVet() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    dni: "",
     email: "",
     password: "",
     licenseNumber: "", 
@@ -34,6 +35,7 @@ function UpdateVet() {
         setFormData({
             firstName: vet.firstName || "",
             lastName: vet.lastName || "",
+            dni: vet.dni || "",
             email: vet.email || "",
             password: vet.password,
             licenseNumber: vet.licenseNumber || "",
@@ -117,6 +119,16 @@ function UpdateVet() {
                     id="vet-input-1"
                     name="lastName" 
                     value={formData.lastName} 
+                    onChange={handleChange} 
+                />
+            </label>
+
+            <label htmlFor="dni">
+                DNI
+                <input 
+                    id="vet-input-1"
+                    name="dni" 
+                    value={formData.dni} 
                     onChange={handleChange} 
                 />
             </label>

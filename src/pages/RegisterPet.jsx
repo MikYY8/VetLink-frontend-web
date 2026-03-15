@@ -236,6 +236,7 @@ function RegisterPet() {
 
                     {ageInputType === "DATE" && (
                     <input
+                        id="pet-input-2a"
                         type="date"
                         value={formData.birthDate}
                         onChange={(e) =>
@@ -247,6 +248,7 @@ function RegisterPet() {
                     {ageInputType === "AGE" && (
                     <div>
                         <input
+                        id="pet-input-2b"
                         type="number"
                         placeholder="Edad"
                         value={ageValue}
@@ -254,6 +256,7 @@ function RegisterPet() {
                         />
 
                         <select
+                        id="pet-input-2c"
                         value={ageUnit}
                         onChange={(e) => setAgeUnit(e.target.value)}
                         >
@@ -309,7 +312,7 @@ function RegisterPet() {
                     {error.color && <p style={{color: "red"}} >{error.color}</p>}
 
                     <label htmlFor="isNeutered">
-                        Estado de castración
+                        ¿Está castrado/a?
                         <input
                             id="pet-input-7"
                             type="checkbox" 

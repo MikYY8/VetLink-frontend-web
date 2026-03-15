@@ -19,6 +19,9 @@ import UpdatePet from "./pages/UpdatePet"
 
 import VetAvailability from "./pages/AvailabilityTable";
 
+import UnauthorizedAccess from "./pages/UnauthorizedAccess"
+import PageNotFound from "./pages/PageNotFound";
+
 import ProtectedRoute from "./components/ProtectedRoute"
 import PrivateLayout from "./components/PrivateLayout"
 
@@ -37,7 +40,6 @@ function App() {
               <PrivateLayout/>
           </ProtectedRoute> } >
 
-          {/* <Route path="/" element={<GoToLogin />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-appointment" element={<CreateAppointment />} />
 
@@ -54,6 +56,8 @@ function App() {
           <Route path="/update-pet/:petId" element={<UpdatePet />} />
 
           <Route path="/vets/:vetId/availability" element={<VetAvailability />} />
+          
+          <Route path="*" element={<PageNotFound />} />
 
         </Route>
 
