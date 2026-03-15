@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 function RegisterUser() {
-  const [formData, setFormData] = useState({firstName: "", lastName: "", email: "", password: "", role: "OWNER", });
+  const [formData, setFormData] = useState({firstName: "", lastName: "", dni: "", email: "", password: "", role: "OWNER", });
   const [error, setError] = useState({});
   const navigate = useNavigate()
   const token = localStorage.getItem("token");
@@ -12,7 +12,8 @@ function RegisterUser() {
     const validate = () => {
         let newErrors = {}; // guardamos errores, luego los transferimos a setError
         if(!formData.firstName) {newErrors.firstName = "Ingrese un nombre"};
-        if(!formData.lastName) {newErrors.lastName = "Ingrese un nombre"};
+        if(!formData.lastName) {newErrors.lastName = "Ingrese un apellido"};
+        if(!formData.dni) {newErrors.dni = "Ingrese un DNI válido"};
         if(!formData.email) {newErrors.email = "Ingrese un email válido"};
         if(!formData.password) {newErrors.password = "Ingrese una contraseña"};
         if(formData.password.length < 6) {newErrors.password = "La contraseña debe tener al menos 6 caracteres"}
@@ -44,7 +45,7 @@ function RegisterUser() {
           },
         });
 
-      setFormData({firstName: "", lastName: "", email: "", password: "", role: "OWNER"});
+      setFormData({firstName: "", lastName: "", dni: "", email: "", password: "", role: "OWNER"});
     }catch(err){
         console.log(err)
     };
@@ -81,6 +82,19 @@ function RegisterUser() {
           </label>
           
           {error.lastName && <p style={{color: "red"}} >{error.lastName}</p>}
+
+          <label htmlFor="dni" >
+            DNI
+            <input
+              id="user-input-2"
+              name="dni"
+              placeholder="DNI"
+              value={formData.dni}
+              onChange={handleChange}
+            />
+          </label>
+          
+          {error.dni && <p style={{color: "red"}} >{error.dni}</p>}
 
           <label htmlFor="email" >
             Email

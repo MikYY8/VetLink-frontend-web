@@ -101,6 +101,7 @@ function GetUsers(){
                     <tr>
                         <th>Nombre</th>
                         <th>Apellido</th>
+                        <th>DNI</th>
                         <th>Email</th>
                         <th>Rol</th>
                         <th colSpan={2}>ACCIONES</th>
@@ -112,6 +113,7 @@ function GetUsers(){
                         <tr key={a._id}>
                             <td>{a.firstName}</td>
                             <td>{a.lastName}</td>
+                            <td>{a.dni}</td>
                             <td>{a.email}</td>
                             <td>{rolesMap[a.role] || a.role}</td>
                             <td>{a.role === "OWNER" && (<button className="btn" onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>

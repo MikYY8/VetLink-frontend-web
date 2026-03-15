@@ -106,6 +106,7 @@ function GetVets(){
                 <thead>
                     <tr>
                         <th>Nombre</th>
+                        <th>DNI</th>
                         <th>Email</th>
                         <th>N° de licencia</th>
                         <th>Especialidad</th>
@@ -120,6 +121,7 @@ function GetVets(){
                     {filteredVets.map((a) => (
                         <tr key={a._id}>
                             <td>{a.firstName} {a.lastName}</td>
+                            <td>{a.dni}</td>
                             <td>{a.email}</td>
                             <td>{a.licenseNumber}</td>
                             <td>{specialtyMap[a.specialty] || a.specialty}</td>

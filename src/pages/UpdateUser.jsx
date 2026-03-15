@@ -11,6 +11,7 @@ function UpdateUser() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    dni: "",
     email: "",
     password: "",
   });
@@ -67,6 +68,16 @@ function UpdateUser() {
               id="user-input-2"
               name="lastName" 
               value={formData.lastName} 
+              onChange={handleChange} 
+            />
+          </label>
+
+          <label htmlFor="dni">
+            DNI
+            <input 
+              id="user-input-2"
+              name="dni" 
+              value={formData.dni} 
               onChange={handleChange} 
             />
           </label>
