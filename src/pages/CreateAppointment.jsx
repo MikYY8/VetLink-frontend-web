@@ -9,7 +9,7 @@ function CreateAppointment() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [formData, setFormData] = useState({ pet: "", owner: "", vet: "",
-    date: "", time: "", type: "", vaccineName: "", details: "", price: "" });
+    date: "", time: "", type: "", vaccineName: "", details: "" });
 
   const [availableDates, setAvailableDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -32,7 +32,7 @@ function CreateAppointment() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState({});
 
-  const prices = { CONSULTATION: 5000, CONTROL: 4000, VACCINATION: 3000, SURGERY: 10000, };
+  // const prices = { CONSULTATION: 5000, CONTROL: 4000, VACCINATION: 3000, SURGERY: 10000, };
 
   // ================= VALIDATIONS =================
 
@@ -143,7 +143,7 @@ function CreateAppointment() {
     if (formData.type) {
       setFormData((prev) => ({
         ...prev,
-        price: prices[formData.type],
+        // price: prices[formData.type],
       }));
       fetchVetsByType(formData.type);
     }
@@ -406,7 +406,7 @@ function CreateAppointment() {
             />
           </label>
 
-          <label>
+          {/* <label>
             Precio (sujeto a cambios el día del turno)
             $ARS
             <input 
@@ -414,7 +414,7 @@ function CreateAppointment() {
               value={formData.price} 
               readOnly 
             />
-          </label>
+          </label> */}
 
           <div className="center-stupid-div-again">
             <button className="pet-btn" type="submit">Agendar turno</button>

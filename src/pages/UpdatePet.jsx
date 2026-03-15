@@ -218,6 +218,7 @@ function UpdatePet() {
 
                     {ageInputType === "DATE" && (
                     <input
+                        id="pet-input-2a"
                         type="date"
                         value={formData.birthDate}
                         onChange={(e) =>
@@ -229,6 +230,7 @@ function UpdatePet() {
                     {ageInputType === "AGE" && (
                     <div>
                         <input
+                        id="pet-input-2b"
                         type="number"
                         placeholder="Edad"
                         value={ageValue}
@@ -236,6 +238,7 @@ function UpdatePet() {
                         />
 
                         <select
+                        id="pet-input-2c"
                         value={ageUnit}
                         onChange={(e) => setAgeUnit(e.target.value)}
                         >
