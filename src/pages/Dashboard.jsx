@@ -39,11 +39,7 @@ function Dashboard() {
     try{
       const res = await api.get(`/appointment/dashboard?${params.toString()}`);
 
-      // console.log("Response:", res);
-      const result = await res.json();
-      // console.log("Result JSON:", result);
-
-      setAppointments(result.data || []);
+      setAppointments(res.data || []);
     }catch(err){
       // console.error("Fetch error:", err);
       setError(err.message);
@@ -71,9 +67,7 @@ function Dashboard() {
 
     try{
       await api.patch(`/appointment/status/${appointmentId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "CANCELLED" }),
+        status: "CANCELLED"
       });
 
       // refrescar dashboard
@@ -89,13 +83,9 @@ function Dashboard() {
     const token = localStorage.getItem("token");
 
     try{
-      const res = await api.get(`/users/allvets`, {
-        method: "GET",
-      });
+      const res = await api.get(`/users/allvets`);
 
-      const result = await res.json();
-      // console.log(result)
-      setVets(result.data);
+      setVets(res.data || []);
     }catch(error){
       setError(error.message);
     };

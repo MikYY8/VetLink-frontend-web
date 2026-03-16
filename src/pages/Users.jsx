@@ -22,17 +22,12 @@ function GetUsers(){
     });
 
     const fetchUsers = async () => {
-        const token = localStorage.getItem("token");
         setLoading(true);
 
         try{
             const res = await api.get(`/users/allusers`)
 
-            // console.log("Response:", res);
-            const result = await res.json();
-            // console.log("Result JSON:", result);
-            setUsers(result.data || []);
-
+            setUsers(res.data || []);
         }catch(error){
             // console.error("Fetch error:", error);
             setError(error.message);
@@ -58,9 +53,7 @@ function GetUsers(){
         // if (!confirmDelete) return;
         
         try{
-            const res = await api.delete(`/users/delete-user/${ownerId}`, {
-                method: "DELETE",
-            });
+            const res = await api.delete(`/users/delete-user/${ownerId}`);
             if (!res.ok) throw new Error("Error al eliminar usuario");
             
             toast.success("Usuario eliminado")

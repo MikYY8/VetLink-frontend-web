@@ -23,8 +23,7 @@ export default function PopUpBlock({ availabilityBlockId }) {
     try {
       const res = await api.get(`/appointment/block/${availabilityBlockId}`,);
 
-      const result = await res.json();
-      setBlock(result.data);
+      setBlock(res.data || []);
 
       setFormData({
         available: result.data.available,

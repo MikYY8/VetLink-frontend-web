@@ -28,12 +28,7 @@ function GetVets(){
         try{
             const res = await api.get(`/users/allvets`)
 
-        // console.log("Response:", res);
-        const result = await res.json();
-        // console.log("Result JSON:", result);
-
-        setVets(result.data || []);
-
+            setVets(res.data || []);
         }catch(error){
             // console.error("Fetch error:", error);
             setError(error.message);
@@ -63,9 +58,7 @@ function GetVets(){
         const token = localStorage.getItem("token");
 
         try {
-            const res = await api.delete(`/users/delete-vet/${vetId}`, {
-            method: "DELETE",
-            });
+            const res = await api.delete(`/users/delete-vet/${vetId}`);
             if (!res.ok)  throw new Error("Error al eliminar veterinario");
 
             toast.success("Veterinario eliminado")
