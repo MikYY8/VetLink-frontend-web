@@ -28,12 +28,7 @@ function GetPets(){
         try{
             const res = await api.get(`/owner/allpets`)
 
-        // console.log("Response:", res);
-        const result = await res.json();
-        // console.log("Result JSON:", result);
-
-        setPets(result.data || []);
-
+            setPets(res.data || []);
         }catch(error){
             // console.error("Fetch error:", error);
             setError(error.message);
@@ -57,9 +52,7 @@ function GetPets(){
         const token = localStorage.getItem("token");
         
         try{
-            const res = await api.delete(`/owner/pets/${petId}`, {
-                method: "DELETE",
-            });
+            const res = await api.delete(`/owner/pets/${petId}`);
             if (!res.ok) throw new Error("Error al eliminar mascota")
 
             toast.success("Mascota eliminada")
