@@ -190,7 +190,7 @@ function RegisterVet() {
                             <option value="SURGERY">Cirugía</option>
                             <option value="DERMATOLOGY">Dermatología</option>
                             <option value="CARDIOLOGY">Cardiología</option>
-                            <option value="TRAUMATOLOGY">Traumatología</option>
+                            <option value="ONCOLOGY">Oncología</option>
                         </select>
                     </label>
                     {error.specialty && <p style={{color: "red"}} >{error.specialty}</p>} 

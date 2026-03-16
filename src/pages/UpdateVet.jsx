@@ -43,28 +43,59 @@ function UpdateVet() {
         workSchedule: {start: "", end: ""}
     });
 
-    useEffect(() => { api.get(`/users/get-vet/${vetId}`)
-        .then(res => res.json())
-        .then(data => {
-        const vet = data.data;
+    // useEffect(() => { api.get(`/users/get-vet/${vetId}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //     const vet = data.data;
 
-        setFormData({
-            firstName: vet.firstName || "",
-            lastName: vet.lastName || "",
-            dni: vet.dni || "",
-            email: vet.email || "",
-            password: vet.password,
-            licenseNumber: vet.licenseNumber || "",
-            specialty: vet.specialty || "",
-            acceptsConsultations: vet.acceptsConsultations ?? false,
-            phone: vet.phone || "",
-            photoUrl: vet.photoUrl || "",
-            workSchedule: {
-            start: vet.workSchedule?.start || "",
-            end: vet.workSchedule?.end || "",
-            },
-        });
-        });
+    //     setFormData({
+    //         firstName: vet.firstName || "",
+    //         lastName: vet.lastName || "",
+    //         dni: vet.dni || "",
+    //         email: vet.email || "",
+    //         password: vet.password,
+    //         licenseNumber: vet.licenseNumber || "",
+    //         specialty: vet.specialty || "",
+    //         acceptsConsultations: vet.acceptsConsultations ?? false,
+    //         phone: vet.phone || "",
+    //         photoUrl: vet.photoUrl || "",
+    //         workSchedule: {
+    //         start: vet.workSchedule?.start || "",
+    //         end: vet.workSchedule?.end || "",
+    //         },
+    //     });
+    //     });
+    // }, []);
+
+    useEffect(() => {
+        const fetchVet = async () => {
+            try {
+                const res = await api.get(`/users/get-vet/${vetId}`);
+                const vet = res.data.data;
+
+                setFormData({
+                    firstName: vet.firstName || "",
+                    lastName: vet.lastName || "",
+                    dni: vet.dni || "",
+                    email: vet.email || "",
+                    password: "",
+                    licenseNumber: vet.licenseNumber || "",
+                    specialty: vet.specialty || "",
+                    acceptsConsultations: vet.acceptsConsultations ?? false,
+                    phone: vet.phone || "",
+                    photoUrl: vet.photoUrl || "",
+                    workSchedule: {
+                        start: vet.workSchedule?.start || "",
+                        end: vet.workSchedule?.end || "",
+                    },
+                });
+
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchVet();
     }, []);
 
     const handleChange = (e) => {

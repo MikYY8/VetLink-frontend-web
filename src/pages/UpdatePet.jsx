@@ -54,43 +54,87 @@ function UpdatePet() {
         owner: ""
     });
 
+    // useEffect(() => {
+    //     api.get(`/owner/pets/mypet/${petId}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         const pet = data.data;
+
+    //         const formattedBirthDate = pet.birthDate
+    //             ? pet.birthDate.split("T")[0]
+    //             : "";
+
+    //         setFormData({
+    //             name: pet.name || "",
+    //             birthDate: formattedBirthDate,
+    //             isEstimated: pet.isEstimated ?? false,
+    //             sex: pet.sex,
+    //             species: pet.species,
+    //             breed: pet.breed || "",
+    //             color: pet.color || "",
+    //             isNeutered: pet.isNeutered ?? false,
+    //             photoUrl: pet.photoUrl || "",
+    //             owner: pet.owner._id
+    //         });
+
+    //         // set radio button correcto
+    //         if (pet.isEstimated) {
+    //             setAgeInputType("AGE");
+    //         } else {
+    //             setAgeInputType("DATE");
+    //         };
+
+    //         setSelectedOwner({
+    //             value: pet.owner?._id,
+    //             label: pet.owner?.firstName 
+    //                 ? `${pet.owner.firstName} ${pet.owner.lastName}`
+    //                 : "Dueño sin nombre"
+    //         });
+    //     });
+    // }, []);
+
     useEffect(() => {
-        api.get(`/owner/pets/mypet/${petId}`)
-        .then(res => res.json())
-        .then(data => {
-            const pet = data.data;
+        const fetchPet = async () => {
+            try {
+                const res = await api.get(`/owner/pets/mypet/${petId}`);
+                const pet = res.data.data;
 
-            const formattedBirthDate = pet.birthDate
-                ? pet.birthDate.split("T")[0]
-                : "";
+                const formattedBirthDate = pet.birthDate
+                    ? pet.birthDate.split("T")[0]
+                    : "";
 
-            setFormData({
-                name: pet.name || "",
-                birthDate: formattedBirthDate,
-                isEstimated: pet.isEstimated ?? false,
-                sex: pet.sex,
-                species: pet.species,
-                breed: pet.breed || "",
-                color: pet.color || "",
-                isNeutered: pet.isNeutered ?? false,
-                photoUrl: pet.photoUrl || "",
-                owner: pet.owner._id
-            });
+                setFormData({
+                    name: pet.name || "",
+                    birthDate: formattedBirthDate,
+                    isEstimated: pet.isEstimated ?? false,
+                    sex: pet.sex,
+                    species: pet.species,
+                    breed: pet.breed || "",
+                    color: pet.color || "",
+                    isNeutered: pet.isNeutered ?? false,
+                    photoUrl: pet.photoUrl || "",
+                    owner: pet.owner._id
+                });
 
-            // set radio button correcto
-            if (pet.isEstimated) {
-                setAgeInputType("AGE");
-            } else {
-                setAgeInputType("DATE");
-            };
+                if (pet.isEstimated) {
+                    setAgeInputType("AGE");
+                } else {
+                    setAgeInputType("DATE");
+                }
 
-            setSelectedOwner({
-                value: pet.owner?._id,
-                label: pet.owner?.firstName 
-                    ? `${pet.owner.firstName} ${pet.owner.lastName}`
-                    : "Dueño sin nombre"
-            });
-        });
+                setSelectedOwner({
+                    value: pet.owner?._id,
+                    label: pet.owner?.firstName
+                        ? `${pet.owner.firstName} ${pet.owner.lastName}`
+                        : "Dueño sin nombre"
+                });
+
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchPet();
     }, []);
 
     // traer owners del back
