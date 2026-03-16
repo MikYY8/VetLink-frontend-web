@@ -28,7 +28,7 @@ function GetVets(){
         try{
             const res = await api.get(`/users/allvets`)
 
-            setVets(res.data || []);
+            setVets(res.data.data || []);
         }catch(error){
             // console.error("Fetch error:", error);
             setError(error.message);

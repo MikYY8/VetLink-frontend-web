@@ -27,7 +27,7 @@ function GetUsers(){
         try{
             const res = await api.get(`/users/allusers`)
 
-            setUsers(res.data || []);
+            setUsers(res.data.data || []);
         }catch(error){
             // console.error("Fetch error:", error);
             setError(error.message);

@@ -39,7 +39,7 @@ function Dashboard() {
     try{
       const res = await api.get(`/appointment/dashboard?${params.toString()}`);
 
-      setAppointments(res.data || []);
+      setAppointments(res.data.data || []);
     }catch(err){
       // console.error("Fetch error:", err);
       setError(err.message);
@@ -85,7 +85,7 @@ function Dashboard() {
     try{
       const res = await api.get(`/users/allvets`);
 
-      setVets(res.data || []);
+      setVets(res.data.data || []);
     }catch(error){
       setError(error.message);
     };
