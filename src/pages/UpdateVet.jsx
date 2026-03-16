@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../utils/axios";
 import { toast } from 'react-toastify';
 
 function UpdateVet() {
@@ -43,12 +43,7 @@ function UpdateVet() {
         workSchedule: {start: "", end: ""}
     });
 
-    useEffect(() => {
-    fetch(`http://localhost:3000/users/get-vet/${vetId}`, {
-        headers: {
-        Authorization: `Bearer ${token}`,
-        },
-    })
+    useEffect(() => { api.get(`/users/get-vet/${vetId}`)
         .then(res => res.json())
         .then(data => {
         const vet = data.data;
@@ -112,14 +107,7 @@ function UpdateVet() {
         setSuccess("Veterinario creado con éxito")
     };
 
-    await axios.put(`http://localhost:3000/users/update-vet/${vetId}`,
-    formData,
-    {
-        headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        },
-    });
+    await api.put(`/users/update-vet/${vetId}`, formData);
   };
 
   return (

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../utils/axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
@@ -43,12 +43,7 @@ function RegisterUser() {
     };
 
     try{
-      await axios.post("http://localhost:3000/users/register",
-        formData, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-          },
-        });
+      await api.post("/users/register", formData);
 
       toast.success("Usuario creado con éxito")
       setFormData({firstName: "", lastName: "", dni: "", email: "", password: "", role: "OWNER"});

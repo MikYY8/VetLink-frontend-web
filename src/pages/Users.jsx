@@ -3,6 +3,7 @@ import {Link, useNavigate } from "react-router-dom";
 import { Users } from 'lucide-react';
 import { rolesMap } from "../utils/translation";
 import { toast } from 'react-toastify';
+import api from "../utils/axios";
 
 function GetUsers(){
     const [users, setUsers] = useState([]);
@@ -25,9 +26,7 @@ function GetUsers(){
         setLoading(true);
 
         try{
-            const res = await fetch(`http://localhost:3000/users/allusers`, {
-                headers: { Authorization: `Bearer ${token}`},
-            })
+            const res = await api.get(`/users/allusers`)
 
             // console.log("Response:", res);
             const result = await res.json();
@@ -59,12 +58,8 @@ function GetUsers(){
         // if (!confirmDelete) return;
         
         try{
-            const res = await fetch(`http://localhost:3000/users/delete-user/${ownerId}`, {
+            const res = await api.delete(`/users/delete-user/${ownerId}`, {
                 method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
             });
             if (!res.ok) throw new Error("Error al eliminar usuario");
             

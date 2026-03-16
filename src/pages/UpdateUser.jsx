@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../utils/axios";
 import { toast } from 'react-toastify';
 
 function UpdateUser() {
@@ -36,11 +36,7 @@ function UpdateUser() {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:3000/users/get-user/${ownerId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    api.get(`/users/get-user/${ownerId}`)
       .then(res => res.json())
       .then(data => setFormData(data.data));
   }, []);
@@ -57,12 +53,7 @@ function UpdateUser() {
       // console.log(formData)
     };
 
-    await axios.put(`http://localhost:3000/users/update-user/${ownerId}`, formData, {
-      headers: { 
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    await api.put(`/users/update-user/${ownerId}`, formData);
   };
 
   return (

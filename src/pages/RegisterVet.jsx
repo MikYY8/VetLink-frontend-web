@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../utils/axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
@@ -88,12 +88,7 @@ function RegisterVet() {
         };
 
         try{
-            await axios.post("http://localhost:3000/users/vet/register",
-            data, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            await api.post("/users/vet/register", data);
             
             toast.success("Veterinario creado con éxito")
 

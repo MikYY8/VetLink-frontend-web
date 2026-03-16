@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../utils/axios";
 import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
 import { ClipboardClock } from 'lucide-react';
@@ -52,9 +52,7 @@ function CreateAppointment() {
   // ================= PETS =================
 
   const fetchPets = async () => {
-    const res = await axios.get("http://localhost:3000/owner/allpets", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await api.get("/owner/allpets");
 
     const options = res.data.data.map((pet) => ({
       value: pet._id,
@@ -86,14 +84,7 @@ function CreateAppointment() {
         try {
             setLoadingOwners(true);
 
-            const res = await axios.get(
-            `http://localhost:3000/users/allowners?query=${query}`,
-            {
-                headers: {
-                Authorization: `Bearer ${token}`,
-                },
-            }
-            );
+            const res = await api.get(`/users/allowners?query=${query}`);
 
             const options = res.data.data.map((owner) => ({
                 value: owner._id,
@@ -152,10 +143,7 @@ function CreateAppointment() {
   // ================= VETS =================
 
   const fetchVetsByType = async (type) => {
-    const res = await axios.get(
-      `http://localhost:3000/appointment/vets-by-type?type=${type}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const res = await api.get(`/appointment/vets-by-type?type=${type}`);
 
     const options = res.data.data.map((vet) => ({
       value: vet._id,
@@ -183,12 +171,11 @@ function CreateAppointment() {
 
 
   const fetchAvailability = async () => {
-    const res = await axios.get(`http://localhost:3000/appointment/available`, {
+    const res = await api.get(`/appointment/available`, {
         params: {
           vetId: formData.vet,
           date: formData.date,
         },
-        headers: { Authorization: `Bearer ${token}` },
       }
     );
 
@@ -206,10 +193,8 @@ function CreateAppointment() {
   };
 
   const fetchAvailableDates = async () => {
-    const res = await axios.get(
-      `http://localhost:3000/appointment/availability/dates/${formData.vet}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const res = await api.get(
+      `/appointment/availability/dates/${formData.vet}`);
 
     const options = res.data.data.map(date => ({
       value: date,
@@ -226,10 +211,8 @@ function CreateAppointment() {
   }, [selectedDate]);
 
   const fetchTimesByDate = async (date) => {
-    const res = await axios.get(
-      `http://localhost:3000/appointment/availability/times/${formData.vet}/${date}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const res = await api.get(
+      `/appointment/availability/times/${formData.vet}/${date}`);
 
     const options = res.data.map(block => ({
       value: block.time,
@@ -249,10 +232,8 @@ function CreateAppointment() {
 
 
   const fetchVaccines = async (species) => {
-    const res = await axios.get(
-      `http://localhost:3000/appointment/vaccines?species=${species}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const res = await api.get(
+      `/appointment/vaccines?species=${species}`);
 
     const options = res.data.data.map((vaccine) => ({
       value: vaccine.name,
@@ -273,7 +254,7 @@ function CreateAppointment() {
       // console.log(formData);
     };
 
-    await axios.post("http://localhost:3000/appointment/make-appointment", {
+    await api.post("/appointment/make-appointment", {
       petId: formData.pet,
       ownerId: formData.owner,
       vetId: formData.vet,
@@ -283,8 +264,7 @@ function CreateAppointment() {
       vaccineName: formData.vaccineName,
       details: formData.details,
       },
-      { headers: { Authorization: `Bearer ${token}` },
-    });
+    );
   
     toast.success("Turno reservado con éxito")
     setSuccess("Turno creado correctamente");

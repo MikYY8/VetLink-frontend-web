@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../utils/axios";
 import { CalendarDays } from 'lucide-react';
 import PopUpBlock from "../components/PopUpBlock";
 import Select from "react-select";
@@ -17,9 +17,8 @@ const VetAvailability = () => {
     setLoading(true);
 
     try {
-      const res = await axios.get(`http://localhost:3000/appointment/available-blocks`, {
+      const res = await api.get(`/appointment/available-blocks`, {
           params: { vetId, date: selectedDate },
-          headers: {Authorization: `Bearer ${token}`},
         });
       setBlocks(res.data.data);
     } catch (err) {
@@ -42,12 +41,7 @@ const VetAvailability = () => {
   const fetchAvailableDates = async () => {
     const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      `http://localhost:3000/appointment/availability/dates/${vetId}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    const res = await api.get(`/appointment/availability/dates/${vetId}`);
 
     const options = res.data.data.map(date => ({
       value: date,

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ClipboardClock } from 'lucide-react';
 import { toast } from 'react-toastify';
 import PopUpDetails from "../components/PopUpDetails.jsx";
+import api from "../utils/axios";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -36,9 +37,7 @@ function Dashboard() {
     if (to) params.append("to", toUTCDate(to));
       
     try{
-      const res = await fetch(`http://localhost:3000/appointment/dashboard?${params.toString()}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await api.get(`/appointment/dashboard?${params.toString()}`);
 
       // console.log("Response:", res);
       const result = await res.json();
@@ -71,12 +70,9 @@ function Dashboard() {
     const token = localStorage.getItem("token");
 
     try{
-      await fetch(`http://localhost:3000/appointment/status/${appointmentId}`, {
+      await api.patch(`/appointment/status/${appointmentId}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: "CANCELLED" }),
       });
 
@@ -93,11 +89,8 @@ function Dashboard() {
     const token = localStorage.getItem("token");
 
     try{
-      const res = await fetch(`http://localhost:3000/users/allvets`, {
+      const res = await api.get(`/users/allvets`, {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       });
 
       const result = await res.json();

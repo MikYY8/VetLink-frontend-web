@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../utils/axios";
 import Select from "react-select";
 import { Dog } from 'lucide-react';
 import { toast } from 'react-toastify';
@@ -68,14 +68,8 @@ function RegisterPet() {
         try {
             setLoadingOwners(true);
 
-            const res = await axios.get(
-            `http://localhost:3000/users/allowners?query=${query}`,
-            {
-                headers: {
-                Authorization: `Bearer ${token}`,
-                },
-            }
-            );
+            const res = await api.get(
+            `/users/allowners?query=${query}`);
 
             const options = res.data.data.map((owner) => ({
                 value: owner._id,
@@ -159,11 +153,7 @@ function RegisterPet() {
             console.log("SelectedOwner:", selectedOwner);
             console.log("FormData owner:", formData.owner);
 
-            await axios.post("http://localhost:3000/owner/pets/add", data, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            });
+            await api.post("/owner/pets/add", data);
 
             toast.success("Mascota creada con éxito")
 

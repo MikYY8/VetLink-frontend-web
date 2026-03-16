@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Dog } from "lucide-react";
-import axios from "axios";
+import api from "../utils/axios";
 import Select from "react-select";
 import { toast } from 'react-toastify';
 
@@ -55,11 +55,7 @@ function UpdatePet() {
     });
 
     useEffect(() => {
-        fetch(`http://localhost:3000/owner/pets/mypet/${petId}`, {
-            headers: {
-            Authorization: `Bearer ${token}`,
-            },
-        })
+        api.get(`/owner/pets/mypet/${petId}`)
         .then(res => res.json())
         .then(data => {
             const pet = data.data;
@@ -102,14 +98,8 @@ function UpdatePet() {
         try {
             setLoadingOwners(true);
 
-            const res = await axios.get(
-            `http://localhost:3000/users/allowners?query=${query}`,
-            {
-                headers: {
-                Authorization: `Bearer ${token}`,
-                },
-            }
-            );
+            const res = await api.get(
+            `/users/allowners?query=${query}`);
 
             const options = res.data.data.map((owner) => ({
                 value: owner._id,
@@ -190,12 +180,7 @@ function UpdatePet() {
         finalFormData.isEstimated = false;
     }
 
-    await axios.put(`http://localhost:3000/owner/pets/${petId}`, finalFormData, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-    });
+    await api.put(`/owner/pets/${petId}`, finalFormData);
   };
 
   return (
