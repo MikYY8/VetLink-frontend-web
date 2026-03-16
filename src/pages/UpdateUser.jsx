@@ -1,12 +1,31 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../utils/axios";
 import { toast } from 'react-toastify';
 
 function UpdateUser() {
   const { ownerId } = useParams();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const [error, setError] = useState({});
+  const [success, setSuccess] = useState("");
+
+    const validate = () => {
+        let newErrors = {}; // guardamos errores, luego los transferimos a setError
+        if(!formData.firstName) {newErrors.firstName = "Ingrese un nombre"};
+        if(!formData.lastName) {newErrors.lastName = "Ingrese un apellido"};
+        if(!formData.dni) {newErrors.dni = "Ingrese un DNI válido"};
+        if(!formData.email) {newErrors.email = "Ingrese un email válido"};
+        // if(!formData.password) {newErrors.password = "Ingrese una contraseña"};
+        // if(formData.password.length < 6) {newErrors.password = "La contraseña debe tener al menos 6 caracteres"}
+        // if(role === "SECRETARY" && formData.role === "ADMIN") {
+        //   newErrors.role = "Secretaría no puede crear nuevos administradores";
+        // } 
+        
+        setError(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -17,11 +36,7 @@ function UpdateUser() {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:3000/users/get-user/${ownerId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    api.get(`/users/get-user/${ownerId}`)
       .then(res => res.json())
       .then(data => setFormData(data.data));
   }, []);
@@ -32,19 +47,13 @@ function UpdateUser() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(validate()){
+      toast.success("Usuario actualizado con éxito")
+      navigate("/users")
+      // console.log(formData)
+    };
 
-    await axios.put(`http://localhost:3000/users/update-user/${ownerId}`,
-    formData,
-    {
-        headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        },
-    }
-    );
-
-    toast.success("Usuario actualizado con éxito")
-    navigate("/users");
+    await api.put(`/users/update-user/${ownerId}`, formData);
   };
 
   return (
@@ -62,6 +71,8 @@ function UpdateUser() {
             />
           </label>
 
+          {error.firstName && <p style={{color: "red"}} >{error.firstName}</p>}
+
           <label htmlFor="lastName">
             Apellido
             <input 
@@ -72,6 +83,8 @@ function UpdateUser() {
             />
           </label>
 
+          {error.lastName && <p style={{color: "red"}} >{error.lastName}</p>}
+
           <label htmlFor="dni">
             DNI
             <input 
@@ -81,6 +94,8 @@ function UpdateUser() {
               onChange={handleChange} 
             />
           </label>
+
+          {error.dni && <p style={{color: "red"}} >{error.dni}</p>}
           
           <label htmlFor="email">
             Email
@@ -91,6 +106,8 @@ function UpdateUser() {
               onChange={handleChange} 
             />
           </label>
+
+          {error.email && <p style={{color: "red"}} >{error.email}</p>}
 
           <label htmlFor="password">
             Contraseña

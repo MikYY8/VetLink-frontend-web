@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../utils/axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
@@ -8,6 +8,7 @@ function RegisterUser() {
   const [error, setError] = useState({});
   const navigate = useNavigate()
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
     const validate = () => {
         let newErrors = {}; // guardamos errores, luego los transferimos a setError
@@ -17,6 +18,9 @@ function RegisterUser() {
         if(!formData.email) {newErrors.email = "Ingrese un email válido"};
         if(!formData.password) {newErrors.password = "Ingrese una contraseña"};
         if(formData.password.length < 6) {newErrors.password = "La contraseña debe tener al menos 6 caracteres"}
+        if(role === "SECRETARY" && formData.role === "ADMIN") {
+          newErrors.role = "Secretaría no puede crear nuevos administradores";
+        } 
         
         setError(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -33,23 +37,20 @@ function RegisterUser() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(validate()){
-        toast.success("Usuario creado con éxito")
+        // toast.success("Usuario creado con éxito")
+        navigate("/users")
         // console.log(formData)
     };
 
     try{
-      await axios.post("http://localhost:3000/users/register",
-        formData, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-          },
-        });
+      await api.post("/users/register", formData);
 
+      toast.success("Usuario creado con éxito")
       setFormData({firstName: "", lastName: "", dni: "", email: "", password: "", role: "OWNER"});
     }catch(err){
         console.log(err)
     };
-    navigate("/users")
+    // navigate("/users")
 
   };
 
@@ -68,6 +69,7 @@ function RegisterUser() {
               onChange={handleChange}
             />
           </label>
+          
           {error.firstName && <p style={{color: "red"}} >{error.firstName}</p>}
 
           <label htmlFor="lastName" >
@@ -128,9 +130,11 @@ function RegisterUser() {
             <select id="user-input-5" name="role" value={formData.role} onChange={handleChange}>
               <option value="OWNER">Dueño</option>
               <option value="SECRETARY">Secretaría</option>
-              <option value="ADMIN">Administrador</option>
+              <option value="ADMIN" disabled={role === "SECRETARY"}>Administrador (solo admin)</option>
             </select>
           </label>
+
+          {error.role && <p style={{color: "red"}} >{error.role}</p>}
 
           <div className="center-stupid-div-again">
             <button className="user-btn" type="submit">Crear usuario</button>

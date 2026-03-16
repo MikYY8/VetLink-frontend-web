@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Dog } from "lucide-react";
-import axios from "axios";
+import api from "../utils/axios";
 import Select from "react-select";
 import { toast } from 'react-toastify';
 
@@ -9,6 +9,8 @@ function UpdatePet() {
     const { petId } = useParams();
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
+    const [error, setError] = useState({});
+    const [success, setSuccess] = useState("");
 
     const [ageInputType, setAgeInputType] = useState("AGE"); // DATE | AGE
     const [ageValue, setAgeValue] = useState("");
@@ -19,6 +21,25 @@ function UpdatePet() {
     const [loadingOwners, setLoadingOwners] = useState(false);
     const [selectedOwner, setSelectedOwner] = useState(null);
     const [searchOwner, setSearchOwner] = useState("");
+
+    const validate = () => {
+        let newErrors = {}; // guardamos errores, luego los transferimos a setError
+        if(!formData.name) {newErrors.name = "Ingrese el nombre de la mascota"};
+        if (ageInputType === "DATE" && !formData.birthDate) {
+            newErrors.birthDate = "Ingrese la fecha de nacimiento";
+        };
+        if (ageInputType === "AGE" && !ageValue) {
+            newErrors.age = "Ingrese la edad aproximada";
+        };
+        if(!formData.sex) {newErrors.sex = "Seleccione el sexo de la mascota"};
+        if(!formData.species) {newErrors.species = "Seleccione la especie de la mascota"};
+        if(!formData.breed) {newErrors.breed = "Ingrese la raza de la mascota"};
+        if(!formData.color) {newErrors.color = "Ingrese color de la mascota"};
+        if(!formData.owner) {newErrors.owner = "Seleccione el dueño asociado a la mascota"};
+
+        setError(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
   
     const [formData, setFormData] = useState({
         name: "",
@@ -34,11 +55,7 @@ function UpdatePet() {
     });
 
     useEffect(() => {
-        fetch(`http://localhost:3000/owner/pets/mypet/${petId}`, {
-            headers: {
-            Authorization: `Bearer ${token}`,
-            },
-        })
+        api.get(`/owner/pets/mypet/${petId}`)
         .then(res => res.json())
         .then(data => {
             const pet = data.data;
@@ -81,14 +98,8 @@ function UpdatePet() {
         try {
             setLoadingOwners(true);
 
-            const res = await axios.get(
-            `http://localhost:3000/users/allowners?query=${query}`,
-            {
-                headers: {
-                Authorization: `Bearer ${token}`,
-                },
-            }
-            );
+            const res = await api.get(
+            `/users/allowners?query=${query}`);
 
             const options = res.data.data.map((owner) => ({
                 value: owner._id,
@@ -145,6 +156,11 @@ function UpdatePet() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(validate()){
+        navigate("/pets")
+        toast.success("Mascota actualizada con éxito")
+        // console.log(formData)
+    };
 
     let finalFormData = { ...formData };
 
@@ -153,9 +169,9 @@ function UpdatePet() {
         let birthDate = new Date(today);
 
         if (ageUnit === "YEARS") {
-        birthDate.setFullYear(today.getFullYear() - parseInt(ageValue));
+            birthDate.setFullYear(today.getFullYear() - parseInt(ageValue));
         } else {
-        birthDate.setMonth(today.getMonth() - parseInt(ageValue));
+            birthDate.setMonth(today.getMonth() - parseInt(ageValue));
         }
 
         finalFormData.birthDate = birthDate.toISOString().split("T")[0];
@@ -164,18 +180,7 @@ function UpdatePet() {
         finalFormData.isEstimated = false;
     }
 
-    await axios.put(`http://localhost:3000/owner/pets/${petId}`,
-    finalFormData,
-    {
-        headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        },
-    }
-    );
-
-    toast.success("Mascota actualizada con éxito")
-    navigate("/pets");
+    await api.put(`/owner/pets/${petId}`, finalFormData);
   };
 
   return (
@@ -192,61 +197,66 @@ function UpdatePet() {
                     />
                 </label>
 
-                    <label>Edad de la mascota*</label>
+                {error.name && <p style={{color: "red"}} >{error.name}</p>}
 
-                    <div style={{ marginBottom: "10px" }}>
-                        <label>
-                            <input
+                <label>Edad de la mascota*</label>
+
+                <div style={{ marginBottom: "10px" }}>
+                    <label>
+                        <input
                             type="radio"
                             value="DATE"
                             checked={ageInputType === "DATE"}
                             onChange={() => setAgeInputType("DATE")}
-                            />
+                        />
                             Sé la fecha de nacimiento
-                        </label>
+                    </label>
 
-                        <label style={{ marginLeft: "10px" }}>
-                            <input
+                    <label style={{ marginLeft: "10px" }}>
+                        <input
                             type="radio"
                             value="AGE"
                             checked={ageInputType === "AGE"}
                             onChange={() => setAgeInputType("AGE")}
-                            />
+                        />
                             No sé la fecha, solo la edad aproximada
-                        </label>
-                    </div>
+                    </label>
+                </div>
 
-                    {ageInputType === "DATE" && (
+                {ageInputType === "DATE" && (
                     <input
                         id="pet-input-2a"
                         type="date"
                         value={formData.birthDate}
                         onChange={(e) =>
-                        setFormData({ ...formData, birthDate: e.target.value })
+                            setFormData({ ...formData, birthDate: e.target.value })
                         }
                     />
-                    )}
+                )}
 
-                    {ageInputType === "AGE" && (
+                {ageInputType === "AGE" && (
                     <div>
                         <input
-                        id="pet-input-2b"
-                        type="number"
-                        placeholder="Edad"
-                        value={ageValue}
-                        onChange={(e) => setAgeValue(e.target.value)}
+                            id="pet-input-2b"
+                            type="number"
+                            placeholder="Edad"
+                            value={ageValue}
+                            onChange={(e) => setAgeValue(e.target.value)}
                         />
 
                         <select
-                        id="pet-input-2c"
-                        value={ageUnit}
-                        onChange={(e) => setAgeUnit(e.target.value)}
+                            id="pet-input-2c"
+                            value={ageUnit}
+                            onChange={(e) => setAgeUnit(e.target.value)}
                         >
-                        <option value="MONTHS">Meses</option>
-                        <option value="YEARS">Años</option>
+                            <option value="MONTHS">Meses</option>
+                            <option value="YEARS">Años</option>
                         </select>
                     </div>
-                    )}
+                )}
+
+                {error.birthDate && <p style={{color: "red"}} >{error.birthDate}</p>}
+                {error.age && <p style={{color: "red"}} >{error.age}</p>}
 
                 <label htmlFor="sex">
                     Sexo
@@ -257,6 +267,8 @@ function UpdatePet() {
                     </select>
                 </label>
 
+                {error.sex && <p style={{color: "red"}} >{error.sex}</p>}
+
                 <label htmlFor="species">
                     Especie
                     <select id="pet-input-4" name="species" value={formData.species} onChange={handleChange}>
@@ -265,6 +277,8 @@ function UpdatePet() {
                         <option value="CAT">Gato</option>
                     </select>
                 </label>
+
+                {error.species && <p style={{color: "red"}} >{error.species}</p>}
 
                 <label htmlFor="breed">
                     Raza
@@ -277,6 +291,8 @@ function UpdatePet() {
                     />
                 </label>
 
+                {error.breed && <p style={{color: "red"}} >{error.breed}</p>}
+
                 <label htmlFor="color">
                     Color
                     <input 
@@ -287,6 +303,8 @@ function UpdatePet() {
                         onChange={handleChange}
                     />
                 </label>
+
+                {error.color && <p style={{color: "red"}} >{error.color}</p>}
 
                 <label htmlFor="isNeutered">
                     Estado de castración
@@ -322,6 +340,8 @@ function UpdatePet() {
                         noOptionsMessage={() => "No se encontraron dueños"}
                     />
                 </label>
+
+                {error.owner && <p style={{ color: "red" }}>{error.owner}</p>}
 
                 <div className="center-stupid-div-again">
                     <button className="pet-btn" type="submit">Guardar cambios</button>

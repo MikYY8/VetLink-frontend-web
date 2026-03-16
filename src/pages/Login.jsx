@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../utils/axios";
 import { jwtDecode } from "jwt-decode";
 import { PawPrint } from 'lucide-react';
 
@@ -12,7 +12,7 @@ function Login() {
     e.preventDefault();
 
     try{
-      const res = await axios.post("http://localhost:3000/users/login", {email, password});
+      const res = await api.post("/users/login", {email, password});
       const token = res.data.data.accesstoken;
       const decoded = jwtDecode(token)
 

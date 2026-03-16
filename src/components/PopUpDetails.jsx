@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
+import api from "../utils/axios";
 
 export default function PopUpDetails({ appointmentId }) {
 
@@ -12,12 +13,8 @@ export default function PopUpDetails({ appointmentId }) {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(
-        `http://localhost:3000/appointment/dashboard/details/${appointmentId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
+      const res = await api.get(
+        `/appointment/dashboard/details/${appointmentId}`);
 
       const result = await res.json();
       setDetails(result.data);

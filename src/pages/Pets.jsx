@@ -4,6 +4,7 @@ import { PawPrint } from 'lucide-react';
 import { speciesMap } from "../utils/translation"
 import { toast } from 'react-toastify';
 import { calcularEdad } from "../utils/dateUtils";
+import api from "../utils/axios";
 
 function GetPets(){
     const [pets, setPets] = useState([]);
@@ -25,11 +26,7 @@ function GetPets(){
         setLoading(true);
 
         try{
-            const res = await fetch(`http://localhost:3000/owner/allpets`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
+            const res = await api.get(`/owner/allpets`)
 
         // console.log("Response:", res);
         const result = await res.json();
@@ -60,12 +57,8 @@ function GetPets(){
         const token = localStorage.getItem("token");
         
         try{
-            const res = await fetch(`http://localhost:3000/owner/pets/${petId}`, {
+            const res = await api.delete(`/owner/pets/${petId}`, {
                 method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
             });
             if (!res.ok) throw new Error("Error al eliminar mascota")
 
@@ -132,14 +125,16 @@ function GetPets(){
                 <tbody className="table-body">
                     {filteredPets.map((a) => (
                         <tr key={a._id}>
-                            <td>{a.name}</td>
+                            <td>{[a.name] || "Mascota sin nombre"}</td>
                             <td>{formatearEdad(a)}</td>
                             <td>{a.sex}</td>
                             <td>{speciesMap[a.species] || a.species}</td>
                             <td>{a.breed}</td>
                             <td>{a.color}</td>
                             <td>{a.isNeutered ? "✅ Castrado/a" : "❌ No castrado/a"}</td>
-                            <td>{a.owner.firstName} {a.owner.lastName}</td>
+                            <td>
+                                {a.owner?.firstName || "Desconocido"} {a.owner?.lastName || "Desconocido"}
+                            </td>
                             <td>{(<button className="btn" onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
                             <td>{(<button className="btn" onClick={() => handleDelete(a._id)}>Eliminar</button>)}</td>
                         </tr>

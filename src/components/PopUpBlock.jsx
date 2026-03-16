@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
-import axios from "axios";
+import api from "../utils/axios";
 import { toast } from 'react-toastify';
 import "reactjs-popup/dist/index.css";
 
@@ -21,8 +21,7 @@ export default function PopUpBlock({ availabilityBlockId }) {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://localhost:3000/appointment/block/${availabilityBlockId}`,
-        {headers: { Authorization: `Bearer ${token}` }});
+      const res = await api.get(`/appointment/block/${availabilityBlockId}`,);
 
       const result = await res.json();
       setBlock(result.data);
@@ -51,12 +50,7 @@ export default function PopUpBlock({ availabilityBlockId }) {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
-    await axios.patch(`http://localhost:3000/appointment/block/${availabilityBlockId}`, formData,
-    { headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    await api.patch(`/appointment/block/${availabilityBlockId}`, formData);
 
     toast.success("Horario actualizado con éxito")
     navigate("/vets");

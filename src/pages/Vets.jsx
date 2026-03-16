@@ -3,6 +3,7 @@ import {Link, useNavigate } from "react-router-dom";
 import { Stethoscope } from 'lucide-react';
 import { specialtyMap } from "../utils/translation"
 import { toast } from 'react-toastify';
+import api from "../utils/axios";
 
 function GetVets(){
     const [vets, setVets] = useState([]);
@@ -25,11 +26,7 @@ function GetVets(){
         setLoading(true);
 
         try{
-            const res = await fetch(`http://localhost:3000/users/allvets`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
+            const res = await api.get(`/users/allvets`)
 
         // console.log("Response:", res);
         const result = await res.json();
@@ -66,11 +63,8 @@ function GetVets(){
         const token = localStorage.getItem("token");
 
         try {
-            const res = await fetch(`http://localhost:3000/users/delete-vet/${vetId}`, {
+            const res = await api.delete(`/users/delete-vet/${vetId}`, {
             method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
             });
             if (!res.ok)  throw new Error("Error al eliminar veterinario");
 
