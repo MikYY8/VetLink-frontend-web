@@ -29,10 +29,10 @@ function RegisterPet() {
         let newErrors = {}; // guardamos errores, luego los transferimos a setError
         if(!formData.name) {newErrors.name = "Ingrese el nombre de la mascota"};
         if (ageInputType === "DATE" && !formData.birthDate) {
-        newErrors.birthDate = "Ingrese la fecha de nacimiento";
+            newErrors.birthDate = "Ingrese la fecha de nacimiento";
         };
         if (ageInputType === "AGE" && !ageValue) {
-        newErrors.age = "Ingrese la edad aproximada";
+            newErrors.age = "Ingrese la edad aproximada";
         };
         if(!formData.sex) {newErrors.sex = "Seleccione el sexo de la mascota"};
         if(!formData.species) {newErrors.species = "Seleccione la especie de la mascota"};
@@ -115,14 +115,10 @@ function RegisterPet() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if(validate()){
-            toast.success("Mascota creada con éxito")
+            navigate("/pets")
+            // toast.success("Mascota creada con éxito")
             // console.log(formData)
         };
-
-        if (!selectedOwner) {
-            setError({ owner: "Seleccione un dueño" });
-            return;
-        }
 
         let finalBirthDate;
         let isEstimated = false;
@@ -169,18 +165,20 @@ function RegisterPet() {
             },
             });
 
+            toast.success("Mascota creada con éxito")
+
             setSuccess("Mascota creada con éxito");
             setFormData({
-            name: "",
-            birthDate: "",
-            isEstimated: false,
-            sex: "",
-            species: "",
-            breed: "",
-            color: "",
-            isNeutered: false,
-            photoUrl: "",
-            owner: ""
+                name: "",
+                birthDate: "",
+                isEstimated: false,
+                sex: "",
+                species: "",
+                breed: "",
+                color: "",
+                isNeutered: false,
+                photoUrl: "",
+                owner: ""
             });
             setAgeValue("");
             setAgeUnit("MONTHS");
@@ -190,7 +188,7 @@ function RegisterPet() {
         } catch (err) {
             console.log(err.response?.data || err);
         }
-        navigate("/pets")
+        // navigate("/pets")
     };
 
     return(
@@ -208,6 +206,7 @@ function RegisterPet() {
                             onChange={handleChange}
                         />
                     </label>
+
                     {error.name && <p style={{color: "red"}} >{error.name}</p>}
 
                     <label>Edad de la mascota*</label>
@@ -266,6 +265,8 @@ function RegisterPet() {
                     </div>
                     )}
 
+                    {error.birthDate && <p style={{color: "red"}} >{error.birthDate}</p>}
+                    {error.age && <p style={{color: "red"}} >{error.age}</p>}
 
                     <label htmlFor="sex">
                         Sexo*
@@ -275,6 +276,7 @@ function RegisterPet() {
                             <option value="F">F</option>
                         </select>
                     </label>
+
                     {error.sex && <p style={{color: "red"}} >{error.sex}</p>}
 
                     <label htmlFor="species">
@@ -285,6 +287,7 @@ function RegisterPet() {
                             <option value="CAT">Gato</option>
                         </select>
                     </label>
+
                     {error.species && <p style={{color: "red"}} >{error.species}</p>}
 
                     <label htmlFor="breed">
@@ -297,6 +300,7 @@ function RegisterPet() {
                             onChange={handleChange}
                         />
                     </label>
+
                     {error.breed && <p style={{color: "red"}} >{error.breed}</p>}
 
                     <label htmlFor="color">
@@ -309,6 +313,7 @@ function RegisterPet() {
                             onChange={handleChange}
                         />
                     </label>
+
                     {error.color && <p style={{color: "red"}} >{error.color}</p>}
 
                     <label htmlFor="isNeutered">
@@ -345,6 +350,7 @@ function RegisterPet() {
                             noOptionsMessage={() => "No se encontraron dueños"}
                         />
                     </label>
+                    
                     {error.owner && <p style={{ color: "red" }}>{error.owner}</p>}
                     
                     <div className="center-stupid-div-again">

@@ -102,7 +102,7 @@ function CreateAppointment() {
 
             setOwnerOptions(options);
         } catch (error) {
-            console.error("Error buscando owners", error);
+            console.log("Error buscando owners", error);
         } finally {
             setLoadingOwners(false);
         };
@@ -267,6 +267,12 @@ function CreateAppointment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if(validate()){
+      navigate("/dashboard")
+      // toast.success("Veterinario creado con éxito")
+      // console.log(formData);
+    };
+
     await axios.post("http://localhost:3000/appointment/make-appointment", {
       petId: formData.pet,
       ownerId: formData.owner,
@@ -277,14 +283,11 @@ function CreateAppointment() {
       vaccineName: formData.vaccineName,
       details: formData.details,
       },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      } 
-    );
+      { headers: { Authorization: `Bearer ${token}` },
+    });
   
-  toast.success("Turno reservado con éxito")
-  setSuccess("Turno creado correctamente");
-  navigate("/dashboard")
+    toast.success("Turno reservado con éxito")
+    setSuccess("Turno creado correctamente");
   };
 
   // ================= RENDER =================
@@ -320,7 +323,7 @@ function CreateAppointment() {
               noOptionsMessage={() => "No se encontraron dueños"}
             />
           </label>
-          {error.owner && <p style={{color: "red"}} >{error.owner}</p>}
+          {error.owner && <p style={{ color: "red" }}>{error.owner}</p>}
 
           <label>
             Tipo de turno*

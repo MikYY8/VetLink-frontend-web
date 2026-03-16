@@ -116,8 +116,8 @@ function GetUsers(){
                             <td>{a.dni}</td>
                             <td>{a.email}</td>
                             <td>{rolesMap[a.role] || a.role}</td>
-                            <td>{a.role === "OWNER" && (<button className="btn" onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
-                            <td>{a.role === "OWNER" && (<button className="btn"  onClick={() => handleDelete(a._id)}>Eliminar</button>)}</td>
+                            <td>{(a.role === "OWNER" || a.role === "SECRETARY") && (<button className="btn" onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
+                            <td>{(a.role === "OWNER" || a.role === "SECRETARY") && (<button className="btn"  onClick={() => handleDelete(a._id)}>Eliminar</button>)}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -4,23 +4,44 @@ import axios from "axios";
 import { toast } from 'react-toastify';
 
 function UpdateVet() {
-  const { vetId } = useParams();
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+    const { vetId } = useParams();
+    const navigate = useNavigate();
+    const token = localStorage.getItem("token");
+    const [error, setError] = useState({});
+    const [success, setSuccess] = useState("");
 
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    dni: "",
-    email: "",
-    password: "",
-    licenseNumber: "", 
-    specialty: "", 
-    acceptsConsultations: false,
-    phone: "",
-    photoUrl: "",
-    workSchedule: {start: "", end: ""}
-  });
+    // validaciones de front
+    const validate = () => {
+        let newErrors = {}; // guardamos errores, luego los transferimos a setError
+        if(!formData.firstName) {newErrors.firstName = "Ingrese un nombre"};
+        if(!formData.lastName) {newErrors.lastName = "Ingrese un apellido"};
+        if(!formData.dni) {newErrors.dni = "Ingrese un DNI válido"};
+        if(!formData.email) {newErrors.email = "Ingrese un email"};
+        // if(!formData.password) {newErrors.password = "Ingrese una contraseña"};
+        if(!formData.licenseNumber) {newErrors.licenseNumber = "Ingrese número de licencia"};
+        if(!formData.specialty) {newErrors.specialty = "Seleccione una especialidad"};
+        if (!formData.workSchedule.start || !formData.workSchedule.end) {newErrors.workSchedule = "Ingrese horario de atención";}
+        // if(formData.password.length < 6) {newErrors.password = "La contraseña debe tener al menos 6 caracteres"}
+        if(formData.dni.length < 8) {newErrors.dni = "Ingrese un DNI válido"}
+        if(formData.dni.length > 8) {newErrors.dni = "Ingrese un DNI válido"}
+
+        setError(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        dni: "",
+        email: "",
+        password: "",
+        licenseNumber: "", 
+        specialty: "", 
+        acceptsConsultations: false,
+        phone: "",
+        photoUrl: "",
+        workSchedule: {start: "", end: ""}
+    });
 
     useEffect(() => {
     fetch(`http://localhost:3000/users/get-vet/${vetId}`, {
@@ -83,6 +104,13 @@ function UpdateVet() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(validate()){
+        navigate("/vets")
+        // toast.success("Veterinario creado con éxito")
+         // console.log(formData);
+        toast.success("Veterinario actualizado con éxito")
+        setSuccess("Veterinario creado con éxito")
+    };
 
     await axios.put(`http://localhost:3000/users/update-vet/${vetId}`,
     formData,
@@ -92,9 +120,6 @@ function UpdateVet() {
         "Content-Type": "application/json",
         },
     });
-
-    toast.success("Veterinario actualizado con éxito")
-    navigate("/vets");
   };
 
   return (
@@ -113,6 +138,8 @@ function UpdateVet() {
                 />
             </label>
 
+            {error.firstName && <p style={{color: "red"}} >{error.firstName}</p>}
+
             <label htmlFor="lastName">
                 Apellido
                 <input 
@@ -123,6 +150,8 @@ function UpdateVet() {
                 />
             </label>
 
+            {error.lastName && <p style={{color: "red"}} >{error.lastName}</p>}
+
             <label htmlFor="dni">
                 DNI
                 <input 
@@ -132,6 +161,8 @@ function UpdateVet() {
                     onChange={handleChange} 
                 />
             </label>
+
+            {error.dni && <p style={{color: "red"}} >{error.dni}</p>}
             
             <label htmlFor="email">
                 Email
@@ -142,6 +173,8 @@ function UpdateVet() {
                     onChange={handleChange} 
                 />
             </label>
+
+            {error.email && <p style={{color: "red"}} >{error.email}</p>}
 
             <label htmlFor="password">
                 Contraseña
@@ -163,6 +196,8 @@ function UpdateVet() {
                 />
             </label>
 
+            {error.licenseNumber && <p style={{color: "red"}} >{error.licenseNumber}</p>}
+
             <label htmlFor="specialty" >
                 Especialidad
                     <select id="vet-input-3" name="specialty" value={formData.specialty} onChange={handleChange} >
@@ -174,6 +209,8 @@ function UpdateVet() {
                         <option value="TRAUMATOLOGY">Traumatología</option>
                     </select>
                 </label>
+
+                {error.specialty && <p style={{color: "red"}} >{error.specialty}</p>} 
 
                 <label htmlFor="acceptsConsultations">
                     Acepta consultas:
@@ -225,6 +262,9 @@ function UpdateVet() {
                             onChange={handleScheduleChange} 
                         />
                     </label>
+
+                    {error.workSchedule && <p style={{color: "red"}} >{error.workSchedule}</p>}
+
                 <div className="center-stupid-div-again">
                     <button className="vet-btn" type="submit">Guardar cambios</button>
                     <Link to="/vets">
@@ -233,6 +273,7 @@ function UpdateVet() {
                         </button>
                     </Link> 
                 </div>
+                {success && <p style={{color: "green"}}>{success}</p>}
             </form>
         </div>
     </div>

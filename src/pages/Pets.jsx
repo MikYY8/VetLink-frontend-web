@@ -132,14 +132,16 @@ function GetPets(){
                 <tbody className="table-body">
                     {filteredPets.map((a) => (
                         <tr key={a._id}>
-                            <td>{a.name}</td>
+                            <td>{[a.name] || "Mascota sin nombre"}</td>
                             <td>{formatearEdad(a)}</td>
                             <td>{a.sex}</td>
                             <td>{speciesMap[a.species] || a.species}</td>
                             <td>{a.breed}</td>
                             <td>{a.color}</td>
                             <td>{a.isNeutered ? "✅ Castrado/a" : "❌ No castrado/a"}</td>
-                            <td>{a.owner.firstName} {a.owner.lastName}</td>
+                            <td>
+                                {a.owner?.firstName || "Desconocido"} {a.owner?.lastName || "Desconocido"}
+                            </td>
                             <td>{(<button className="btn" onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
                             <td>{(<button className="btn" onClick={() => handleDelete(a._id)}>Eliminar</button>)}</td>
                         </tr>

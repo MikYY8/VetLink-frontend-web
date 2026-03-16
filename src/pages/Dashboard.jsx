@@ -101,10 +101,10 @@ function Dashboard() {
       });
 
       const result = await res.json();
-      console.log(result)
+      // console.log(result)
       setVets(result.data);
     }catch(error){
-      console.error(error);
+      setError(error.message);
     };
   };
 

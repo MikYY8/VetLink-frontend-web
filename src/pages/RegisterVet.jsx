@@ -24,6 +24,8 @@ function RegisterVet() {
         if(!formData.specialty) {newErrors.specialty = "Seleccione una especialidad"};
         if (!formData.workSchedule.start || !formData.workSchedule.end) {newErrors.workSchedule = "Ingrese horario de atención";}
         if(formData.password.length < 6) {newErrors.password = "La contraseña debe tener al menos 6 caracteres"}
+        if(formData.dni.length < 8) {newErrors.dni = "Ingrese un DNI válido"}
+        if(formData.dni.length > 8) {newErrors.dni = "Ingrese un DNI válido"}
 
         setError(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -65,7 +67,8 @@ function RegisterVet() {
         const data = new FormData();
 
         if(validate()){
-            toast.success("Veterinario creado con éxito")
+            navigate("/vets")
+            // toast.success("Veterinario creado con éxito")
             // console.log(formData);
         };
 
@@ -91,6 +94,8 @@ function RegisterVet() {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            
+            toast.success("Veterinario creado con éxito")
 
             setFormData({firstName: "", lastName: "", dni: "", email: "", password: "",
                         licenseNumber: "", specialty: "", acceptsConsultations: false, 
@@ -99,7 +104,7 @@ function RegisterVet() {
         }catch(err){
             console.log(err);
         }
-        navigate("/vets")
+        // navigate("/vets")
     };
 
     return(
@@ -153,6 +158,7 @@ function RegisterVet() {
                             onChange={handleChange} 
                         />
                     </label>
+
                     {error.email && <p style={{color: "red"}} >{error.email}</p>}
 
                     <label htmlFor="password" >
@@ -165,6 +171,7 @@ function RegisterVet() {
                             onChange={handleChange} 
                         />
                     </label>
+
                     {error.password && <p style={{color: "red"}} >{error.password}</p>}
 
                     <label htmlFor="licenseNumber" >
@@ -177,6 +184,7 @@ function RegisterVet() {
                             onChange={handleChange} 
                         />
                     </label>
+                    
                     {error.licenseNumber && <p style={{color: "red"}} >{error.licenseNumber}</p>}
 
                     <label htmlFor="specialty" >
@@ -202,7 +210,6 @@ function RegisterVet() {
                             onChange={handleChange} 
                         />
                     </label>
-                    {/* {error.acceptsConsultations && <p style={{color: "red"}} >{error.acceptsConsultations}</p>} */}
 
                     <label htmlFor="phone" >
                         Número de celular
@@ -215,7 +222,6 @@ function RegisterVet() {
                             disabled={!formData.acceptsConsultations} 
                         />
                     </label>
-                    {/* {error.phone && <p style={{color: "red"}} >{error.phone}</p>} */}
 
                     <label htmlFor="photoUrl" >
                         Añadir imagen de perfil
@@ -226,7 +232,6 @@ function RegisterVet() {
                             onChange={handleFileChange} 
                         />
                     </label>
-                    {/* {error.photoUrl && <p style={{color: "red"}} >{error.photoUrl}</p>} */}
                     
                     <label htmlFor="workSchedule" >
                         Horario de trabajo *
