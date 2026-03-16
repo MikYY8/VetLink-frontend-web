@@ -28,7 +28,7 @@ function GetPets(){
         try{
             const res = await api.get(`/owner/allpets`)
 
-            setPets(res.data || []);
+            setPets(res.data.data || []);
         }catch(error){
             // console.error("Fetch error:", error);
             setError(error.message);

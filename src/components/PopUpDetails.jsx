@@ -16,7 +16,7 @@ export default function PopUpDetails({ appointmentId }) {
       const res = await api.get(
         `/appointment/dashboard/details/${appointmentId}`);
 
-      setDetails(res.data || []);
+      setDetails(res.data.data || []);
 
     } catch (err) {
       console.error("Fetch error:", err);
