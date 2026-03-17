@@ -5,8 +5,9 @@ import { toast } from 'react-toastify';
 
 function RegisterVet() {
     const [formData, setFormData] = useState({firstName: "", lastName: "", dni: "", email: "", password: "",
-        licenseNumber: "", specialty: "", acceptsConsultations: false, phone: "",
-        photoUrl: "", workSchedule: {start: "", end: ""}, role: "VET"})
+        licenseNumber: "", specialty: "", 
+        // acceptsConsultations: false, phone: "", photoUrl: "", 
+        workSchedule: {start: "", end: ""}, role: "VET"})
     const [error, setError] = useState({});
     const [success, setSuccess] = useState("");
     const navigate = useNavigate()
@@ -53,14 +54,14 @@ function RegisterVet() {
         });
     };
 
-    // manejar archivo de foto, para la foto de perfil
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        setFormData({
-            ...formData,
-            photo: file,
-        });
-        };
+    // manejar archivo de foto, para la foto de perfil  EDIT: No hay mas foto de perfil para vets
+    // const handleFileChange = (e) => {
+    //     const file = e.target.files[0];
+    //     setFormData({
+    //         ...formData,
+    //         photo: file,
+    //     });
+    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -79,13 +80,13 @@ function RegisterVet() {
         data.append("password", formData.password);
         data.append("licenseNumber", formData.licenseNumber);
         data.append("specialty", formData.specialty);
-        data.append("acceptsConsultations", formData.acceptsConsultations);
-        data.append("phone", formData.phone);
+        // data.append("acceptsConsultations", formData.acceptsConsultations);
+        // data.append("phone", formData.phone);
         data.append("workSchedule", JSON.stringify(formData.workSchedule));
 
-        if (formData.photo) {
-            data.append("photo", formData.photo); 
-        };
+        // if (formData.photo) {
+        //     data.append("photo", formData.photo); 
+        // };
 
         try{
             await api.post("/users/vet/register", data);
@@ -93,8 +94,9 @@ function RegisterVet() {
             toast.success("Veterinario creado con éxito")
 
             setFormData({firstName: "", lastName: "", dni: "", email: "", password: "",
-                        licenseNumber: "", specialty: "", acceptsConsultations: false, 
-                        phone: "", photoUrl: "", workSchedule: {start: "", end: ""}, role: "VET"})
+                        licenseNumber: "", specialty: "", 
+                        // acceptsConsultations: false, phone: "", photoUrl: "", 
+                        workSchedule: {start: "", end: ""}, role: "VET"})
             setSuccess("Veterinario creado con éxito")
         }catch(err){
             console.log(err);
@@ -195,7 +197,7 @@ function RegisterVet() {
                     </label>
                     {error.specialty && <p style={{color: "red"}} >{error.specialty}</p>} 
 
-                    <label htmlFor="acceptsConsultations">
+                    {/* <label htmlFor="acceptsConsultations">
                     Acepta consultas:
                         <input 
                             type="checkbox" 
@@ -216,8 +218,8 @@ function RegisterVet() {
                             onChange={handleChange} 
                             disabled={!formData.acceptsConsultations} 
                         />
-                    </label>
-
+                    </label> */}
+{/* 
                     <label htmlFor="photoUrl" >
                         Añadir imagen de perfil
                         <input 
@@ -226,7 +228,7 @@ function RegisterVet() {
                             accept="image/*" 
                             onChange={handleFileChange} 
                         />
-                    </label>
+                    </label> */}
                     
                     <label htmlFor="workSchedule" >
                         Horario de trabajo *

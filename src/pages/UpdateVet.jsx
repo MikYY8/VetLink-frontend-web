@@ -37,9 +37,9 @@ function UpdateVet() {
         password: "",
         licenseNumber: "", 
         specialty: "", 
-        acceptsConsultations: false,
-        phone: "",
-        photoUrl: "",
+        // acceptsConsultations: false,
+        // phone: "",
+        // photoUrl: "",
         workSchedule: {start: "", end: ""}
     });
 
@@ -81,9 +81,9 @@ function UpdateVet() {
                     password: "",
                     licenseNumber: vet.licenseNumber || "",
                     specialty: vet.specialty || "",
-                    acceptsConsultations: vet.acceptsConsultations ?? false,
-                    phone: vet.phone || "",
-                    photoUrl: vet.photoUrl || "",
+                    // acceptsConsultations: vet.acceptsConsultations ?? false,
+                    // phone: vet.phone || "",
+                    // photoUrl: vet.photoUrl || "",
                     workSchedule: {
                         start: vet.workSchedule?.start || "",
                         end: vet.workSchedule?.end || "",
@@ -119,14 +119,14 @@ function UpdateVet() {
         });
     };
 
-  // manejar archivo de foto, para la foto de perfil
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-      setFormData({
-          ...formData,
-          photo: file,
-      });
-    };
+//   // manejar archivo de foto, para la foto de perfil
+//   const handleFileChange = (e) => {
+//     const file = e.target.files[0];
+//       setFormData({
+//           ...formData,
+//         //   photo: file,
+//       });
+//     };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -231,7 +231,7 @@ function UpdateVet() {
 
                 {error.specialty && <p style={{color: "red"}} >{error.specialty}</p>} 
 
-                <label htmlFor="acceptsConsultations">
+                {/* <label htmlFor="acceptsConsultations">
                     Acepta consultas:
                         <input 
                             type="checkbox" 
@@ -262,7 +262,7 @@ function UpdateVet() {
                             accept="image/*" 
                             onChange={handleFileChange} 
                         />
-                </label>
+                </label> */}
 
                 <label htmlFor="workSchedule" >
                     Horario de trabajo *
