@@ -35,10 +35,23 @@ function UpdateUser() {
     password: "",
   });
 
+  // useEffect(() => {
+  //   api.get(`/users/get-user/${ownerId}`)
+  //     .then(res => res.json())
+  //     .then(data => setFormData(data.data));
+  // }, []);
+
   useEffect(() => {
-    api.get(`/users/get-user/${ownerId}`)
-      .then(res => res.json())
-      .then(data => setFormData(data.data));
+    const fetchUser = async () => {
+      try {
+        const res = await api.get(`/users/get-user/${ownerId}`);
+        setFormData(res.data.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchUser();
   }, []);
 
   const handleChange = (e) => {
