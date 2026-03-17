@@ -54,12 +54,8 @@ function GetUsers(){
         
         try{
             const res = await api.delete(`/users/delete-user/${ownerId}`);
-            if (!res.ok) throw new Error("Error al eliminar usuario");
-            
             toast.success("Usuario eliminado")
             setUsers(users.filter(u => u._id !== ownerId));
-            fetchUsers();
-            
         }catch(error){
             // console.error(error);
             setError(error.message);

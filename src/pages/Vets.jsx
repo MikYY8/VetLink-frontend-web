@@ -55,16 +55,11 @@ function GetVets(){
     const handleDelete = async (vetId) => {
         // const confirmDelete = window.confirm("¿Seguro que querés eliminar este veterinario?");
         // if (!confirmDelete) return;
-        const token = localStorage.getItem("token");
 
         try {
             const res = await api.delete(`/users/delete-vet/${vetId}`);
-            if (!res.ok)  throw new Error("Error al eliminar veterinario");
-
             toast.success("Veterinario eliminado")
             setVets(vets.filter(u => u._id !== vetId));
-            fetchVets();
-
         } catch (error) {
             // console.error(error);
             setError(error.message);

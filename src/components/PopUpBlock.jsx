@@ -63,7 +63,7 @@ export default function PopUpBlock({ availabilityBlockId }) {
             {error && <p style={{color:"red"}}>{error}</p>}
 
             {!block ? (
-              <p>Error al buscar el turno...</p>
+              <p>Cargando...</p>
             ) : (
               <>
                 <h3>Cambiar estado del bloque horario</h3>
