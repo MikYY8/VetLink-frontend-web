@@ -97,8 +97,8 @@ function GetVets(){
                         <th>Email</th>
                         <th>N° de licencia</th>
                         <th>Especialidad</th>
-                        <th>Acepta consultas</th>
-                        <th>N° de teléfono</th>
+                        {/* <th>Acepta consultas</th>
+                        <th>N° de teléfono</th> */}
                         <th>Horario</th>
                         <th colSpan={3}>ACCIONES</th>
                     </tr>
@@ -112,8 +112,8 @@ function GetVets(){
                             <td>{a.email}</td>
                             <td>{a.licenseNumber}</td>
                             <td>{specialtyMap[a.specialty] || a.specialty}</td>
-                            <td>{a.acceptsConsultations ? "✅ Sí" : "❌ No"}</td>
-                            <td>{a.phone}</td>
+                            {/* <td>{a.acceptsConsultations ? "✅ Sí" : "❌ No"}</td>
+                            <td>{a.phone}</td> */}
                             <td>{a.workSchedule.start} - {a.workSchedule.end}</td>
                             <td>{(<button className="btn" onClick={() => handleAvailability(a._id)}>Horarios</button>)}</td>
                             <td>{(<button className="btn" onClick={() => handleUpdate(a._id)}>Editar</button>)}</td>
