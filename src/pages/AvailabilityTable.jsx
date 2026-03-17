@@ -4,6 +4,7 @@ import api from "../utils/axios";
 import { CalendarDays } from 'lucide-react';
 import PopUpBlock from "../components/PopUpBlock";
 import Select from "react-select";
+import { specialtyMap } from "../utils/translation";
 
 const VetAvailability = () => {
   const { vetId } = useParams();
@@ -85,7 +86,7 @@ const VetAvailability = () => {
                     <tr key={block._id}>
                     <td>{block.time}</td>
                     <td>{block.vet.firstName} {block.vet.lastName}</td>
-                    <td>{block.vet.specialty}</td>
+                    <td>{specialtyMap[block.vet.specialty]}</td>
                     <td>{block.available ? "Si" : "No"}</td>
                     <td>{block.reason}</td>
                     <td><PopUpBlock availabilityBlockId={block._id} /></td>
