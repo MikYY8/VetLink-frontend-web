@@ -26,8 +26,8 @@ export default function PopUpBlock({ availabilityBlockId }) {
       setBlock(res.data.data || []);
 
       setFormData({
-        available: result.data.available,
-        reason: result.data.reason || "",
+        available: res.data.data.available,
+        reason: res.data.data.reason || "",
       });
 
     } catch (err) {
@@ -47,7 +47,6 @@ export default function PopUpBlock({ availabilityBlockId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
 
     await api.patch(`/appointment/block/${availabilityBlockId}`, formData);
 
