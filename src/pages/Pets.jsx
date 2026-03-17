@@ -53,12 +53,8 @@ function GetPets(){
         
         try{
             const res = await api.delete(`/owner/pets/${petId}`);
-            if (!res.ok) throw new Error("Error al eliminar mascota")
-
             toast.success("Mascota eliminada")
             setPets(pets.filter(u => u._id !== petId));
-            fetchPets();
-            
         }catch(error){
             // console.error(error);
             setError(error.message);
