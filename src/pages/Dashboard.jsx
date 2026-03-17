@@ -23,18 +23,19 @@ function Dashboard() {
     const token = localStorage.getItem("token");
     setLoading(true);
 
-    const toUTCDate = (localDate) => {
-      const d = new Date(localDate);
-      return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
-        .toISOString()
-        .split("T")[0];
-    };
+      // Conversión horaria, SOLO para localhost, NO para Render
+    // const toUTCDate = (localDate) => {
+    //   const d = new Date(localDate);
+    //   return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
+    //     .toISOString()
+    //     .split("T")[0];
+    // };
 
     const params = new URLSearchParams();
     if (vetId) params.append("vetId", vetId);
-    if (date) params.append("date", toUTCDate(date));
-    if (from) params.append("from", toUTCDate(from));
-    if (to) params.append("to", toUTCDate(to));
+    if (date) params.append("date", date);
+    if (from) params.append("from", from);
+    if (to) params.append("to", to);
       
     try{
       const res = await api.get(`/appointment/dashboard?${params.toString()}`);
