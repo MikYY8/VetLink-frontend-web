@@ -45,7 +45,15 @@ function UpdateUser() {
     const fetchUser = async () => {
       try {
         const res = await api.get(`/users/get-user/${ownerId}`);
-        setFormData(res.data.data);
+        const user = res.data.data;
+
+      setFormData({
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        dni: user.dni || "",
+        email: user.email || "",
+        password: ""
+      });
       } catch (err) {
         console.error(err);
       }
@@ -60,13 +68,25 @@ function UpdateUser() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(validate()){
-      toast.success("Usuario actualizado con éxito")
-      navigate("/users")
-      // console.log(formData)
-    };
 
-    await api.put(`/users/update-user/${ownerId}`, formData);
+    if (!validate()) return;
+
+    const dataToSend = { ...formData };
+
+    if (!dataToSend.password) {
+      delete dataToSend.password;
+    }
+
+    try {
+      await api.put(`/users/update-user/${ownerId}`, dataToSend);
+
+      toast.success("Usuario actualizado con éxito");
+      navigate("/users");
+
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al actualizar usuario");
+    }
   };
 
   return (

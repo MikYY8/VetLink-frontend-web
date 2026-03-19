@@ -128,18 +128,28 @@ function UpdateVet() {
 //       });
 //     };
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
-    if(validate()){
-        navigate("/vets")
-        // toast.success("Veterinario creado con éxito")
-         // console.log(formData);
-        toast.success("Veterinario actualizado con éxito")
-        setSuccess("Veterinario creado con éxito")
-    };
 
-    await api.put(`/users/update-vet/${vetId}`, formData);
-  };
+    if (!validate()) return;
+
+    const dataToSend = { ...formData };
+
+    if (!dataToSend.password) {
+        delete dataToSend.password;
+    }
+
+    try {
+        await api.put(`/users/update-vet/${vetId}`, dataToSend);
+
+        toast.success("Veterinario actualizado con éxito");
+        navigate("/vets");
+
+    } catch (error) {
+        console.error(error);
+        toast.error("Error al actualizar veterinario");
+    }
+    };
 
   return (
     <div className="main-container">
