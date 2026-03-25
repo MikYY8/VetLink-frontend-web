@@ -1,6 +1,6 @@
 # VetLink Frontend Web
 
-![VetLink Logo](public/logo.png)
+![VetLink Logo](src/assets/logo-vetlink.png)
 
 VetLink Frontend Web es una aplicación web desarrollada en React que sirve como interfaz de usuario para la gestión de turnos, usuarios, veterinarios y mascotas en una clínica veterinaria. Este proyecto utiliza Vite como herramienta de construcción y está diseñado para ser rápido, moderno y fácil de usar.
 
