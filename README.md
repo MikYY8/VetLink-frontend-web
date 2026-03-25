@@ -10,8 +10,8 @@ VetLink Frontend Web es una aplicación web desarrollada en React que sirve como
 - [Requisitos Previos](#requisitos-previos)
 - [Instalación](#instalación)
 - [Uso](#uso)
-- [Estructura del Proyecto](#estructura-del-proyecto)
 - [Usuario de Ejemplo](#usuario)
+- [Estructura del Proyecto](#estructura-del-proyecto)
 - [Tecnologías Utilizadas](#tecnologías-utilizadas)
 
 ## Características
