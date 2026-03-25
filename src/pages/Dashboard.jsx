@@ -16,11 +16,9 @@ function Dashboard() {
   const [date, setDate] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const token = localStorage.getItem("token");
 
   // Crear el dashboard
   const fetchDashboard = async () => {
-    const token = localStorage.getItem("token");
     setLoading(true);
 
       // Conversión horaria, SOLO para localhost, NO para Render
@@ -33,6 +31,11 @@ function Dashboard() {
 
     const params = new URLSearchParams();
     if (vetId) params.append("vetId", vetId);
+        // FECHAS PARCHEADAS PARA LOCAL HOST
+    // if (date) params.append("date", toUTCDate(date));
+    // if (from) params.append("from", toUTCDate(from));
+    // if (to) params.append("to", toUTCDate(to));
+        // FECHAS PARA RENDER, SIN PARCHE
     if (date) params.append("date", date);
     if (from) params.append("from", from);
     if (to) params.append("to", to);
@@ -54,7 +57,8 @@ function Dashboard() {
     fetchDashboard();
   }, [vetId, date, from, to]);
 
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  // if (error) return <p style={{ color: "red" }}>{error}</p>;
+  {error && <p style={{ color: "red" }}>{error}</p>}
 
   // Filtros
   // const total = appointments.length;
@@ -64,8 +68,6 @@ function Dashboard() {
   
   // Cancelar turno
   const handleCancel = async (appointmentId) => {
-    const token = localStorage.getItem("token");
-
     try{
       await api.patch(`/appointment/status/${appointmentId}`, {
         status: "CANCELLED"
@@ -81,8 +83,6 @@ function Dashboard() {
 
   // Traer todos los vets, para el filtro
   const fetchVets = async () => {
-    const token = localStorage.getItem("token");
-
     try{
       const res = await api.get(`/users/allvets`);
 
@@ -174,7 +174,7 @@ function Dashboard() {
               <th>Veterinario</th>
               <th>Tipo</th>
               <th>Estado</th>
-              <th>ACCIONES</th>
+              <th colSpan={2}>ACCIONES</th>
             </tr>
           </thead>
 
@@ -189,10 +189,8 @@ function Dashboard() {
                 <td>{a.vet?.firstName} {a.vet?.lastName}</td>
                 <td>{appointmentTypeMap[a.type] || a.type}</td>
                 <td>{statusMap[a.status] || a.status}</td>
-                  <td>
-                    {(<PopUpDetails appointmentId={a._id} />)}
-                    {a.status === "SCHEDULED" && (<button className="btn" onClick={() => handleCancel(a._id)}>Cancelar</button>)}
-                  </td>
+                <td>{(<PopUpDetails appointmentId={a._id} />)}</td>
+                <td>{a.status === "SCHEDULED" && (<button className="btn" onClick={() => handleCancel(a._id)}>Cancelar</button>)}</td>
               </tr> 
             ))}
           </tbody>

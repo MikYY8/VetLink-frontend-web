@@ -149,8 +149,7 @@ body{
 }
 
 .btn-dashboard{
-  margin-right: 10%;
-  margin-bottom: 10%;
+  margin: 10px;
   background-color: var(--primary);
   border: 3px solid var(--accent);
   border-radius: 5px;
@@ -170,7 +169,7 @@ body{
   margin-right: 10px;
   background-color: var(--primary);
   border: 3px solid var(--white);
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   padding: 7px;
 }
@@ -216,9 +215,9 @@ th{
   font-family: var(--primary-font);
 }
 
-.table-head{
-  background-color: var(--secondary);
-  color: #fff;
+.table-header{
+  background-color: #ff8133;
+  color: black;
 }
 
 .table-body{
@@ -230,17 +229,20 @@ th{
 
 td{
   border: 1px solid #000;
-  padding: .5em;
+  padding: 2px;
   width:100px;
   text-align:center;
+  font-weight: bold;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 table tbody tr:nth-child(odd) {
-	background-color: var(--primary);
+	background-color: #ffb06b;
 }
 table tbody tr:nth-child(even) {
-	background-color: #f9c79f;
+	background-color: #ffd8b3;
 }
+
 
 /* ==================   APPOINTMENTS   ================== */
 
