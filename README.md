@@ -61,12 +61,7 @@ Tener instalado lo siguiente:
 
 ## Usuario de ejemplo
 
-*** AUN NO HABILITADO PERDÓN ***
-
-Para ingresar a la aplicación, se requiere iniciar sesión con un usuario registrado. El usuario de ejemplo con permisos de admin es:
-
-Correo: admin@admin.com
-Contraseña: admin123
+*** AUN NO HABILITADO PERDÓN, creo que tengo que hardcodear el admin jajajaj estoy aprendiendo :) ***
 
 ## Estructura del Proyecto
 
